@@ -1,0 +1,194 @@
+" Modeline and Notes {
+" vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={,} foldlevel=0 foldmethod=marker spell:
+"
+" Environment {
+
+    " Basics {
+        set nocompatible        " Must be first line
+        set background=dark     " Assume a dark background
+    " }
+
+    " Windows Compatible {
+        " On Windows, also use '.vim' instead of 'vimfiles'; this makes synchronization
+        " across (heterogeneous) systems easier.
+        if has('win32') || has('win64')
+          set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
+
+          " Be nice and check for multi_byte even if the config requires
+          " multi_byte support most of the time
+          if has("multi_byte")
+            " Windows cmd.exe still uses cp850. If Windows ever moved to
+            " Powershell as the primary terminal, this would be utf-8
+            set termencoding=cp850
+            " Let Vim use utf-8 internally, because many scripts require this
+            set encoding=utf-8
+            setglobal fileencoding=utf-8
+            " Windows has traditionally used cp1252, so it's probably wise to
+            " fallback into cp1252 instead of eg. iso-8859-15.
+            " Newer Windows files might contain utf-8 or utf-16 LE so we might
+            " want to try them first.
+            set fileencodings=ucs-bom,utf-8,utf-16le,cp1252,iso-8859-15
+          endif
+        endif
+    " }
+
+    " Setup Bundle Support {
+        " The next three lines ensure that the ~/.vim/bundle/ system works
+        filetype off
+        set rtp+=~/.vim/bundle/vundle
+        " " " " " " call vundle#rc()
+        call vundle#begin() " } 
+    " Add an UnBundle command {
+    function! UnBundle(arg, ...)
+      let bundle = vundle#config#init_bundle(a:arg, a:000)
+      call filter(g:vundle#bundles, 'v:val["name_spec"] != "' . a:arg . '"')
+    endfunction
+
+    com! -nargs=+         UnBundle
+    \ call UnBundle(<args>)
+    " }
+
+" }
+
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+" The following are examples of different formats supported.
+" Keep Plugin commands between vundle#begin/end.
+" plugin on GitHub repo
+" Plugin 'tpope/vim-fugitive'
+" plugin from http://vim-scripts.org/vim/scripts.html
+" Plugin 'L9'
+" Git plugin not hosted on GitHub
+" Plugin 'git://git.wincent.com/command-t.git'
+" git repos on your local machine (i.e. when working on your own plugin)
+" Plugin 'file:///home/gmarik/path/to/plugin'
+" The sparkup vim script is in a subdirectory of this repo called vim.
+" Pass the path to set the runtimepath properly.
+" Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
+" Install L9 and avoid a Naming conflict if you've already installed a
+" different version somewhere else.
+" Plugin 'ascenator/L9', {'name': 'newL9'}
+
+" All of your Plugins must be added before the following line
+" call vundle#end()            " required
+" filetype plugin indent on    " required
+
+" Bundles {
+
+    " Deps {
+        Bundle 'gmarik/vundle'
+    " }
+
+
+    " General {
+         Bundle 'vimoutliner/vimoutliner.git'
+        "Bundle 'scrooloose/nerdtree'
+        "Bundle 'tpope/vim-surround'
+"        Bundle 'ctrlpvim/ctrlp.vim'
+"        Bundle 'tacahiroy/ctrlp-funky'
+"        Bundle 'mbbill/undotree'
+"        Bundle 'powerline/fonts'
+"        Bundle 'bling/vim-bufferline'
+        "Bundle 'easymotion/vim-easymotion'
+"        Bundle 'jistr/vim-nerdtree-tabs'
+"        Bundle 'flazz/vim-colorschemes'
+"        Bundle 'nathanaelkane/vim-indent-guides'
+"        Bundle 'jeetsukumaran/vim-buffergator'
+        "# Bundle 'mhinz/vim-signify'
+        "# Bundle 'tpope/vim-abolish.git'
+        "# Bundle 'osyo-manga/vim-over'
+"        Bundle 'kana/vim-textobj-user'
+"        Bundle 'kana/vim-textobj-indent'
+        "# Bundle 'gcmt/wildfire.vim'
+    " }
+
+    " Colors {
+        Bundle 'altercation/vim-colors-solarized'
+        Bundle 'spf13/vim-colors'
+        Bundle 'reedes/vim-colors-pencil.git'
+    " }
+    "
+
+    " Writing {
+"        Bundle 'reedes/vim-litecorrect'
+"        Bundle 'reedes/vim-textobj-sentence'
+"        Bundle 'reedes/vim-textobj-quote'
+        "# Bundle 'reedes/vim-wordy'
+    " }
+
+
+    " Misc {
+         Bundle 'tpope/vim-markdown'
+        "Bundle 'gabrielelana/vim-markdown.git'
+        "Bundle 'spf13/vim-preview'
+"        Bundle 'saltstack/salt-vim'
+"        Bundle 'stephpy/vim-yaml'
+
+    " }
+    "
+    " Git {
+        Bundle 'tpope/vim-fugitive'
+
+    " }
+    "
+    "
+    " General Programming {
+"        Bundle 'godlygeek/tabular'
+"        Bundle 'luochen1990/rainbow'
+        if executable('ctags')
+"            Bundle 'majutsushi/tagbar'
+        endif
+"        Bundle 'matchit.zip'
+    " }
+    "
+    " Snippets & AutoComplete {
+"        Bundle 'SirVer/ultisnips'
+"        Bundle 'honza/vim-snippets'
+    " }
+    
+    " Python {
+        " Pick either python-mode or pyflakes & pydoc
+        "Bundle 'python-mode/python-mode.git'
+        "Bundle 'klen/python-mode'
+        "Bundle 'yssource/python.vim'
+        "Bundle 'vim-scripts/python_match.vim'
+        "Bundle 'vim-scripts/pythoncomplete'
+    " }
+    "
+    " Javascript {
+"        Bundle 'elzr/vim-json'
+"        Bundle 'groenewege/vim-less'
+"        Bundle 'pangloss/vim-javascript'
+"        Bundle 'briancollins/vim-jst'
+    "}
+    
+    " Typescript {
+"        Bundle 'Quramy/tsuquyomi'
+"        Bundle 'clausreinke/typescript-tools.vim'
+    " }
+    "
+    " Trinity {
+        " Bundle 'wesleyche/Trinity.git'
+
+    " }
+    "
+    " PlantUML {
+"        Bundle 'aklt/plantuml-syntax.git'
+    " }
+"
+    " Restructured text (rst)
+    " {
+    "        Bundle 'Rykka/riv.vim.git'
+    " }
+set nofoldenable
+call vundle#end()            " required
+filetype plugin indent on    " required
+
