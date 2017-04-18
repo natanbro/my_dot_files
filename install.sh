@@ -17,5 +17,28 @@ if [ -f ~/.bash_profile ] ; then
 	rm ~/.bash_profile
 fi
 ln -s $PWD/.bash_profile ~/.bash_profile
+#
+if [ -f ~/.vimrc ] ; then
+	echo Renaming existing ~/.vimrc to ~/.vimrc.back
+	cp ~/.vimrc ~/.vimrc.back
+	rm ~/.vimrc
+fi
+ln -s $PWD/vimrc ~/.vimrc
+#
+if [ -f ~/.vimrc_bundles ] ; then
+	echo Renaming existing ~/.vimrc_bundles to ~/.vimrc_bundles.back
+	cp ~/.vimrc_bundles ~/.vimrc_bundles.back
+	rm ~/.vimrc_bundles
+fi
+ln -s $PWD/vimrc_bundles ~/.vimrc_bundles
+#
+if [ -L ~/.vim ] ; then
+	echo Renaming existing ~/.vim to ~/.vim.back
+	mv ~/.vim ~/.vim.back
+#	rm ~/.vim
+fi
+ln -s $PWD/vim ~/.vim
+#
+git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
 

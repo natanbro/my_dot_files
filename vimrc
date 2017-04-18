@@ -372,7 +372,7 @@
         set lines=40                " 40 lines of text instead of 24
         if !exists("g:spf13_no_big_font")
             if LINUX() && has("gui_running")
-                set guifont=Andale\ Mono\ Regular\ 14,Menlo\ Regular\ 14,Consolas\ Regular\ 14,Courier\ New\ Regular\ 14
+                set guifont=Andale\ Mono\ Regular\ 11,Menlo\ Regular\ 11,Consolas\ Regular\ 11,Courier\ New\ Regular\ 11
             elseif OSX() && has("gui_running")
                 set guifont=Andale\ Mono\ Regular:h14,Menlo\ Regular:h14,Consolas\ Regular:h14,Courier\ New\ Regular:h14
             elseif WINDOWS() && has("gui_running")
@@ -510,3 +510,8 @@
     let g:before_markdown_color=g:colors_name
 
 " }
+"
+"TBD
+"Remap the "list chars"
+"create mapping for a key that breaks a line in the middle
+"
