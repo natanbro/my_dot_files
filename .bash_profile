@@ -1,9 +1,9 @@
 # .bash_profile
 
 # Get the aliases and functions
-if [ -f ~/.bashrc ]; then
-	. ~/.bashrc
-fi
+#if [ -f ~/.bashrc ]; then
+#	. ~/.bashrc
+#fi
 
 # User specific environment and startup programs
 
@@ -20,6 +20,7 @@ if [ -x /usr/bin/dircolors ]; then
 fi
 
 # some more ls aliases
+unalias ll
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'

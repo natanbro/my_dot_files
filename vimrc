@@ -178,7 +178,9 @@
         set statusline=%<%f\                     " Filename
         set statusline+=%w%h%m%r                 " Options
         if !exists('g:override_spf13_bundles')
-            set statusline+=%{fugitive#statusline()} " Git Hotness
+            if !exists('~/.vim/bundle/vim-fugitive')
+                set statusline+=%{fugitive#statusline()} " Git Hotness
+            endif
         endif
         set statusline+=\ [%{&ff}/%Y]            " Filetype
         set statusline+=\ [%{getcwd()}]          " Current dir
@@ -203,8 +205,11 @@
     set scrolljump=5                " Lines to scroll when cursor leaves screen
     set scrolloff=3                 " Minimum lines to keep above and below cursor
     set nofoldenable                " by default, don't fold code
-"    set list
+    "set list
     "set listchars=tab:›\ ,trail:•,extends:#,nbsp:. " Highlight problematic whitespace
+    "set listchars=tab:»\            " Tab is <c-k> >>
+    set listchars=trail:•,extends:#,nbsp:.      " list characters
+    set listchars=eol:¬,tab:»\ ,trail:•,extends:#,nbsp:.    "             " eol <c-k> -,
     set nowrapscan                  " stop search at the end of the file
     set belloff=all                 " Completely disable the bell for errors and pressing "ESC" on normal mode 
 
@@ -255,7 +260,7 @@
     map <C-L> <C-W>l
     map <C-H> <C-W>h
 
-    "Alt moves between buffers
+    "leader moves between buffers
     nmap <leader>j :bprevious<CR>
     nmap <leader>k :bnext<CR>
 
@@ -277,19 +282,36 @@
     nmap <leader>f8 :set foldlevel=8<CR>
     nmap <leader>f9 :set foldlevel=9<CR>
 
-    " Most prefer to toggle search highlighting rather than clear the current
-    " search results. To clear search highlighting rather than toggle it on
-    " and off, add the following to your .vimrc.before.local file:
-    "   let g:spf13_clear_search_highlight = 1
-    " if exists('g:spf13_clear_search_highlight')
-    "     nmap <silent> <leader>/ :nohlsearch<CR>
-    " else
-        nmap <silent> <leader>/ :set invhlsearch<CR>
-    " endif
+    nmap <silent> <leader>/ :set invhlsearch<CR>
 
     nmap <silent><leader>\  :set invspell<CR>
 
+    " Create vertical split with same combination as in tmux
+    nmap <leader>%  :vsplit<CR>
 
+    imap <c-f> <c-g>u<Esc>[s1z=`]a<c-g>u
+    nmap <c-f> [s1z=<c-o>
+
+    " move the line with the cursor one line down by inserting a blank line on
+    " top of the current line
+    nmap <A-Down>   :normal O<ESC>j
+    imap <A-Down>   <ESC>mmO<ESC>j`ma
+    "
+    " move the line with the cursor one line up deleting the line on the line
+    " on top of the cursor
+    nmap <A-Up>   kdd
+    imap <A-Up>   <ESC>mmlkdd`ma
+
+
+    "Mappings to move lines without adding nor removing the total lines in the
+    "file. See: http://vim.wikia.com/wiki/Moving_lines_up_or_down
+    "
+	nnoremap <A-j> :m .+1<CR>==
+	nnoremap <A-k> :m .-2<CR>==
+	inoremap <A-j> <Esc>:m .+1<CR>==gi
+	inoremap <A-k> <Esc>:m .-2<CR>==gi
+	vnoremap <A-j> :m '>+1<CR>gv=gv
+	vnoremap <A-k> :m '<-2<CR>gv=gv
     " Find merge conflict markers
     map <leader>fc /\v^[<\|=>]{7}( .*\|$)<CR>
 
@@ -456,9 +478,37 @@
     endfunction
      
 " }
+"
+" Paragraph sorting function {
+"	See: http://stolarscy.com/dryobates/2014-05/sorting_paragraphs_in_vim/
+"
+	function! SortParagraphs() range
+		execute a:firstline . "," . a:lastline . 'd'
+		let @@=join(sort(split(substitute(@@, "\n*$", "", ""), "\n\n")), "\n\n")
+		put!
+	endfunction
+
+" }
+"
+" Load project specific configuration {
+"   If a file named .project.vim exist in the local directory, it is sourced
+"   to provide specific configuration options for the project.
+"   Only local directory is checked
+    if filereadable("./project.vim")
+        source ./project.vim
+        echo "project.vim loaded"
+    else
+        echom expand('%:p')
+    endif
+
+" }
+"
 
 " MyOwnMappings {
+"
+    if filereadable(expand("~/.vim/bundle/vim-colors/colors/molokai.vim"))
         color molokai             " Load a colorscheme
+    endif
 
 " }
 
@@ -472,12 +522,6 @@
     endif
 " }
 
-
-    let g:before_markdown_color=g:colors_name
-
 " }
 "
-"TBD
-"Remap the "list chars"
-"create mapping for a key that breaks a line in the middle
 "
