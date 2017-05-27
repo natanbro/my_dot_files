@@ -92,6 +92,7 @@ Plugin 'VundleVim/Vundle.vim'
          Bundle 'vimoutliner/vimoutliner.git'
          Bundle 'scrooloose/nerdtree'
          Bundle 'tpope/vim-surround'
+         Bundle 'tpope/vim-repeat.git'
 "        Bundle 'ctrlpvim/ctrlp.vim'
 "        Bundle 'tacahiroy/ctrlp-funky'
 "        Bundle 'mbbill/undotree'
@@ -156,18 +157,18 @@ Plugin 'VundleVim/Vundle.vim'
     
     " Python {
         " Pick either python-mode or pyflakes & pydoc
-        "Bundle 'python-mode/python-mode.git'
+        Bundle 'python-mode/python-mode.git'
         "Bundle 'klen/python-mode'
-        "Bundle 'yssource/python.vim'
-        "Bundle 'vim-scripts/python_match.vim'
-        "Bundle 'vim-scripts/pythoncomplete'
+        Bundle 'yssource/python.vim'
+        Bundle 'vim-scripts/python_match.vim'
+        Bundle 'vim-scripts/pythoncomplete'
     " }
     "
     " Javascript {
-"        Bundle 'elzr/vim-json'
-"        Bundle 'groenewege/vim-less'
-"        Bundle 'pangloss/vim-javascript'
-"        Bundle 'briancollins/vim-jst'
+        Bundle 'elzr/vim-json'
+        Bundle 'groenewege/vim-less'
+        Bundle 'pangloss/vim-javascript'
+        Bundle 'briancollins/vim-jst'
     "}
     
     " Typescript {
@@ -181,7 +182,7 @@ Plugin 'VundleVim/Vundle.vim'
     " }
     "
     " PlantUML {
-"        Bundle 'aklt/plantuml-syntax.git'
+        Bundle 'aklt/plantuml-syntax.git'
     " }
 "
     " Restructured text (rst)

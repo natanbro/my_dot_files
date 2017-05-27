@@ -497,8 +497,8 @@
     if filereadable("./project.vim")
         source ./project.vim
         echo "project.vim loaded"
-    else
-        echom expand('%:p')
+        "    else
+        "        echom expand('%:p')
     endif
 
 " }
