@@ -496,7 +496,7 @@
 "   Only local directory is checked
     if filereadable("./project.vim")
         source ./project.vim
-        echo "project.vim loaded"
+        "echo "project.vim loaded"
         "    else
         "        echom expand('%:p')
     endif
