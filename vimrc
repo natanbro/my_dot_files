@@ -263,6 +263,7 @@
     "leader moves between buffers
     nmap <leader>j :bprevious<CR>
     nmap <leader>k :bnext<CR>
+    nmap <leader>del :bdelete!<CR>
 
     " Wrapped lines goes down/up to next row, rather than next line in file.
     noremap j gj
