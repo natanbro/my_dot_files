@@ -200,7 +200,8 @@ Plugin 'VundleVim/Vundle.vim'
 "
     " Restructured text (rst)
     " {
-    "        Bundle 'Rykka/riv.vim.git'
+"        Bundle 'vim-scripts/rest.vim.git'
+"        Bundle 'Rykka/riv.vim.git'
     " }
 set nofoldenable
 call vundle#end()            " required

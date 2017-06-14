@@ -512,6 +512,17 @@
     endif
 
 " }
+"
+"  Fix colors for Visual Selection and cursor line {
+"
+    function! FixColors()
+        hi Visual term=reverse cterm=reverse guibg=Grey
+        hi CursorLine cterm=NONE ctermbg=240
+    endfunction
+
+    call FixColors()
+"}
+
 
 
 
