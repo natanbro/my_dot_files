@@ -164,12 +164,25 @@ Plugin 'VundleVim/Vundle.vim'
         Bundle 'vim-scripts/pythoncomplete'
     " }
     "
+    " HTML {
+        Bundle 'vim-scripts/HTML-AutoCloseTag'
+        Bundle 'hail2u/vim-css3-syntax'
+        Bundle 'gorodinskiy/vim-coloresque'
+        Bundle 'tpope/vim-haml'
+        Bundle 'mattn/emmet-vim'
+    " }
+
     " Javascript {
 "        Bundle 'elzr/vim-json'
 "        Bundle 'groenewege/vim-less'
         Bundle 'pangloss/vim-javascript'
 "        Bundle 'briancollins/vim-jst'
     "}
+    "
+    " vue.js {
+        Bundle 'posva/vim-vue'
+        Bundle 'digitaltoad/vim-pug.git'
+    " }
     
     " Typescript {
 "        Bundle 'Quramy/tsuquyomi'
@@ -187,7 +200,8 @@ Plugin 'VundleVim/Vundle.vim'
 "
     " Restructured text (rst)
     " {
-    "        Bundle 'Rykka/riv.vim.git'
+"        Bundle 'vim-scripts/rest.vim.git'
+"        Bundle 'Rykka/riv.vim.git'
     " }
 set nofoldenable
 call vundle#end()            " required

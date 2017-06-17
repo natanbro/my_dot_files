@@ -263,6 +263,7 @@
     "leader moves between buffers
     nmap <leader>j :bprevious<CR>
     nmap <leader>k :bnext<CR>
+    nmap <leader>del :bdelete!<CR>
 
     " Wrapped lines goes down/up to next row, rather than next line in file.
     noremap j gj
@@ -511,6 +512,17 @@
     endif
 
 " }
+"
+"  Fix colors for Visual Selection and cursor line {
+"
+    function! FixColors()
+        hi Visual term=reverse cterm=reverse guibg=Grey
+        hi CursorLine cterm=NONE ctermbg=240
+    endfunction
+
+    call FixColors()
+"}
+
 
 
 
