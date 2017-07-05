@@ -1,0 +1,6 @@
+" Modify bundle defaults
+"
+" riv {
+    let g:riv_global_leader = '<F12>'
+"
+" }

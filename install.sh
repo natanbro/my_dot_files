@@ -32,6 +32,13 @@ if [ -f ~/.vimrc_bundles ] ; then
 fi
 ln -s $PWD/vimrc_bundles ~/.vimrc_bundles
 #
+if [ -f ~/.vimrc_bundles_pre ] ; then
+	echo Renaming existing ~/.vimrc_bundles_pre to ~/.vimrc_bundles_pre.back
+	cp ~/.vimrc_bundles_pre ~/.vimrc_bundles_pre.back
+	rm ~/.vimrc_bundles_pre
+fi
+ln -s $PWD/vimrc_bundles_pre ~/.vimrc_bundles_pre
+#
 if [ -L ~/.vim ] ; then
 	echo Renaming existing ~/.vim to ~/.vim.back
 	mv ~/.vim ~/.vim.back

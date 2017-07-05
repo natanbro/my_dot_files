@@ -86,7 +86,7 @@ Plugin 'VundleVim/Vundle.vim'
     " Deps {
         Bundle 'gmarik/vundle'
     " }
-
+"
 
     " General {
          Bundle 'vimoutliner/vimoutliner.git'
@@ -97,12 +97,12 @@ Plugin 'VundleVim/Vundle.vim'
 "        Bundle 'tacahiroy/ctrlp-funky'
 "        Bundle 'mbbill/undotree'
 "        Bundle 'powerline/fonts'
-"        Bundle 'bling/vim-bufferline'
+"         Bundle 'bling/vim-bufferline'
          Bundle 'easymotion/vim-easymotion'
 "        Bundle 'jistr/vim-nerdtree-tabs'
 "        Bundle 'flazz/vim-colorschemes'
 "        Bundle 'nathanaelkane/vim-indent-guides'
-"        Bundle 'jeetsukumaran/vim-buffergator'
+         Bundle 'jeetsukumaran/vim-buffergator'
         "# Bundle 'mhinz/vim-signify'
         "# Bundle 'tpope/vim-abolish.git'
         "# Bundle 'osyo-manga/vim-over'
@@ -115,6 +115,14 @@ Plugin 'VundleVim/Vundle.vim'
         Bundle 'altercation/vim-colors-solarized'
         Bundle 'spf13/vim-colors'
         Bundle 'reedes/vim-colors-pencil.git'
+        Bundle 'NLKNguyen/papercolor-theme'
+        Bundle 'muellan/am-colors'
+        Bundle 'josuegaleas/jay'
+        Bundle 'morhetz/gruvbox'
+        Bundle 'mkarmona/materialbox'
+        Bundle 'junegunn/seoul256.vim'
+        Bundle 'rakr/vim-one'
+
     " }
     "
 
@@ -201,7 +209,8 @@ Plugin 'VundleVim/Vundle.vim'
     " Restructured text (rst)
     " {
 "        Bundle 'vim-scripts/rest.vim.git'
-"        Bundle 'Rykka/riv.vim.git'
+         Bundle 'Rykka/riv.vim.git'
+"        Bundle 'vim-scripts/VOoM.git'
     " }
 set nofoldenable
 call vundle#end()            " required

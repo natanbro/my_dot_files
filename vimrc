@@ -36,6 +36,18 @@
             inoremap <silent> <C-[>OC <RIGHT>
         endif
     " }
+    " Use bundles_pre config {
+        if filereadable(expand("~/.vimrc_bundles_pre"))
+            source ~/.vimrc_bundles_pre
+        endif
+    " }
+    "
+    " Load project specific configuration before loading plugins
+    " project_pre.vim {
+        if filereadable("./project_pre.vim")
+            source ./project_pre.vim
+        endif
+    " }
 
     " Setup Bundle Support {
         " The next three lines ensure that the ~/.vim/bundle/ system works
@@ -340,7 +352,7 @@
             let NERDTreeShowBookmarks=1
             let NERDTreeIgnore=['\.py[cd]$', '\~$', '\.swo$', '\.swp$', '^\.git$', '^\.hg$', '^\.svn$', '\.bzr$']
             let NERDTreeChDirMode=0
-            let NERDTreeQuitOnOpen=0
+            let NERDTreeQuitOnOpen=1
             let NERDTreeMouseMode=2
             let NERDTreeShowHidden=1
             let NERDTreeKeepTreeInNewTab=1
@@ -361,11 +373,16 @@
         set lines=40                " 40 lines of text instead of 24
         if !exists("g:spf13_no_big_font")
             if LINUX() && has("gui_running")
-                set guifont=Andale\ Mono\ Regular\ 11,Menlo\ Regular\ 11,Consolas\ Regular\ 11,Courier\ New\ Regular\ 11
+                echom "Setting font linux"
+                " set guifont=Andale\ Mono\ Regular\ 16,Menlo\ Regular\ 16,Consolas\ Regular\ 16,Courier\ New\ Regular\ 16
+                set guifont=Monospace\ 14
             elseif OSX() && has("gui_running")
                 set guifont=Andale\ Mono\ Regular:h14,Menlo\ Regular:h14,Consolas\ Regular:h14,Courier\ New\ Regular:h14
+                echom "Setting font osx"
+
             elseif WINDOWS() && has("gui_running")
                 set guifont=Andale_Mono:h12,Menlo:h12,Consolas:h12,Courier_New:h12
+                echom "Setting font windows"
             endif
         endif
     else
@@ -491,18 +508,6 @@
 
 " }
 "
-" Load project specific configuration {
-"   If a file named .project.vim exist in the local directory, it is sourced
-"   to provide specific configuration options for the project.
-"   Only local directory is checked
-    if filereadable("./project.vim")
-        source ./project.vim
-        "echo "project.vim loaded"
-        "    else
-        "        echom expand('%:p')
-    endif
-
-" }
 "
 
 " MyOwnMappings {
@@ -536,4 +541,16 @@
 
 " }
 "
+" Load project specific configuration {
+"   If a file named .project.vim exist in the local directory, it is sourced
+"   to provide specific configuration options for the project.
+"   Only local directory is checked
+    if filereadable("./project.vim")
+        source ./project.vim
+        "echo "project.vim loaded"
+        "    else
+        "        echom expand('%:p')
+    endif
+
+" }
 "
