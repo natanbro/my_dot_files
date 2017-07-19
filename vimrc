@@ -543,6 +543,16 @@
 
 " }
 "
+" FixPaperColorScheme {
+    function! FixPaperColorScheme()
+        if filereadable(expand("/home/natan/projects/others/nb_repos/my_dot_files/vim/bundle/papercolor-theme/colors/PaperColor.vim"))
+            set background=light
+            color PaperColor        " Load a colorscheme
+            :highlight SpellBad ctermfg=009 ctermbg=011 guifg=#ff0000 guibg=#ffff00
+        endif
+    endfunction
+" }
+"
 " Load project specific configuration {
 "   If a file named .project.vim exist in the local directory, it is sourced
 "   to provide specific configuration options for the project.

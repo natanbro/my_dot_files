@@ -150,17 +150,17 @@ Plugin 'VundleVim/Vundle.vim'
     "
     "
     " General Programming {
-"        Bundle 'godlygeek/tabular'
+         Bundle 'godlygeek/tabular'
 "        Bundle 'luochen1990/rainbow'
         if executable('ctags')
 "            Bundle 'majutsushi/tagbar'
         endif
-"        Bundle 'matchit.zip'
+         Bundle 'matchit.zip'
     " }
     "
     " Snippets & AutoComplete {
-"        Bundle 'SirVer/ultisnips'
-"        Bundle 'honza/vim-snippets'
+         Bundle 'SirVer/ultisnips'
+         Bundle 'honza/vim-snippets'
     " }
     
     " Python {
@@ -176,7 +176,7 @@ Plugin 'VundleVim/Vundle.vim'
         Bundle 'vim-scripts/HTML-AutoCloseTag'
         Bundle 'hail2u/vim-css3-syntax'
         Bundle 'gorodinskiy/vim-coloresque'
-        Bundle 'tpope/vim-haml'
+"        Bundle 'tpope/vim-haml'
         Bundle 'mattn/emmet-vim'
     " }
 
