@@ -139,7 +139,7 @@ Plugin 'VundleVim/Vundle.vim'
         "Bundle 'gabrielelana/vim-markdown.git'
         "Bundle 'spf13/vim-preview'
 "        Bundle 'saltstack/salt-vim'
-"        Bundle 'stephpy/vim-yaml'
+         Bundle 'stephpy/vim-yaml'
 
     " }
     "
@@ -153,7 +153,7 @@ Plugin 'VundleVim/Vundle.vim'
          Bundle 'godlygeek/tabular'
 "        Bundle 'luochen1990/rainbow'
         if executable('ctags')
-"            Bundle 'majutsushi/tagbar'
+            Bundle 'majutsushi/tagbar'
         endif
          Bundle 'matchit.zip'
     " }
@@ -185,6 +185,9 @@ Plugin 'VundleVim/Vundle.vim'
 "        Bundle 'groenewege/vim-less'
         Bundle 'pangloss/vim-javascript'
 "        Bundle 'briancollins/vim-jst'
+         Bundle 'isRuslan/vim-es6'
+         Bundle 'ternjs/tern_for_vim.git'
+                 
     "}
     "
     " vue.js {
@@ -209,7 +212,7 @@ Plugin 'VundleVim/Vundle.vim'
     " Restructured text (rst)
     " {
 "        Bundle 'vim-scripts/rest.vim.git'
-         Bundle 'Rykka/riv.vim.git'
+"         Bundle 'Rykka/riv.vim.git'
 "        Bundle 'vim-scripts/VOoM.git'
     " }
 set nofoldenable
