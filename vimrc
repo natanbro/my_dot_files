@@ -67,6 +67,22 @@
     \ call UnBundle(<args>)
     " }
 
+" Abbreviations {
+"
+"   Global abbreviations
+    if filereadable("~/abbreviations.vim")
+        source ~/abbreviations.vim
+    endif
+"
+"
+"   Local directory is checked
+    if filereadable("./abbreviations.vim")
+        source ./abbreviations.vim
+    endif
+
+" }
+"
+" }
 
 " } Environment
 " Disable arrow keys {
@@ -377,9 +393,9 @@
             if LINUX() && has("gui_running")
                 echom "Setting font linux"
                 " set guifont=Andale\ Mono\ Regular\ 16,Menlo\ Regular\ 16,Consolas\ Regular\ 16,Courier\ New\ Regular\ 16
-                set guifont=Monospace\ 14
+                set guifont=Monospace\ 13
             elseif OSX() && has("gui_running")
-                set guifont=Andale\ Mono\ Regular:h14,Menlo\ Regular:h14,Consolas\ Regular:h14,Courier\ New\ Regular:h14
+                set guifont=Andale\ Mono\ Regular:h13,Menlo\ Regular:h13,Consolas\ Regular:h13,Courier\ New\ Regular:h14
                 echom "Setting font osx"
 
             elseif WINDOWS() && has("gui_running")

@@ -39,11 +39,27 @@ if [ -f ~/.vimrc_bundles_pre ] ; then
 fi
 ln -s $PWD/vimrc_bundles_pre ~/.vimrc_bundles_pre
 #
+#
+if [ -f ~/abbreviations.vim ] ; then
+	echo Renaming existing ~/abbreviations.vim to ~/abbreviations.vim.back
+	cp ~/abbreviations.vim ~/abbreviations.vim.back
+	rm ~/abbreviations.vim
+fi
+ln -s $PWD/abbreviations.vim ~/abbreviations.vim
+#
 if [ -L ~/.vim ] ; then
 	echo Renaming existing ~/.vim to ~/.vim.back
 	mv ~/.vim ~/.vim.back
 #	rm ~/.vim
 fi
+#
+if [ -f ~/.vimrc_bundles_pre ] ; then
+	echo Renaming existing ~/.vimrc_bundles_pre to ~/.vimrc_bundles_pre.back
+	cp ~/.vimrc_bundles_pre ~/.vimrc_bundles_pre.back
+	rm ~/.vimrc_bundles_pre
+fi
+ln -s $PWD/vimrc_bundles_pre ~/.vimrc_bundles_pre
+#
 ln -s $PWD/vim ~/.vim
 #
 git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
