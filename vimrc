@@ -70,13 +70,13 @@
 " Abbreviations {
 "
 "   Global abbreviations
-    if filereadable("~/abbreviations.vim")
+    if filereadable(resolve(expand("~/abbreviations.vim")))
         source ~/abbreviations.vim
     endif
 "
 "
 "   Local directory is checked
-    if filereadable("./abbreviations.vim")
+    if filereadable(resolve(expand("./abbreviations.vim")))
         source ./abbreviations.vim
     endif
 
@@ -255,7 +255,8 @@
     set splitright                  " Puts new vsplit windows to the right of the current
     set splitbelow                  " Puts new split windows to the bottom of the current
     "set matchpairs+=<:>             " Match, to be used with %
-    set pastetoggle=<F12>           " pastetoggle (sane indentation on pastes)
+    " nmap <F11> :set pastetoggle<CR> " pastetoggle (sane indentation on pastes)
+    map <F11>:set invpaste<CR>        " same as pastetoggle
 
     autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl,sql autocmd BufWritePre <buffer> if !exists('g:spf13_keep_trailing_whitespace') | call StripTrailingWhitespace() | endif
     autocmd FileType sls,yml,salt autocmd BufWritePre <buffer> if !exists('g:spf13_keep_trailing_whitespace') | call StripTrailingWhitespace() | endif
@@ -283,17 +284,27 @@
     " Easier moving in tabs and windows
     " The lines conflict with the default digraph mapping of <C-K>
     "
-    map <C-J> <C-W>j
-    map <C-K> <C-W>k
+"     map <C-J> <C-W>j
+"     map <C-K> <C-W>k
+"     map <C-L> <C-W>l
+"     map <C-H> <C-W>h
+" 
+"     "leader moves between buffers
+"     nmap <leader>j :bprevious<CR>
+"     nmap <leader>k :bnext<CR>
+"     nmap <leader>del :bdelete!<CR>
+"     nmap <leader>h :bprevious<CR>
+"     nmap <leader>l :bnext<CR>
+
+    " J,K moves between buffers
+    map <C-J> :bprevious<CR>
+    map <C-K> :bnext<CR>
+    " l,h moves between windows
     map <C-L> <C-W>l
     map <C-H> <C-W>h
 
     "leader moves between buffers
-    nmap <leader>j :bprevious<CR>
-    nmap <leader>k :bnext<CR>
     nmap <leader>del :bdelete!<CR>
-    nmap <leader>p :bprevious<CR>
-    nmap <leader>n :bnext<CR>
 
     " Wrapped lines goes down/up to next row, rather than next line in file.
     noremap j gj

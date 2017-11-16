@@ -1,3 +1,4 @@
+# echo bash_profile
 # .bash_profile
 
 # Get the aliases and functions
@@ -36,14 +37,37 @@ shopt -s histappend
 
 # After each command, save and reload history
 export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
-
 ## End for History configuration
-PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+# PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+
+# Git branch support
+parse_git_branch() {
+ git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+}
+
+if [ "$color_prompt" = yes ]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;33m\]$(parse_git_branch)\n\[\033[00m\]\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+    # In this machine. running tmux on the default terminal does support color
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;33m\]$(parse_git_branch)\n\[\033[00m\]\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+fi
+
+
+
+# unset color_prompt force_color_prompt
+
+
+
 
 PATH=$PATH:$HOME/.local/bin:$HOME/bin
 
 export PATH
-export PS1=${PS1%?}"\n$ " 
+# export PS1=${PS1%?}"\n$ " 
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+PS1=${PS1%?}
+PS1=${PS1%?}\n'$ '
+export PS1
 

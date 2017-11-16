@@ -1,9 +1,11 @@
-#
+echo "Sourcing ~/abbreviations.vim"
+"#
 " Abbreviations {
-    :ab IOT IoT
-    :ab iot IoT
-    :ab Amet Amethyst
-    :ab amet Amethyst
+    :ab THe The
+    :ab THey They
+    :ab teh the
+    :ab THis This
+    :ab THese These
 "
 " }
 
