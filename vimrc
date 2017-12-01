@@ -185,12 +185,34 @@
         source ~/.vimrc_bundles
     endif
 " }
+"
+" Specific Bundle Configuration {
+"   Syntactics {
+ 
+        if filereadable(expand("~/.vim/bundle/syntastic/plugin/syntastic.vim"))
+            " echo "syntactic"
+            let g:syntastic_rst_checkers = ['rstcheck']
+            let g:syntastic_yaml_checkers = ['yamllint']
+            let g:syntastic_json_checkers = ['jsonlint']
 
-" Vim UI {
-    set cursorline                  " Highlight current line
+            set statusline+=%#warningmsg#
+            set statusline+=%{syntasticstatuslineflag()}
+            set statusline+=%*
 
-    highlight clear SignColumn      " SignColumn should match background
-    highlight clear LineNr          " Current line number row will have same background color in relative mode
+            let g:syntastic_always_populate_loc_list = 1
+            let g:syntastic_auto_loc_list = 1
+            let g:syntastic_check_on_open = 1
+            let g:syntastic_check_on_wq = 0
+        endif
+"   }
+" }
+"
+
+" vim ui {
+    set cursorline                  " highlight current line
+
+    highlight clear signcolumn      " signcolumn should match background
+    highlight clear linenr          " current line number row will have same background color in relative mode
 "
     if has('cmdline_info')
         set ruler                   " Show the ruler
@@ -552,6 +574,7 @@
     function! FixColors()
         hi Visual term=reverse cterm=reverse guibg=Grey
         hi CursorLine cterm=NONE ctermbg=240
+        hi Comment guifg=#E6DB74
     endfunction
 
     call FixColors()

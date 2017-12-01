@@ -1,4 +1,4 @@
-echo "Sourcing ~/abbreviations.vim"
+" echo "Sourcing ~/abbreviations.vim"
 "#
 " Abbreviations {
     :ab THe The
