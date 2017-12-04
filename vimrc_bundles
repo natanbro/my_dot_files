@@ -100,7 +100,6 @@ Plugin 'VundleVim/Vundle.vim'
 "         Bundle 'bling/vim-bufferline'
          Bundle 'easymotion/vim-easymotion'
 "        Bundle 'jistr/vim-nerdtree-tabs'
-"        Bundle 'flazz/vim-colorschemes'
          Bundle 'nathanaelkane/vim-indent-guides'
          Bundle 'jeetsukumaran/vim-buffergator'
         "# Bundle 'mhinz/vim-signify'
@@ -112,6 +111,7 @@ Plugin 'VundleVim/Vundle.vim'
     " }
 
     " Colors {
+"        Bundle 'flazz/vim-colorschemes'
         Bundle 'altercation/vim-colors-solarized'
         Bundle 'spf13/vim-colors'
         Bundle 'reedes/vim-colors-pencil.git'
@@ -122,6 +122,9 @@ Plugin 'VundleVim/Vundle.vim'
         Bundle 'mkarmona/materialbox'
         Bundle 'junegunn/seoul256.vim'
         Bundle 'rakr/vim-one'
+        Bundle 'jonathanfilip/vim-lucius'
+        Bundle 'h3xx/vim-late_evening.git'
+        Bundle 'nielsmadan/harlequin.git'
 
     " }
     "

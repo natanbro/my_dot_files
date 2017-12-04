@@ -288,7 +288,7 @@
     autocmd FileType haskell,puppet,ruby,yml setlocal expandtab shiftwidth=2 softtabstop=2
     " preceding line best in a plugin but here for now.
 
-    autocmd FileType sls,salt,yml setlocal expandtab shiftwidth=2 softtabstop=2
+    autocmd FileType sls,salt,yml,yaml setlocal expandtab shiftwidth=2 softtabstop=2 foldmethod=indent foldenable colorcolumn=80
 
 
 " markdown {
@@ -565,6 +565,18 @@
 "
     if filereadable(expand("~/.vim/bundle/vim-colors/colors/molokai.vim"))
         color molokai             " Load a colorscheme
+    endif
+
+    if filereadable(expand("~/.vim/bundle/vim-lucius/colors/lucius.vim"))
+        let g:lucius_style="light"
+        " Set this option to either 'light' or 'dark' for your desired 
+        " color scheme.
+        let g:lucius_contrast='high'
+"
+        " This option determines the contrast to use for text/ui elements. It can be
+        " set to 'low', 'normal', or 'high'. At this time there is no 'high' for the
+        " light scheme.
+        let g:lucius_contrast_bg='high'
     endif
 
 " }
