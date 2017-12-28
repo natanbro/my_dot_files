@@ -61,7 +61,11 @@ fi
 ln -s $PWD/vimrc_bundles_pre ~/.vimrc_bundles_pre
 #
 ln -s $PWD/vim ~/.vim
+if [ -f ~/.vim/bundles] ; then
+	rm -Rf ~/.vim/bundles
+fi
+mkdir ~/.vim/bundles
 #
-git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+git clone https://github.com/VundleVim/Vundle.vim.git /home/vagrant/.vim/bundle/Vundle.vim
 
 
