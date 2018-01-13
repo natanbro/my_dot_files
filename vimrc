@@ -424,16 +424,16 @@
         set lines=40                " 40 lines of text instead of 24
         if !exists("g:spf13_no_big_font")
             if LINUX() && has("gui_running")
-                echom "Setting font linux"
+                " echom "Setting font linux"
                 " set guifont=Andale\ Mono\ Regular\ 16,Menlo\ Regular\ 16,Consolas\ Regular\ 16,Courier\ New\ Regular\ 16
                 set guifont=Monospace\ 13
             elseif OSX() && has("gui_running")
                 set guifont=Andale\ Mono\ Regular:h13,Menlo\ Regular:h13,Consolas\ Regular:h13,Courier\ New\ Regular:h14
-                echom "Setting font osx"
+                " echom "Setting font osx"
 
             elseif WINDOWS() && has("gui_running")
                 set guifont=Andale_Mono:h12,Menlo:h12,Consolas:h12,Courier_New:h12
-                echom "Setting font windows"
+                " echom "Setting font windows"
             endif
         endif
     else
@@ -479,8 +479,8 @@
                 endif
             endif
             if !isdirectory(directory)
-                echo "Warning: Unable to create backup directory: " . directory
-                echo "Try: mkdir -p " . directory
+                " echo "Warning: Unable to create backup directory: " . directory
+                " echo "Try: mkdir -p " . directory
             else
                 let directory = substitute(directory, " ", "\\\\ ", "g")
                 exec "set " . settingname . "=" . directory

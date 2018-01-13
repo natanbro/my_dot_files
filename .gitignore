@@ -1,2 +1,6 @@
 vim/spell/*
 vim/bundle/*
+vim/bundles/*
+vim/.vim/**
+vim/.vim
+
