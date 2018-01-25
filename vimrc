@@ -318,12 +318,26 @@
 "     nmap <leader>h :bprevious<CR>
 "     nmap <leader>l :bnext<CR>
 
-    " J,K moves between buffers
-    map <C-J> :bprevious<CR>
-    map <C-K> :bnext<CR>
-    " l,h moves between windows
-    map <C-L> <C-W>l
-    map <C-H> <C-W>h
+"    " J,K moves between buffers
+"    map <C-J> :bprevious<CR>
+"    map <C-K> :bnext<CR>
+"    " l,h moves between windows
+"    map <C-L> <C-W>l
+"    map <C-H> <C-W>h
+"
+"    Control hjkl moves between buffers
+    nnoremap <C-h> :bprevious<CR>
+    nnoremap <C-j> :bprevious<CR>
+    nnoremap <C-k> :bnext<CR>
+    nnoremap <C-l> :bnext<CR>
+"
+"    Control arrows  moves between Windows
+    nnoremap <C-Left> <C-W>h
+    nnoremap <C-Right> <C-W>l
+    nnoremap <C-Up>  <C-W>k
+    nnoremap <C-Down> <C-W>j
+
+"
 
     "leader moves between buffers
     nmap <leader>del :bdelete!<CR>
@@ -426,7 +440,7 @@
             if LINUX() && has("gui_running")
                 " echom "Setting font linux"
                 " set guifont=Andale\ Mono\ Regular\ 16,Menlo\ Regular\ 16,Consolas\ Regular\ 16,Courier\ New\ Regular\ 16
-                set guifont=Monospace\ 13
+                set guifont=Monospace\ 12
             elseif OSX() && has("gui_running")
                 set guifont=Andale\ Mono\ Regular:h13,Menlo\ Regular:h13,Consolas\ Regular:h13,Courier\ New\ Regular:h14
                 " echom "Setting font osx"
@@ -625,6 +639,23 @@
         "    else
         "        echom expand('%:p')
     endif
+"    }
+" revealSyntaxTag {
 
-" }
+    " adds to statusline
+    if has('statusline')
+        set laststatus=2
+        set statusline+=%{synIDattr(synID(line('.'),col('.'),1),'name')}
+    endif
+
+    " a little more informative version of the above
+    nmap <Leader>sI :call <SID>SynStack()<CR>
+
+    function! <SID>SynStack()
+        if !exists("*synstack")
+            return
+        endif
+        echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+    endfunc
+"    }
 "
