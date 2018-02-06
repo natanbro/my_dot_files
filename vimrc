@@ -96,6 +96,10 @@
     noremap   <Right>  <NOP>
 " }
 
+" Disable EX mode { 
+    :map Q <Nop>
+" }
+
 " General {
     let mapleader = ','
 
