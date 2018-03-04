@@ -181,7 +181,8 @@ Plugin 'VundleVim/Vundle.vim'
         "Bundle 'klen/python-mode'
         Bundle 'yssource/python.vim'
         Bundle 'vim-scripts/python_match.vim'
-        Bundle 'vim-scripts/pythoncomplete'
+"        Bundle 'vim-scripts/pythoncomplete'
+        Bundle 'davidhalter/jedi-vim'
     " }
     "
     " HTML {
