@@ -109,6 +109,7 @@ Plugin 'VundleVim/Vundle.vim'
 "        Bundle 'kana/vim-textobj-indent'
         "# Bundle 'gcmt/wildfire.vim'
          Bundle 'embear/vim-localvimrc'
+         Bundle 'pacha/vem-tabline.git'
     " }
 
     " Colors {
@@ -221,7 +222,8 @@ Plugin 'VundleVim/Vundle.vim'
     " }
     "
     " PlantUML {
-        Bundle 'aklt/plantuml-syntax.git'
+"        Bundle 'aklt/plantuml-syntax.git'
+        Bundle 'natanbro/plantuml-syntax.git'
     " }
 "
     " Restructured text (rst)
