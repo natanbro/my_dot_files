@@ -93,7 +93,7 @@ Plugin 'VundleVim/Vundle.vim'
          Bundle 'scrooloose/nerdtree'
          Bundle 'tpope/vim-surround'
          Bundle 'tpope/vim-repeat.git'
-"        Bundle 'ctrlpvim/ctrlp.vim'
+         Bundle 'ctrlpvim/ctrlp.vim'
 "        Bundle 'tacahiroy/ctrlp-funky'
 "        Bundle 'mbbill/undotree'
 "        Bundle 'powerline/fonts'
@@ -110,6 +110,7 @@ Plugin 'VundleVim/Vundle.vim'
         "# Bundle 'gcmt/wildfire.vim'
          Bundle 'embear/vim-localvimrc'
          Bundle 'pacha/vem-tabline.git'
+         "Bundle 'junegunn/fzf.vim'
     " }
 
     " Colors {
@@ -187,6 +188,10 @@ Plugin 'VundleVim/Vundle.vim'
         Bundle 'davidhalter/jedi-vim'
     " }
     "
+    " GOLang {
+        Bundle 'fatih/vim-go.git'
+    " }
+
     " HTML {
         Bundle 'vim-scripts/HTML-AutoCloseTag'
         Bundle 'hail2u/vim-css3-syntax'

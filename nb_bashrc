@@ -27,7 +27,14 @@ if [ -z "$NBBASHRCSOURCED" ]; then
     alias ll='ls -alF'
     alias la='ls -A'
     alias l='ls -CF'
-
+    #
+######     if [ -f `which powerline-daemon` ]; then
+######         powerline-daemon -q
+######         POWERLINE_BASH_CONTINUATION=1
+######         POWERLINE_BASH_SELECT=1
+######         . /usr/share/powerline/bash/powerline.sh
+######     fi
+    #
     #
     ## Keep history from different terminals and TMUX sessions
     #
@@ -56,13 +63,12 @@ if [ -z "$NBBASHRCSOURCED" ]; then
     fi
 
 
-
     # unset color_prompt force_color_prompt
 
-
-
-
     PATH=$PATH:$HOME/.local/bin:$HOME/bin
+    #
+    # Add path for golang
+    PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
 
     export PATH
     # export PS1=${PS1%?}"\n$ " 

@@ -198,6 +198,7 @@
             let g:syntastic_rst_checkers = ['rstcheck']
             let g:syntastic_yaml_checkers = ['yamllint']
             let g:syntastic_json_checkers = ['jsonlint']
+            let g:syntastic_python_checkers = ['python3']
 
             set statusline+=%#warningmsg#
             set statusline+=%{syntasticstatuslineflag()}
