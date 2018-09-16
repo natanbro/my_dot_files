@@ -102,6 +102,12 @@
 
 " General {
     let mapleader = ','
+    " cnoremap W w
+    :command WQ wq
+    :command Wq wq
+    :command W w
+    :command Q q
+
 
     set background=dark         " Assume a dark background
 
@@ -372,8 +378,9 @@
     " Create vertical split with same combination as in tmux
     nmap <leader>%  :vsplit<CR>
 
-    imap <c-f> <c-g>u<Esc>[s1z=`]a<c-g>u
-    nmap <c-f> [s1z=<c-o>
+"    imap <c-f> <c-g>u<ESC>[s1z=`]a<c-g>u
+    imap <c-f> <esc>mx[s1z=`xa
+    nmap <c-f> mx[s1z=
 
     " move the line with the cursor one line down by inserting a blank line on
     " top of the current line
