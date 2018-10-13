@@ -216,6 +216,18 @@
             let g:syntastic_check_on_wq = 0
         endif
 "   }
+"   Ultisnips {
+        if filereadable(expand("~/.vim/bundle/ultisnips/plugin/UltiSnips.vim"))
+            let g:UltiSnipsSnippetDirectories=["/users/natan/ultisnips", "UltiSnips"]
+            let g:UltiSnipsUsePythonVersion = 3
+            let g:UltiSnipsExpandTrigger="<c-space>"
+            let g:UltiSnipsJumpForwardTrigger="<c-B>"
+            let g:UltiSnipsJumpBackwardTrigger="<c-Z>"
+
+            " :UltiSnipsEdit will to split your window.
+            let g:UltiSnipsEditSplit="vertical" 
+        endif
+"   }
 " }
 "
 

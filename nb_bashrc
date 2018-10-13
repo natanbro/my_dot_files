@@ -28,6 +28,8 @@ if [ -z "$NBBASHRCSOURCED" ]; then
     alias la='ls -A'
     alias l='ls -CF'
     #
+    alias glog='git log --graph --decorate --pretty=oneline --abbrev-commit'
+    #
 ######     if [ -f `which powerline-daemon` ]; then
 ######         powerline-daemon -q
 ######         POWERLINE_BASH_CONTINUATION=1
