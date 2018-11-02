@@ -186,6 +186,7 @@ Plugin 'VundleVim/Vundle.vim'
         Bundle 'vim-scripts/python_match.vim'
 "        Bundle 'vim-scripts/pythoncomplete'
         Bundle 'davidhalter/jedi-vim'
+        Bundle 'ambv/black'
     " }
     "
     " GOLang {
@@ -206,7 +207,7 @@ Plugin 'VundleVim/Vundle.vim'
          Bundle 'pangloss/vim-javascript'
 "        Bundle 'briancollins/vim-jst'
          Bundle 'isRuslan/vim-es6'
-         Bundle 'ternjs/tern_for_vim.git'
+"         Bundle 'ternjs/tern_for_vim.git'
 "         Bundle 'leshill/vim-json.git'
                  
     "}

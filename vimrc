@@ -205,6 +205,7 @@
             let g:syntastic_yaml_checkers = ['yamllint']
             let g:syntastic_json_checkers = ['jsonlint']
             let g:syntastic_python_checkers = ['python3']
+            let g:syntastic_python_python_exec = 'python3'
 
             set statusline+=%#warningmsg#
             set statusline+=%{syntasticstatuslineflag()}
@@ -226,6 +227,13 @@
 
             " :UltiSnipsEdit will to split your window.
             let g:UltiSnipsEditSplit="vertical" 
+        endif
+"   }
+"   Black {
+        if filereadable(expand("~/.vim/bundle/black/plugin/black.vim"))
+            " echo "black"
+            let g:black_linelength = 79
+            autocmd BufWritePre *.py execute ':Black'
         endif
 "   }
 " }
