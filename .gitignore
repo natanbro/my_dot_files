@@ -3,4 +3,4 @@ vim/bundle/*
 vim/bundles/*
 vim/.vim/**
 vim/.vim
-
+vim/black/
