@@ -131,6 +131,7 @@ Plugin 'VundleVim/Vundle.vim'
         Bundle 'tudurom/bleh.vim.git'
         Bundle 'nightsense/seagrey.git'
         Bundle 'nightsense/simplifysimplify.git'
+        Bundle 'alessandroyorba/despacio.git'
         Bundle 'natanbro/browny_vim.git'
 
     " }
