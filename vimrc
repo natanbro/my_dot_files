@@ -49,13 +49,13 @@
         endif
     " }
 
-    " Setup Bundle Support {
-        " The next three lines ensure that the ~/.vim/bundle/ system works
-        filetype off
-        set rtp+=~/.vim/bundle/Vundle.vim
-        " " " " " " call vundle#rc()
-        call vundle#begin() " 
-    " }
+"    " Setup Bundle Support {
+"        " The next three lines ensure that the ~/.vim/plugged/ system works
+"        filetype off
+"        set rtp+=~/.vim/plugged/Vundle.vim
+"        " " " " " " call vundle#rc()
+"        call vundle#begin() " 
+"    " }
 
     " Add an UnBundle command {
     function! UnBundle(arg, ...)
@@ -199,7 +199,7 @@
 " Specific Bundle Configuration {
 "   Syntactics {
  
-        if filereadable(expand("~/.vim/bundle/syntastic/plugin/syntastic.vim"))
+        if filereadable(expand("~/.vim/plugged/syntastic/plugin/syntastic.vim"))
             " echo "syntactic"
             let g:syntastic_rst_checkers = ['rstcheck']
             let g:syntastic_yaml_checkers = ['yamllint']
@@ -218,7 +218,7 @@
         endif
 "   }
 "   Ultisnips {
-        if filereadable(expand("~/.vim/bundle/ultisnips/plugin/UltiSnips.vim"))
+        if filereadable(expand("~/.vim/plugged/ultisnips/plugin/UltiSnips.vim"))
             let g:UltiSnipsSnippetDirectories=["/home/natan/ultisnips", "UltiSnips"]
             let g:UltiSnipsUsePythonVersion = 3
             let g:UltiSnipsExpandTrigger="<c-space>"
@@ -230,7 +230,7 @@
         endif
 "   }
 "   Black {
-        if filereadable(expand("~/.vim/bundle/black/plugin/black.vim"))
+        if filereadable(expand("~/.vim/plugged/black/plugin/black.vim"))
             " echo "black"
             let g:black_linelength = 79
             autocmd BufWritePre *.py execute ':Black'
@@ -259,7 +259,7 @@
         set statusline=%<%f\                     " Filename
         set statusline+=%w%h%m%r                 " Options
         if !exists('g:override_spf13_bundles')
-            if !exists('~/.vim/bundle/vim-fugitive')
+            if !exists('~/.vim/plugged/vim-fugitive')
                 set statusline+=%{fugitive#statusline()} " Git Hotness
             endif
         endif
@@ -444,7 +444,7 @@
     map <C-N>   :redraw <cr>
 
     " NerdTree {
-        if isdirectory(expand("~/.vim/bundle/nerdtree"))
+        if isdirectory(expand("~/.vim/plugged/nerdtree"))
             map <leader>e  :NERDTreeToggle<CR>
             map <leader>ef :NERDTreeFind<CR>
 
@@ -614,11 +614,11 @@
 
 " MyOwnMappings {
 "
-    if filereadable(expand("~/.vim/bundle/vim-colors/colors/molokai.vim"))
+    if filereadable(expand("~/.vim/plugged/vim-colors/colors/molokai.vim"))
         color molokai             " Load a colorscheme
     endif
 
-    if filereadable(expand("~/.vim/bundle/vim-lucius/colors/lucius.vim"))
+    if filereadable(expand("~/.vim/plugged/vim-lucius/colors/lucius.vim"))
         let g:lucius_style="light"
         " Set this option to either 'light' or 'dark' for your desired 
         " color scheme.
