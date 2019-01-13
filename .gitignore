@@ -4,3 +4,5 @@ vim/bundles/*
 vim/.vim/**
 vim/.vim
 vim/black/
+vim/plugged
+vim/autoload

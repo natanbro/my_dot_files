@@ -1,5 +1,5 @@
 " Modeline and Notes {
-" vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={,} foldlevel=0 foldmethod=marker spell:
+" vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={,} foldmethod=marker spell:
 "
 " Environment {
 
@@ -36,102 +36,19 @@
             inoremap <silent> <C-[>OC <RIGHT>
         endif
     " }
-    " Use bundles_pre config {
-        if filereadable(expand("~/.vimrc_bundles_pre"))
-            source ~/.vimrc_bundles_pre
-        endif
-    " }
-    "
-    " Load project specific configuration before loading plugins
-    " project_pre.vim {
-        if filereadable("./project_pre.vim")
-            source ./project_pre.vim
-        endif
+
+    " map leader {
+        let mapleader = ','
+
     " }
 
-"    " Setup Bundle Support {
-"        " The next three lines ensure that the ~/.vim/plugged/ system works
-"        filetype off
-"        set rtp+=~/.vim/plugged/Vundle.vim
-"        " " " " " " call vundle#rc()
-"        call vundle#begin() " 
-"    " }
-
-    " Add an UnBundle command {
-    function! UnBundle(arg, ...)
-      let bundle = vundle#config#init_bundle(a:arg, a:000)
-      call filter(g:vundle#bundles, 'v:val["name_spec"] != "' . a:arg . '"')
-    endfunction
-
-    com! -nargs=+         UnBundle
-    \ call UnBundle(<args>)
-    " }
-
-" Abbreviations {
-"
-"   Global abbreviations
-    if filereadable(resolve(expand("~/abbreviations.vim")))
-        source ~/abbreviations.vim
-    endif
-"
-"
-"   Local directory is checked
-    if filereadable(resolve(expand("./abbreviations.vim")))
-        source ./abbreviations.vim
-    endif
-
-" }
-"
-" }
-
-" } Environment
-" Disable arrow keys {
-    inoremap  <Up>     <NOP>
-    inoremap  <Down>   <NOP>
-    inoremap  <Left>   <NOP>
-    inoremap  <Right>  <NOP>
-    noremap   <Up>     <NOP>
-    noremap   <Down>   <NOP>
-    noremap   <Left>   <NOP>
-    noremap   <Right>  <NOP>
-" }
-
-" Disable EX mode { 
-    :map Q <Nop>
-" }
-
-" General {
-    let mapleader = ','
-    " cnoremap W w
-    :command WQ wq
-    :command Wq wq
-    :command W w
-    :command Q q
-
-
-    set background=dark         " Assume a dark background
-
-    " Allow to trigger background
-    function! ToggleBG()
-        let s:tbg = &background
-        " Inversion
-        if s:tbg == "dark"
-            set background=light
-        else
-            set background=dark
+    " Use plugin_manager {
+        if filereadable(expand("~/.vimrc_bundles"))
+            source ~/.vimrc_bundles
         endif
-    endfunction
-    noremap <leader>bg :call ToggleBG()<CR>
-
-    " if !has('gui')
-        "set term=$TERM          " Make arrow and other keys work
-    " endif
-    filetype plugin indent on   " Automatically detect file types.
-    syntax on                   " Syntax highlighting
-    set mouse=a                 " Automatically enable mouse usage
-    set mousehide               " Hide the mouse cursor while typing
-    scriptencoding utf-8
-
+    " }
+    
+    " clipboard {
     if has('clipboard')
         if has('unnamedplus')  " When possible use + register for copy-paste
             set clipboard=unnamed,unnamedplus
@@ -140,34 +57,120 @@
         endif
     endif
 
-    set shortmess+=filmnrxoOtT          " Abbrev. of messages (avoids 'hit enter')
-    set viewoptions=folds,options,cursor,unix,slash " Better Unix / Windows compatibility
-"    set virtualedit=onemore             " Allow for cursor beyond last character
-    set virtualedit=onemore,block       " Allow for cursor beyond last character
-    set history=1000                    " Store a ton of history (default is 20)
-    set nospell                         " Spell checking off
-    set hidden                          " Allow buffer switching without saving
-    set iskeyword-=.                    " '.' is an end of word designator
-    set iskeyword-=#                    " '#' is an end of word designator
-    set iskeyword-=-                    " '-' is an end of word designator
+    "}
 
-    " Instead of reverting the cursor to the last position in the buffer, we
-    " set it to the first line when editing a git commit message
-    au FileType gitcommit au! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
 
-    " http://vim.wikia.com/wiki/Restore_cursor_to_file_position_in_previous_editing_session
-    " Restore cursor to file position in previous editing session
-    function! ResCur()
-        if line("'\"") <= line("$")
-            silent! normal! g`"
-            return 1
+    " Abbreviations {
+    "
+    "   Global abbreviations
+        if filereadable(resolve(expand("~/abbreviations.vim")))
+            source ~/abbreviations.vim
         endif
-    endfunction
+    "
+    "
+    "   Local directory is checked
+        if filereadable(resolve(expand("./abbreviations.vim")))
+            source ./abbreviations.vim
+        endif
 
-    augroup resCur
-        autocmd!
-        autocmd BufWinEnter * call ResCur()
-    augroup END
+    " }
+    "
+
+" } Environment
+
+" General {
+    " Disable arrow keys {
+        inoremap  <Up>     <NOP>
+        inoremap  <Down>   <NOP>
+        inoremap  <Left>   <NOP>
+        inoremap  <Right>  <NOP>
+        noremap   <Up>     <NOP>
+        noremap   <Down>   <NOP>
+        noremap   <Left>   <NOP>
+        noremap   <Right>  <NOP>
+    " }
+
+    " Disable common typos { 
+        " Disable X mode
+        :map Q <Nop>
+        :command WQ wq
+        :command Wq wq
+        :command W w
+        :command Q q
+    " }
+
+    " Colors and background {
+        " set background=dark         " Assume a dark background
+
+        ""if filereadable(expand("~/.vim/plugged/vim-colors/colors/molokai.vim"))
+        ""    color molokai             " Load a colorscheme
+        ""endif
+
+        "  Fix colors for Visual Selection and cursor line {
+        "
+            function! FixColors()
+                hi Visual term=reverse cterm=reverse guibg=Grey
+                hi CursorLine cterm=NONE ctermbg=240
+                hi Comment guifg=#E6DB74
+            endfunction
+
+            " call FixColors()
+        "}
+
+
+        " Allow to trigger background
+        function! ToggleBG()
+            let s:tbg = &background
+            " Inversion
+            if s:tbg == "dark"
+                set background=light
+            else
+                set background=dark
+            endif
+        endfunction
+        noremap <leader>bg :call ToggleBG()<CR>
+
+        colorscheme default
+
+    " }
+
+    " default set: {
+        syntax on                   " Syntax highlighting
+        set mouse=a                 " Automatically enable mouse usage
+        set mousehide               " Hide the mouse cursor while typing
+        scriptencoding utf-8
+
+        set shortmess+=filmnrxoOtT          " Abbrev. of messages (avoids 'hit enter')
+        set viewoptions=folds,options,cursor,unix,slash " Better Unix / Windows compatibility
+        set virtualedit=onemore,block       " Allow for cursor beyond last character
+        set history=1000                    " Store a ton of history (default is 20)
+        set nospell                         " Spell checking off
+        set hidden                          " Allow buffer switching without saving
+        set iskeyword-=.                    " '.' is an end of word designator
+        set iskeyword-=#                    " '#' is an end of word designator
+        set iskeyword-=-                    " '-' is an end of word designator
+
+    " }
+
+    " reset cursor position {
+        " Instead of reverting the cursor to the last position in the buffer, we
+        " set it to the first line when editing a git commit message
+        au FileType gitcommit au! BufEnter COMMIT_EDITMSG call setpos('.', [0, 1, 1, 0])
+
+        " http://vim.wikia.com/wiki/Restore_cursor_to_file_position_in_previous_editing_session
+        " Restore cursor to file position in previous editing session
+        function! ResCur()
+            if line("'\"") <= line("$")
+                silent! normal! g`"
+                return 1
+            endif
+        endfunction
+
+        augroup resCur
+            autocmd!
+            autocmd BufWinEnter * call ResCur()
+        augroup END
+    " }
 
     " Setting up the directories {
         set backup                  " Backups are nice ...
@@ -177,24 +180,14 @@
             set undoreload=10000        " Maximum number lines to save for undo on a buffer reload
         endif
 
-        " To disable views add the following to your .vimrc.before.local file:
-        "   let g:spf13_no_views = 1
-        " Add exclusions to mkview and loadview
-        " eg: *.*, svn-commit.tmp
-        let g:skipview_files = [
-            \ '\[example pattern\]'
-            \ ]
     " }
 
 " }  // General
 
-
-
-" Use bundles config {
-    if filereadable(expand("~/.vimrc_bundles"))
-        source ~/.vimrc_bundles
-    endif
+" Filetypes {
+    filetype plugin indent on   " Automatically detect file types.
 " }
+
 "
 " Specific Bundle Configuration {
 "   Syntactics {
@@ -614,34 +607,9 @@
 
 " MyOwnMappings {
 "
-    if filereadable(expand("~/.vim/plugged/vim-colors/colors/molokai.vim"))
-        color molokai             " Load a colorscheme
-    endif
-
-    if filereadable(expand("~/.vim/plugged/vim-lucius/colors/lucius.vim"))
-        let g:lucius_style="light"
-        " Set this option to either 'light' or 'dark' for your desired 
-        " color scheme.
-        let g:lucius_contrast='high'
-"
-        " This option determines the contrast to use for text/ui elements. It can be
-        " set to 'low', 'normal', or 'high'. At this time there is no 'high' for the
-        " light scheme.
-        let g:lucius_contrast_bg='high'
-    endif
 
 " }
 "
-"  Fix colors for Visual Selection and cursor line {
-"
-    function! FixColors()
-        hi Visual term=reverse cterm=reverse guibg=Grey
-        hi CursorLine cterm=NONE ctermbg=240
-        hi Comment guifg=#E6DB74
-    endfunction
-
-    call FixColors()
-"}
 
 
 
@@ -654,16 +622,6 @@
     endif
 " }
 
-" }
-"
-" FixPaperColorScheme {
-    function! FixPaperColorScheme()
-        if filereadable(expand("/home/natan/projects/others/nb_repos/my_dot_files/vim/bundle/papercolor-theme/colors/PaperColor.vim"))
-            set background=light
-            color PaperColor        " Load a colorscheme
-            :highlight SpellBad ctermfg=009 ctermbg=011 guifg=#ff0000 guibg=#ffff00
-        endif
-    endfunction
 " }
 "
 " Load project specific configuration {
@@ -696,3 +654,14 @@
     endfunc
 "    }
 "
+"    IsPluginInstalled {
+        function! IsPluginInstalled(name)
+            let s:myrtp = split((&rtp), ',')
+            if matchstr(s:myrtp, a:name) != ""
+                unlet s:myrtp
+                return 1
+            endif
+            unlet s:myrtp
+        endfunc
+    " }
+
