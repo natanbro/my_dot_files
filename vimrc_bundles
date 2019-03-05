@@ -32,20 +32,20 @@
         endif
     " }
 
-    " Setup Bundle Support {
-        " The next three lines ensure that the ~/.vim/bundle/ system works
-        filetype off
-        set rtp+=~/.vim/bundle/vundle
-        " " " " " " call vundle#rc()
-        call vundle#begin() " } 
-    " Add an UnBundle command {
-    function! UnBundle(arg, ...)
-      let bundle = vundle#config#init_bundle(a:arg, a:000)
-      call filter(g:vundle#bundles, 'v:val["name_spec"] != "' . a:arg . '"')
-    endfunction
-
-    com! -nargs=+         UnBundle
-    \ call UnBundle(<args>)
+"    " Setup Plug Support {
+"        " The next three lines ensure that the ~/.vim/bundle/ system works
+"        filetype off
+"        set rtp+=~/.vim/bundle/vundle
+"        " " " " " " call vundle#rc()
+"        call vundle#begin() " } 
+"    " Add an UnPlug command {
+"    function! UnPlug(arg, ...)
+"      let bundle = vundle#config#init_bundle(a:arg, a:000)
+"      call filter(g:vundle#bundles, 'v:val["name_spec"] != "' . a:arg . '"')
+"    endfunction
+"
+"    com! -nargs=+         UnPlug
+"    \ call UnPlug(<args>)
     " }
 
 " }
@@ -58,7 +58,8 @@ filetype off                  " required
 "call vundle#begin('~/some/path/here')
 
 " let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+" Plugin 'VundleVim/Vundle.vim'
+call plug#begin('~/.vim/plugged')
 
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
@@ -81,168 +82,170 @@ Plugin 'VundleVim/Vundle.vim'
 " call vundle#end()            " required
 " filetype plugin indent on    " required
 
-" Bundles {
+" Plugs {
 
     " Deps {
-        Bundle 'gmarik/vundle'
+        Plug 'gmarik/vundle'
     " }
 "
 
     " General {
-         Bundle 'vimoutliner/vimoutliner.git'
-         Bundle 'scrooloose/nerdtree'
-         Bundle 'tpope/vim-surround'
-         Bundle 'tpope/vim-repeat.git'
-         Bundle 'ctrlpvim/ctrlp.vim'
-"        Bundle 'tacahiroy/ctrlp-funky'
-"        Bundle 'mbbill/undotree'
-"        Bundle 'powerline/fonts'
-"         Bundle 'bling/vim-bufferline'
-         Bundle 'easymotion/vim-easymotion'
-"        Bundle 'jistr/vim-nerdtree-tabs'
-         Bundle 'nathanaelkane/vim-indent-guides'
-         Bundle 'jeetsukumaran/vim-buffergator'
-        "# Bundle 'mhinz/vim-signify'
-        "# Bundle 'tpope/vim-abolish.git'
-        "# Bundle 'osyo-manga/vim-over'
-"        Bundle 'kana/vim-textobj-user'
-"        Bundle 'kana/vim-textobj-indent'
-        "# Bundle 'gcmt/wildfire.vim'
-         Bundle 'embear/vim-localvimrc'
-         Bundle 'pacha/vem-tabline.git'
-         "Bundle 'junegunn/fzf.vim'
+         Plug 'https://github.com/vimoutliner/vimoutliner.git'
+         Plug 'scrooloose/nerdtree'
+         Plug 'tpope/vim-surround'
+         Plug 'https://github.com/tpope/vim-repeat.git'
+         Plug 'ctrlpvim/ctrlp.vim'
+"        Plug 'tacahiroy/ctrlp-funky'
+"        Plug 'mbbill/undotree'
+"        Plug 'powerline/fonts'
+"         Plug 'bling/vim-bufferline'
+         Plug 'easymotion/vim-easymotion'
+"        Plug 'jistr/vim-nerdtree-tabs'
+         Plug 'nathanaelkane/vim-indent-guides'
+         Plug 'jeetsukumaran/vim-buffergator'
+        "# Plug 'mhinz/vim-signify'
+        "# Plug 'tpope/vim-abolish.git'
+        "# Plug 'osyo-manga/vim-over'
+"        Plug 'kana/vim-textobj-user'
+"        Plug 'kana/vim-textobj-indent'
+        "# Plug 'gcmt/wildfire.vim'
+         Plug 'embear/vim-localvimrc'
+         Plug 'https://github.com/pacha/vem-tabline.git'
+         "Plug 'junegunn/fzf.vim'
     " }
 
     " Colors {
-"        Bundle 'flazz/vim-colorschemes'
-        Bundle 'altercation/vim-colors-solarized'
-        Bundle 'spf13/vim-colors'
-        Bundle 'reedes/vim-colors-pencil.git'
-        Bundle 'NLKNguyen/papercolor-theme'
-        Bundle 'muellan/am-colors'
-        Bundle 'josuegaleas/jay'
-        Bundle 'morhetz/gruvbox'
-        Bundle 'mkarmona/materialbox'
-        Bundle 'junegunn/seoul256.vim'
-        Bundle 'rakr/vim-one'
-        Bundle 'jonathanfilip/vim-lucius'
-        Bundle 'h3xx/vim-late_evening.git'
-        Bundle 'nielsmadan/harlequin.git'
-        Bundle 'tudurom/bleh.vim.git'
-        Bundle 'nightsense/seagrey.git'
-        Bundle 'nightsense/simplifysimplify.git'
-        Bundle 'alessandroyorba/despacio.git'
-        Bundle 'natanbro/browny_vim.git'
-        "        Bundle 'natanbro/vim-allomancer'
-        Bundle 'natanbro/vim-two-firewatch'
+"        Plug 'flazz/vim-colorschemes'
+        Plug 'altercation/vim-colors-solarized'
+        Plug 'spf13/vim-colors'
+        Plug 'https://github.com/reedes/vim-colors-pencil.git'
+        Plug 'NLKNguyen/papercolor-theme'
+        Plug 'muellan/am-colors'
+        Plug 'josuegaleas/jay'
+        Plug 'morhetz/gruvbox'
+        Plug 'mkarmona/materialbox'
+        Plug 'junegunn/seoul256.vim'
+        Plug 'rakr/vim-one'
+        Plug 'jonathanfilip/vim-lucius'
+        Plug 'https://github.com/h3xx/vim-late_evening.git'
+        Plug 'https://github.com/nielsmadan/harlequin.git'
+        Plug 'https://github.com/tudurom/bleh.vim.git'
+        Plug 'https://github.com/nightsense/seagrey.git'
+        Plug 'https://github.com/nightsense/simplifysimplify.git'
+        Plug 'https://github.com/alessandroyorba/despacio.git'
+        Plug 'https://github.com/natanbro/browny_vim.git'
+        "        Plug 'natanbro/vim-allomancer'
+        Plug 'natanbro/vim-two-firewatch'
 
 
     " }
     "
 
     " Writing {
-"        Bundle 'reedes/vim-litecorrect'
-"        Bundle 'reedes/vim-textobj-sentence'
-"        Bundle 'reedes/vim-textobj-quote'
-        "# Bundle 'reedes/vim-wordy'
+"        Plug 'reedes/vim-litecorrect'
+"        Plug 'reedes/vim-textobj-sentence'
+"        Plug 'reedes/vim-textobj-quote'
+        "# Plug 'reedes/vim-wordy'
     " }
 
 
     " Misc {
-        Bundle 'tpope/vim-markdown'
-        "Bundle 'gabrielelana/vim-markdown.git'
-        "Bundle 'spf13/vim-preview'
-"        Bundle 'saltstack/salt-vim'
-        Bundle 'stephpy/vim-yaml'
-        Bundle 'digitalrounin/vim-yaml-folds.git'
-        Bundle 'tarekbecker/vim-yaml-formatter.git'
-        Bundle 'ervandew/supertab.git'
+        Plug 'tpope/vim-markdown'
+        "Plug 'gabrielelana/vim-markdown.git'
+        "Plug 'spf13/vim-preview'
+"        Plug 'saltstack/salt-vim'
+        Plug 'stephpy/vim-yaml'
+        Plug 'https://github.com/digitalrounin/vim-yaml-folds.git'
+        Plug 'https://github.com/tarekbecker/vim-yaml-formatter.git'
+        Plug 'https://github.com/ervandew/supertab.git'
     " }
     "
     " Git {
-        Bundle 'tpope/vim-fugitive'
+        Plug 'https://github.com/tpope/vim-fugitive'
     " }
     "
     "
     " General Programming {
-         Bundle 'godlygeek/tabular'
-"        Bundle 'luochen1990/rainbow'
+         Plug 'godlygeek/tabular'
+"        Plug 'luochen1990/rainbow'
         if executable('ctags')
-            Bundle 'majutsushi/tagbar'
+            Plug 'majutsushi/tagbar'
         endif
-         Bundle 'matchit.zip'
-         Bundle 'vim-syntastic/syntastic.git'
+         Plug 'https://github.com/adelarsq/vim-matchit'
+         Plug 'https://github.com/vim-syntastic/syntastic.git'
     " }
     "
     " Snippets & AutoComplete {
-         Bundle 'SirVer/ultisnips'
-         Bundle 'honza/vim-snippets'
+         Plug 'SirVer/ultisnips'
+         Plug 'honza/vim-snippets'
     " }
     " Docker {
-         Bundle 'ekalinin/Dockerfile.vim'
+         Plug 'ekalinin/Dockerfile.vim'
     " }
     
     " Python {
         " Pick either python-mode or pyflakes & pydoc
-"        Bundle 'python-mode/python-mode.git'
-"        "Bundle 'klen/python-mode'
-"        Bundle 'yssource/python.vim'
-"        Bundle 'vim-scripts/python_match.vim'
-"        Bundle 'vim-scripts/pythoncomplete'
-"        Bundle 'davidhalter/jedi-vim'
-        Bundle 'ambv/black'
+"        Plug 'python-mode/python-mode.git'
+"        "Plug 'klen/python-mode'
+"        Plug 'yssource/python.vim'
+"        Plug 'vim-scripts/python_match.vim'
+"        Plug 'vim-scripts/pythoncomplete'
+"        Plug 'davidhalter/jedi-vim'
+        Plug 'ambv/black'
     " }
     "
     " GOLang {
-        Bundle 'fatih/vim-go.git'
+        Plug 'https://github.com/fatih/vim-go.git'
     " }
 
     " HTML {
-        Bundle 'vim-scripts/HTML-AutoCloseTag'
-        Bundle 'hail2u/vim-css3-syntax'
-        Bundle 'gorodinskiy/vim-coloresque'
-"        Bundle 'tpope/vim-haml'
-        Bundle 'mattn/emmet-vim'
+        Plug 'vim-scripts/HTML-AutoCloseTag'
+        Plug 'hail2u/vim-css3-syntax'
+        Plug 'gorodinskiy/vim-coloresque'
+"        Plug 'tpope/vim-haml'
+        Plug 'mattn/emmet-vim'
     " }
 
     " Javascript {
-         Bundle 'elzr/vim-json'
-"        Bundle 'groenewege/vim-less'
-         Bundle 'pangloss/vim-javascript'
-"        Bundle 'briancollins/vim-jst'
-         Bundle 'isRuslan/vim-es6'
-"         Bundle 'ternjs/tern_for_vim.git'
-"         Bundle 'leshill/vim-json.git'
+         Plug 'elzr/vim-json'
+"        Plug 'groenewege/vim-less'
+         Plug 'pangloss/vim-javascript'
+"        Plug 'briancollins/vim-jst'
+         Plug 'isRuslan/vim-es6'
+"         Plug 'ternjs/tern_for_vim.git'
+"         Plug 'leshill/vim-json.git'
                  
     "}
     "
     " vue.js {
-        Bundle 'posva/vim-vue'
-        Bundle 'digitaltoad/vim-pug.git'
+        Plug 'posva/vim-vue'
+"        Plug 'digitaltoad/vim-pug.git'
+        Plug 'https://github.com/digitaltoad/vim-pug'
     " }
     
     " Typescript {
-"        Bundle 'Quramy/tsuquyomi'
-"        Bundle 'clausreinke/typescript-tools.vim'
+"        Plug 'Quramy/tsuquyomi'
+"        Plug 'clausreinke/typescript-tools.vim'
     " }
     "
     " Trinity {
-        " Bundle 'wesleyche/Trinity.git'
+        " Plug 'wesleyche/Trinity.git'
 
     " }
     "
     " PlantUML {
-"        Bundle 'aklt/plantuml-syntax.git'
-        Bundle 'natanbro/plantuml-syntax.git'
+"        Plug 'aklt/plantuml-syntax.git'
+        Plug 'https://github.com/natanbro/plantuml-syntax.git'
     " }
 "
     " Restructured text (rst)
     " {
-"        Bundle 'vim-scripts/rest.vim.git'
-         Bundle 'Rykka/riv.vim.git'
-"        Bundle 'vim-scripts/VOoM.git'
+"        Plug 'vim-scripts/rest.vim.git'
+         Plug 'https://github.com/Rykka/riv.vim.git'
+"        Plug 'vim-scripts/VOoM.git'
     " }
 set nofoldenable
-call vundle#end()            " required
+" call vundle#end()            " requiredA
+call plug#end()
 filetype plugin indent on    " required
 
