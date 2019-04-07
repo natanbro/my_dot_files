@@ -222,13 +222,13 @@
             let g:UltiSnipsEditSplit="vertical" 
         endif
 "   }
-"   Black {
-        if filereadable(expand("~/.vim/plugged/black/plugin/black.vim"))
-            " echo "black"
-            let g:black_linelength = 79
-            autocmd BufWritePre *.py execute ':Black'
-        endif
-"   }
+" "   Black {
+"         if filereadable(expand("~/.vim/plugged/black/plugin/black.vim"))
+"             " echo "black"
+"             let g:black_linelength = 79
+"             autocmd BufWritePre *.py execute ':Black'
+"         endif
+" "   }
 " }
 "
 
