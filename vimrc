@@ -1,4 +1,4 @@
-" Modeline and Notes {
+" Modeline and Notes
 " vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={,} foldlevel=9 foldmethod=marker spell nowrap:
 "
 " Cleaned environment
@@ -60,6 +60,7 @@
         set nospell                         " Spell checking off
         set hidden                          " Allow buffer switching without saving
         set number
+        set relativenumber
 
         set iskeyword-=.                    " '.' is an end of word designator
         set iskeyword-=#                    " '#' is an end of word designator
@@ -78,9 +79,15 @@
         set tabstop=4                   " An indentation every four columns
         set softtabstop=4               " Let backspace delete indent
         set nojoinspaces                " Prevents inserting two spaces after punctuation on a join (J)
+        set splitright                  " Puts new vsplit windows to the right of the current
+        set splitbelow                  " Puts new split windows to the bottom of the current
+
+        set shortmess+=filmnrxoOtT      " Abbrev. of messages (avoids 'hit enter')
 
         set autowrite
 
+        set foldenable
+        set foldlevel=9
     " }
 
     " Search {
@@ -102,6 +109,7 @@
             set undolevels=1000         " Maximum number of changes that can be undone
             set undoreload=10000        " Maximum number lines to save for undo on a buffer reload
         endif
+    " }
 
     " Vim UI {
         set cursorline                  " Highlight current line
@@ -110,8 +118,23 @@
         highlight clear LineNr          " Current line number row will have same background color in relative mode
         set tabpagemax=15               " Only show 15 tabs
         set linespace=0                 " No extra spaces between rows
-        if OSX()
-            set guifont=Menlo:h16
+        if has('gui')
+            set lines=41                " 40 lines of text instead of 24
+            " disable GUI menus
+            set guioptions-=m
+            set guioptions-=M 
+
+            " disable GUI toolbar
+            set guioptions-=T           " Remove the toolbar
+
+
+            if LINUX() && has("gui")
+                 set guifont=Andale\ Mono\ Regular\ 11,Menlo\ Regular\ 11,Consolas\ Regular\ 11,Courier\ New\ Regular\ 11
+            elseif OSX() && has("gui")
+                set guifont=Andale\ Mono\ Regular:h16,Menlo\ Regular:h14,Consolas\ Regular:h14,Courier\ New\ Regular:h14
+            elseif WINDOWS() && has("gui")
+                set guifont=Andale_Mono:h12,Menlo:h12,Consolas:h12,Courier_New:h12
+            endif
         endif
 
     " }
@@ -128,8 +151,10 @@
         set wildmode=list:longest,full  " Command <Tab> completion, list matches, then longest common part, then all.
     " }
 
-    " Useful shortcuts {
-        " Code folding options
+" }
+"
+" Useful mappings {
+    " Code folding options
         nmap <leader>f0 :set foldlevel=0<CR>
         nmap <leader>f1 :set foldlevel=1<CR>
         nmap <leader>f2 :set foldlevel=2<CR>
@@ -140,8 +165,42 @@
         nmap <leader>f7 :set foldlevel=7<CR>
         nmap <leader>f8 :set foldlevel=8<CR>
         nmap <leader>f9 :set foldlevel=9<CR>
-    " }
+    "
+    " Wrapped lines goes down/up to next row, rather than next line in file.
+        noremap j gj
+        noremap k gk
+    
+    " Visual shifting (does not exit Visual mode)
+        vnoremap < <gv
+        vnoremap > >gv
+
+    nnoremap Y y$
+
+    "Split line at cursor position leaving cursor in place
+        nnoremap <c-Enter> i<cr><esc>k$
+
+    " Allow using the repeat operator with a visual selection (!)
+    " http://stackoverflow.com/a/8064607/127816
+        vnoremap . :normal .<CR>
+    "
+    "
+    " Easy changing between buffers
+        map <c-j> :bnext<cr>
+        map <c-k> :bprevious<cr>
+
+    " Easy change between Windows
+        map <C-L> <C-W>l
+        map <C-H> <C-W>h
+
+        " Use alt keys
+        map <A-l> <C-W>l
+        map <A-h> <C-W>h
+        map <A-j> <C-W>j
+        map <A-k> <C-W>k
+
+    " 
 " }
+
 
 
 " Plugins support {
