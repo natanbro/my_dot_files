@@ -206,7 +206,7 @@
 
             let g:syntastic_always_populate_loc_list = 1
             let g:syntastic_auto_loc_list = 1
-            let g:syntastic_check_on_open = 1
+            let g:syntastic_check_on_open = 0
             let g:syntastic_check_on_wq = 0
         endif
 "   }
@@ -311,10 +311,10 @@
 
     "autocmd FileType go autocmd BufWritePre <buffer> Fmt
     autocmd BufNewFile,BufRead *.html.twig set filetype=html.twig
-    autocmd FileType haskell,puppet,ruby,yml setlocal expandtab shiftwidth=2 softtabstop=2
+    autocmd FileType haskell,puppet,ruby setlocal expandtab shiftwidth=2 softtabstop=2
     " preceding line best in a plugin but here for now.
 
-    autocmd FileType sls,salt,yml,yaml setlocal expandtab shiftwidth=2 softtabstop=2 foldmethod=indent foldenable colorcolumn=80
+    autocmd FileType sls,salt,yml,yaml setlocal expandtab shiftwidth=2 softtabstop=2 foldmethod=indent nofoldenable colorcolumn=80
 
 
 " markdown {
@@ -322,7 +322,7 @@
 " }
 
 " restructuredtext {
-    autocmd FileType rst setlocal tw=81 foldenable spell linebreak colorcolumn=80
+    autocmd FileType rst setlocal tw=81 foldenable spell linebreak colorcolumn=80 maxmempattern=40000
 " }
 " Vimoutline {
     autocmd FileType votl setlocal spell nolist foldenable
