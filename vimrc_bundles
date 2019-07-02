@@ -1,2 +1,14 @@
-" https://github.com/junegunn/vim-plug 
+" https://github.com/junegunn/vim-plug call {
+    call plug#begin('~/.vim/plugged') "{
+
+
+
+    " finish set up
+    call plug#end()
+    "}
+    filetype plugin indent on
+
+"}
+
+
 
