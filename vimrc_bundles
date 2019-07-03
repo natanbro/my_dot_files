@@ -1,18 +1,41 @@
+" vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={,} foldlevel=9 foldmethod=marker spell nowrap:
+
 " https://github.com/junegunn/vim-plug call {
     call plug#begin('~/.vim/plugged') "{
         "IDE {
-              Plug 'scrooloose/nerdtree'
-              Plug 'tpope/vim-surround'
+            Plug 'scrooloose/nerdtree'
+            Plug 'tpope/vim-surround'
+            Plug 'https://github.com/tpope/vim-repeat.git'
+            Plug 'easymotion/vim-easymotion'
+            Plug 'https://github.com/tomtom/tcomment_vim'
+            
+            " snippets
+            Plug 'SirVer/ultisnips'
+            Plug 'honza/vim-snippets'
+
+            " buffer management
+            Plug 'moll/vim-bbye'
+
+            " decorate
+            Plug 'vim-airline/vim-airline'
+            Plug 'vim-airline/vim-airline-themes'
 
         "}
         "
         " git {
-              Plug 'tpope/vim-fugitive'
-              Plug 'Xuyuanp/nerdtree-git-plugin'
-              Plug 'airblade/vim-gitgutter'
+            Plug 'tpope/vim-fugitive'
+            Plug 'Xuyuanp/nerdtree-git-plugin'
+            Plug 'airblade/vim-gitgutter'
+        " }
+        "
+        " yaml {
+            Plug 'stephpy/vim-yaml'
+"           Plug 'https://github.com/digitalrounin/vim-yaml-folds.git'
+"           Plug 'https://github.com/tarekbecker/vim-yaml-formatter.git'
+                        
         " }
 
-
+        
 
     " finish set up
     call plug#end()

@@ -176,7 +176,17 @@
     " }
 
 " }
-"
+
+" Disable common typos {
+    " Disable X mode
+    :map Q <Nop>
+
+    :command! WQ wq
+    :command! Wq wq
+    :command! W w
+    :command! Q q
+" }
+
 " Useful mappings {
     " Code folding options
         nmap <leader>f0 :set foldlevel=0<CR>
@@ -251,6 +261,34 @@
     endif
 " 
 " }
+"
+    if IsPluginInstalled("ultisnips")
+        let g:UltiSnipsSnippetDirectories=["/home/natan/ultisnips", "UltiSnips"]
+        let g:UltiSnipsUsePythonVersion = 3
+        " let g:UltiSnipsExpandTrigger="<c-space>"
+        " let g:UltiSnipsJumpForwardTrigger="<c-l>"
+        " let g:UltiSnipsJumpBackwardTrigger="<c-h>"
+
+        " :UltiSnipsEdit will to split your window.
+        let g:UltiSnipsEditSplit="vertical" 
+    endif
+"   }
+"
+    if IsPluginInstalled('vim-airline')
+        let g:airline#extensions#tagbar#enabled = 1
+        let g:airline#extensions#tabline#enabled = 1
+        set hidden
+        let g:airline#extensions#tabline#fnamemod = ':t'
+        let g:airline#extensions#tabline#show_tab_nr = 1
+        let g:airline#extensions#tabline#buffer_idx_mode = 1
+        let g:airline#extensions#tabline#show_tabs = 1
+        let g:airline_left_sep = ''
+        let g:airline_left_alt_sep = ''
+        let g:airline_right_sep = ''
+        let g:airline_right_alt_sep = ''
+        let g:airline_powerline_fonts = 0
+        "let g:airline_theme='jellybeans'
+    endif
 "
 " Programming {
     autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl,sql autocmd BufWritePre <buffer>  call StripTrailingWhitespace() 
