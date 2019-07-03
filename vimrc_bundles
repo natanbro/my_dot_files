@@ -1,5 +1,16 @@
 " https://github.com/junegunn/vim-plug call {
     call plug#begin('~/.vim/plugged') "{
+        "IDE {
+              Plug 'scrooloose/nerdtree'
+              Plug 'tpope/vim-surround'
+
+        "}
+        "
+        " git {
+              Plug 'tpope/vim-fugitive'
+              Plug 'Xuyuanp/nerdtree-git-plugin'
+              Plug 'airblade/vim-gitgutter'
+        " }
 
 
 

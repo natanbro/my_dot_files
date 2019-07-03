@@ -37,6 +37,30 @@
 " Leader definition {
     let mapleader = ','
 "
+" functions {
+"
+
+    function! IsPluginInstalled(name)
+        let s:myrtp = split((&rtp), ',')
+        if matchstr(s:myrtp, a:name) != ""
+            unlet s:myrtp
+            return 1
+        endif
+        unlet s:myrtp
+    endfunc
+    "
+    function! StripTrailingWhitespace()
+        " Preparation: save last search, and cursor position.
+        let _s=@/
+        let l = line(".")
+        let c = col(".")
+        " do the business:
+        %s/\s\+$//e
+        " clean up: restore previous search history, and cursor position
+        let @/=_s
+        call cursor(l, c)
+    endfunction
+" }
 
 " My sane defaults {
 
@@ -205,9 +229,34 @@
 
 " Plugins support {
 	" Use ~/.virc_bundels to load plugins
-	" Use bundles config {
 	if filereadable(expand("~/.vimrc_bundles"))
 		source ~/.vimrc_bundles
 	endif
+" }
+"
+" Plugins configuration {
+"
+    if IsPluginInstalled("nerdtree")
+        map <leader>e  :NERDTreeToggle<CR>
+        map <leader>ef :NERDTreeFind<CR>
+
+        let NERDTreeShowBookmarks=1
+        let NERDTreeIgnore=['\.py[cd]$', '\~$', '\.swo$', '\.swp$', '^\.git$', '^\.hg$', '^\.svn$', '\.bzr$']
+        let NERDTreeChDirMode=0
+        let NERDTreeQuitOnOpen=0
+        let NERDTreeMouseMode=2
+        let NERDTreeShowHidden=1
+        let NERDTreeKeepTreeInNewTab=1
+        let g:nerdtree_tabs_open_on_gui_startup=0
+    endif
+" 
+" }
+"
+" Programming {
+    autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl,sql autocmd BufWritePre <buffer>  call StripTrailingWhitespace() 
+"
+" }
+"
+
 " }
 
