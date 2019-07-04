@@ -8,6 +8,12 @@
             Plug 'https://github.com/tpope/vim-repeat.git'
             Plug 'easymotion/vim-easymotion'
             Plug 'https://github.com/tomtom/tcomment_vim'
+            Plug 'godlygeek/tabular'
+            Plug 'luochen1990/rainbow'
+            if executable('ctags')
+            Plug 'majutsushi/tagbar'
+            endif
+            Plug 'https://github.com/adelarsq/vim-matchit'
             
             " snippets
             Plug 'SirVer/ultisnips'
