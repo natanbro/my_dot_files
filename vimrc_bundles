@@ -28,6 +28,20 @@
 
         "}
         "
+        " colors {
+            Plug 'https://github.com/natanbro/browny_vim.git'
+            Plug 'nanotech/jellybeans.vim'
+            Plug 'altercation/vim-colors-solarized'
+            Plug 'spf13/vim-colors'
+            Plug 'https://github.com/reedes/vim-colors-pencil.git'
+            Plug 'NLKNguyen/papercolor-theme'
+            Plug 'muellan/am-colors'
+            Plug 'josuegaleas/jay'
+            Plug 'morhetz/gruvbox'
+            Plug 'mkarmona/materialbox'
+
+        " }
+        "
         " git {
             Plug 'tpope/vim-fugitive'
             Plug 'Xuyuanp/nerdtree-git-plugin'

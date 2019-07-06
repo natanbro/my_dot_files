@@ -218,6 +218,16 @@
     :command! Wq wq
     :command! W w
     :command! Q q
+
+    " Common finger slips in English
+    :ab THe The
+    :ab THey They
+    :ab teh the
+    :ab THis This
+    :ab THese These
+    :ab THere There
+" }
+
 " }
 
 " Useful mappings {
@@ -271,8 +281,9 @@
         map <A-j> <C-W>j
         map <A-k> <C-W>k
 
-    " 
-" }
+    " In insert mode, use ctrl-f to fix last spelling error
+        imap <c-f> <esc>mx[s1z=`xa
+    " }
 
 
 
@@ -331,7 +342,10 @@
 "
 " Programming {
     autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl,sql autocmd BufWritePre <buffer>  call StripTrailingWhitespace() 
-"
+
+
+    " restructuredtext 
+    autocmd FileType rst setlocal tw=81 foldenable spell linebreak colorcolumn=80 maxmempattern=40000
 " }
 "
 
