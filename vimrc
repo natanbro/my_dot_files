@@ -145,6 +145,7 @@
 
         set foldenable
         set foldlevel=9
+        set listchars=tab:›\ ,trail:•,eol:$,extends:#,nbsp:. " Highlight problematic whitespace
     " }
 
     " Search {
@@ -341,7 +342,7 @@
     endif
 "
 " Programming {
-    autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,perl,sql autocmd BufWritePre <buffer>  call StripTrailingWhitespace() 
+    autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,yaml,perl,sql autocmd BufWritePre <buffer>  call StripTrailingWhitespace() 
 
 
     " restructuredtext 
