@@ -3,6 +3,37 @@
 " https://github.com/junegunn/vim-plug call {
     call plug#begin('~/.vim/plugged') "{
         "IDE {
+            " aux:
+            " asynchronous execution library for vim
+            Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+            " A solid language pack for Vim
+            Plug 'sheerun/vim-polyglot'
+            " Language Server Protocol (LSP) support for vim and neovim.
+            Plug 'autozimu/LanguageClient-neovim', {
+             \ 'branch': 'next',
+             \ 'do': 'bash install.sh',
+             \ }
+            " (Optional) Multi-entry selection UI.
+            Plug 'junegunn/fzf'
+            " asynchronous completion framework for neovim/Vim8
+            if has('nvim')
+                Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+            else
+                Plug 'Shougo/deoplete.nvim'
+                Plug 'roxma/nvim-yarp'
+                Plug 'roxma/vim-hug-neovim-rpc'
+            endif
+            let g:deoplete#enable_at_startup = 1
+
+            "
+            " The reason we use a function is because we want to get the event
+            " even if the package is unchanged as the updates are not tracked in
+            " this repo
+            function! BuildPyls(info)
+                !./install.sh
+            endfunction
+             Plug 'ficoos/pyls-vimplug', { 'do': function('BuildPyls') }
+
             Plug 'scrooloose/nerdtree'
             Plug 'tpope/vim-surround'
             Plug 'https://github.com/tpope/vim-repeat.git'
@@ -55,7 +86,8 @@
                         
         " }
 
-        
+        " thesaurus support
+        Plug 'Ron89/thesaurus_query.vim'
 
     " finish set up
     call plug#end()

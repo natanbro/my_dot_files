@@ -3,6 +3,8 @@
 "
 " Cleaned environment
 "
+let g:python3_host_prog = $HOME.'/venv//bin/python'
+
 " OS_Environment {
 
     " Identify platform {
