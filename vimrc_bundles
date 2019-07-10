@@ -54,6 +54,11 @@
 "           Plug 'https://github.com/tarekbecker/vim-yaml-formatter.git'
                         
         " }
+        "
+        " rst {
+            "Plug 'https://github.com/Rykka/riv.vim.git'
+        "
+        " }
 
         
 

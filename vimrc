@@ -284,6 +284,8 @@
 
     " In insert mode, use ctrl-f to fix last spelling error
         imap <c-f> <esc>mx[s1z=`xa
+    " vertical split
+        nmap <leader>! :vsplit<CR>
     " }
 
 
@@ -298,7 +300,8 @@
 " Plugins configuration {
 "
     if IsPluginInstalled("nerdtree")
-        map <leader>e  :NERDTreeToggle<CR>
+        " map <leader>e  :NERDTreeToggle<CR>
+        map <leader>e  :NERDTree<CR>
         map <leader>ef :NERDTreeFind<CR>
 
         let NERDTreeShowBookmarks=1
