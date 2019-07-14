@@ -345,6 +345,7 @@
     endif
 "
 " Programming {
+    " Trailing blanks
     autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,yaml,perl,sql autocmd BufWritePre <buffer>  call StripTrailingWhitespace() 
 
 
