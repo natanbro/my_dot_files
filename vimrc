@@ -181,7 +181,7 @@
             " disable GUI menus
             set guioptions-=m
             set guioptions-=M 
-
+            
             " disable GUI toolbar
             set guioptions-=T           " Remove the toolbar
 
@@ -210,6 +210,7 @@
     " }
 
 " }
+
 
 " Disable common typos {
     " Disable X mode
