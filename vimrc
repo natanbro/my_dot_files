@@ -36,6 +36,7 @@
 
 " Leader definition {
     let mapleader = ','
+"}
 "
 " functions {
 "
@@ -230,8 +231,6 @@
     :ab THere There
 " }
 
-" }
-
 " Useful mappings {
     " Code folding options
         nmap <leader>f0 :set foldlevel=0<CR>
@@ -315,8 +314,6 @@
         let g:nerdtree_tabs_open_on_gui_startup=0
     endif
 " 
-" }
-"
     if IsPluginInstalled("ultisnips")
         let g:UltiSnipsSnippetDirectories=["/home/natan/ultisnips", "UltiSnips"]
         let g:UltiSnipsUsePythonVersion = 3
@@ -327,7 +324,6 @@
         " :UltiSnipsEdit will to split your window.
         let g:UltiSnipsEditSplit="vertical" 
     endif
-"   }
 "
     if IsPluginInstalled('vim-airline')
         let g:airline#extensions#tagbar#enabled = 1
@@ -344,7 +340,7 @@
         let g:airline_powerline_fonts = 0
         "let g:airline_theme='jellybeans'
     endif
-"
+"}
 " Programming {
     " Trailing blanks
     autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,yaml,perl,sql autocmd BufWritePre <buffer>  call StripTrailingWhitespace() 
@@ -354,6 +350,4 @@
     autocmd FileType rst setlocal tw=81 foldenable spell linebreak colorcolumn=80 maxmempattern=40000
 " }
 "
-
-" }
 
