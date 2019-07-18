@@ -1,5 +1,13 @@
 " vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={,} foldlevel=9 foldmethod=marker spell nowrap:
 "
+function CocPluginUpdated(info)
+	" g:need_to_reload_coc_nvim_plugins 
+	:call coc#util#install_extension(['coc-python'])
+	:call coc#util#install_extension(['coc-yaml'])
+	:call coc#util#install_extension(['coc-json'])
+	:call coc#util#install_extension(['coc-tsserver'])
+	:call coc#util#install_extension(['coc-eslint'])
+endfunction
 
 " https://github.com/junegunn/vim-plug call {
     call plug#begin(g:plugins_dir) "{
@@ -30,7 +38,7 @@
         "}
         "
         " Language Server {
-            Plug 'neoclide/coc.nvim', {'branch': 'release'}
+            Plug 'neoclide/coc.nvim', {'branch': 'release', 'do': function('CocPluginUpdated')}
 
         " }
         " colors {

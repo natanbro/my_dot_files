@@ -44,10 +44,21 @@ let g:plugins_dir=expand("~/.vim/plugged")
 "
 
     function! IsPluginInstalled(name)
+        " echom "Asked to check for: >".a:name."<"
+        let s:plugin_fqpath = g:plugins_dir."/".a:name
+        " Check if the Plugin is part of the runtimepath
         let s:myrtp = split((&rtp), ',')
-        if matchstr(s:myrtp, a:name) != ""
-            unlet s:myrtp
-            return 1
+        " echom s:myrtp
+        " echom "Searching for >".s:plugin_fqpath."<"
+        if matchstr(s:myrtp, s:plugin_fqpath) != ""
+            " Found a bug that some plugin managers update the rtp even if
+            " they where not able to install the actual plugin.
+            " echom g:plugins_dir."/".a:name
+            " echom isdirectory(expand(g:plugins_dir."/".a:name))
+            if isdirectory(expand(g:plugins_dir."/".a:name))
+                unlet s:myrtp
+                return 1
+            endif
         endif
         unlet s:myrtp
     endfunction
@@ -345,20 +356,8 @@ let g:plugins_dir=expand("~/.vim/plugged")
 "}
 "
 " Coc-configuration {
-    function! InstallCocPlugins()
-        if exists('g:loaded_coc_plugins')
-          return
-        endif
-        let g:loaded_coc_plugins = 1
-        :call coc#util#install_extension(['coc-python'])
-        :call coc#util#install_extension(['coc-yaml'])
-        :call coc#util#install_extension(['coc-json'])
-        :call coc#util#install_extension(['coc-tsserver'])
-        :call coc#util#install_extension(['coc-eslint'])
-    endfunction
 
     if IsPluginInstalled('coc.nvim') "{
-        call InstallCocPlugins()
         " You will have bad experience for diagnostic messages when it's default 4000.
         set updatetime=300
 
@@ -382,7 +381,7 @@ let g:plugins_dir=expand("~/.vim/plugged")
         endfunction
 
         " Use <c-space> to trigger completion.
-        inoremap <silent><expr> <c-space> coc#refresh()
+""        inoremap <silent><expr> <c-space> coc#refresh()
 
         " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
         " Coc only does snippet and additional edit on confirm.
@@ -399,15 +398,15 @@ let g:plugins_dir=expand("~/.vim/plugged")
         nmap <silent> gr <Plug>(coc-references)
 
         " Use K to show documentation in preview window
-        nnoremap <silent> K :call <SID>show_documentation()<CR>
+""        nnoremap <silent> K :call <SID>show_documentation()<CR>
 
-        function! s:show_documentation()
-          if (index(['vim','help'], &filetype) >= 0)
-            execute 'h '.expand('<cword>')
-          else
-            call CocAction('doHover')
-          endif
-        endfunction
+""        function! s:show_documentation()
+""          if (index(['vim','help'], &filetype) >= 0)
+""            execute 'h '.expand('<cword>')
+""          else
+""            call CocAction('doHover')
+""          endif
+""        endfunction
 
         " Highlight symbol under cursor on CursorHold
         autocmd CursorHold * silent call CocActionAsync('highlight')
@@ -415,10 +414,10 @@ let g:plugins_dir=expand("~/.vim/plugged")
         " Remap for rename current word
         nmap <leader>rn <Plug>(coc-rename)
 
-        " Remap for format selected region
-        xmap <leader>f  <Plug>(coc-format-selected)
-        nmap <leader>f  <Plug>(coc-format-selected)
-
+""        " Remap for format selected region
+""        xmap <leader>f  <Plug>(coc-format-selected)
+""        nmap <leader>f  <Plug>(coc-format-selected)
+""
         augroup mygroup
           autocmd!
           " Setup formatexpr specified filetype(s).
@@ -437,9 +436,9 @@ let g:plugins_dir=expand("~/.vim/plugged")
         nmap <leader>qf  <Plug>(coc-fix-current)
 
         " Use <tab> for select selections ranges, needs server support, like: coc-tsserver, coc-python
-        nmap <silent> <TAB> <Plug>(coc-range-select)
-        xmap <silent> <TAB> <Plug>(coc-range-select)
-        xmap <silent> <S-TAB> <Plug>(coc-range-select-backword)
+        ""nmap <silent> <TAB> <Plug>(coc-range-select)
+        ""xmap <silent> <TAB> <Plug>(coc-range-select)
+        ""xmap <silent> <S-TAB> <Plug>(coc-range-select-backword)
 
         " Use `:Format` to format current buffer
         command! -nargs=0 Format :call CocAction('format')
