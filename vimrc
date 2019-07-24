@@ -3,6 +3,10 @@
 "
 " Cleaned environment
 "
+let g:plugins_dir=expand("~/.vim/plugged")
+let g:python3_host_dir = expand($HOME.'/venv3/')
+let g:python3_host_prog = $HOME.'/venv3/bin/python'
+
 " OS_Environment {
 
     " Identify platform {
@@ -33,7 +37,26 @@
     " }
 " }
 "
+" activate python virtualenv environment for vim {
+py3 << EOF
+import os
+import sys
 
+if 'VIRTUAL_ENV' in os.environ:
+    project_base_dir = os.environ['VIRTUAL_ENV']
+else:
+    project_base_dir = os.path.join(os.environ['HOME'],'venv3/')
+
+activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+with open(activate_this) as f:
+    code = compile(f.read(), "activate_this.py", 'exec')
+    exec(code, dict(__file__=activate_this))
+
+os.environ['HOME']
+EOF
+
+"
+" }
 " Leader definition {
     let mapleader = ','
 "}
@@ -42,13 +65,24 @@
 "
 
     function! IsPluginInstalled(name)
+        " echom "Asked to check for: >".a:name."<"
+        let s:plugin_fqpath = g:plugins_dir."/".a:name
+        " Check if the Plugin is part of the runtimepath
         let s:myrtp = split((&rtp), ',')
-        if matchstr(s:myrtp, a:name) != ""
-            unlet s:myrtp
-            return 1
+        " echom s:myrtp
+        " echom "Searching for >".s:plugin_fqpath."<"
+        if matchstr(s:myrtp, s:plugin_fqpath) != ""
+            " Found a bug that some plugin managers update the rtp even if
+            " they where not able to install the actual plugin.
+            " echom g:plugins_dir."/".a:name
+            " echom isdirectory(expand(g:plugins_dir."/".a:name))
+            if isdirectory(expand(g:plugins_dir."/".a:name))
+                unlet s:myrtp
+                return 1
+            endif
         endif
         unlet s:myrtp
-    endfunc
+    endfunction
     "
     function! StripTrailingWhitespace()
         " Preparation: save last search, and cursor position.
@@ -244,6 +278,20 @@
         nmap <leader>f8 :set foldlevel=8<CR>
         nmap <leader>f9 :set foldlevel=9<CR>
     "
+    " buffers
+        nmap <leader>1 <Plug>AirlineSelectTab1
+        nmap <leader>2 <Plug>AirlineSelectTab2
+        nmap <leader>3 <Plug>AirlineSelectTab3
+        nmap <leader>4 <Plug>AirlineSelectTab4
+        nmap <leader>5 <Plug>AirlineSelectTab5
+        nmap <leader>6 <Plug>AirlineSelectTab6
+        nmap <leader>7 <Plug>AirlineSelectTab7
+        nmap <leader>8 <Plug>AirlineSelectTab8
+        nmap <leader>9 <Plug>AirlineSelectTab9
+
+    " Select the whole file
+        nnoremap <c-a> <esc>ggVG
+
     " Wrapped lines goes down/up to next row, rather than next line in file.
         noremap j gj
         noremap k gk
@@ -340,6 +388,12 @@
         let g:airline_powerline_fonts = 0
         "let g:airline_theme='jellybeans'
     endif
+
+    if IsPluginInstalled('ctrlp.vim')
+        let g:ctrlp_map = '<p>'
+    endif
+
+
 "}
 " Programming {
     " Trailing blanks
