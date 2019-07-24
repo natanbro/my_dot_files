@@ -388,6 +388,12 @@ EOF
         let g:airline_powerline_fonts = 0
         "let g:airline_theme='jellybeans'
     endif
+
+    if IsPluginInstalled('ctrlp.vim')
+        let g:ctrlp_map = '<p>'
+    endif
+
+
 "}
 "
 " Coc-configuration {

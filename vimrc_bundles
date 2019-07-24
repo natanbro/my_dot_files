@@ -35,6 +35,11 @@ endfunction
             Plug 'vim-airline/vim-airline'
             Plug 'vim-airline/vim-airline-themes'
 
+            "fuzzy file
+            "Plug 'junegunn/fzf'
+            "Plug 'junegunn/fzf.vim'
+            Plug 'https://github.com/kien/ctrlp.vim.git'
+
         "}
         "
         " Language Server {
