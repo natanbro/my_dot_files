@@ -237,6 +237,8 @@ EOF
           set guifont=Andale_Mono:h12,Menlo:h12,Consolas:h12,Courier_New:h12
         endif
       endif
+      colorscheme default
+      set bg=light
 
     " }
     "
@@ -341,6 +343,34 @@ EOF
     imap <c-f> <esc>mx[s1z=`xa
   " vertical split
     nmap <leader>! :vsplit<CR>
+
+  " Terminal mode
+    tmap <esc><esc> <c-\><c-n>
+
+    tmap <leader>1  <C-\><C-n><Plug>AirlineSelectTab1
+    tmap <leader>2  <C-\><C-n><Plug>AirlineSelectTab2
+    tmap <leader>3  <C-\><C-n><Plug>AirlineSelectTab3
+    tmap <leader>4  <C-\><C-n><Plug>AirlineSelectTab4
+    tmap <leader>5  <C-\><C-n><Plug>AirlineSelectTab5
+    tmap <leader>6  <C-\><C-n><Plug>AirlineSelectTab6
+    tmap <leader>7  <C-\><C-n><Plug>AirlineSelectTab7
+    tmap <leader>8  <C-\><C-n><Plug>AirlineSelectTab8
+    tmap <leader>9  <C-\><C-n><Plug>AirlineSelectTab9
+
+    tmap <c-j> <C-\><C-n>:bnext<cr>
+    tmap <c-k> :<C-\><C-n>bprevious<cr>
+
+  " Easy change between Windows
+    tmap <C-L> <<C-\><C-n>C-W>l
+    tmap <C-H> <C-\><C-n><C-W>h
+
+      " Use alt keys
+    tmap <A-l> <C-\><C-n><C-W>l
+    tmap <A-h> <C-\><C-n><C-W>h
+    tmap <A-j> <C-\><C-n><C-W>j
+    tmap <A-k> <C-\><C-n><C-W>k
+
+
 "}}}
 
 " Setup Vim-Plug ----------------------------------------------------------{{{
@@ -629,7 +659,8 @@ EOF
    call deoplete#custom#source('ultisnips', 'matchers', ['matcher_fuzzy'])
 
    " Close the documentation window when completion is done
-   autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+   " autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+   autocmd InsertLeave,CompleteDone * if pumvisible() != 0 | pclose | endif
 
     """":  if !exists('g:deoplete#sources')
     """":    let g:deoplete#sources={}
