@@ -1,4 +1,4 @@
-" vim: set tabstop=2 shiftwidth=2 expandtab:
+" vim: set sw=2 ts=2 sts=2 et tw=78 foldmarker={,} foldlevel=9 foldmethod=marker nowrap:
 " Python venvs ------------------------------------------------------------{{{
 
   let g:plugins_dir = expand('~/.local/share/nvim/plugged')
@@ -42,6 +42,24 @@
     " }
   " }
   "
+" activate python virtualenv environment for vim {
+py3 << EOF
+import os
+import sys
+
+if 'VIRTUAL_ENV' in os.environ:
+    project_base_dir = os.environ['VIRTUAL_ENV']
+else:
+    project_base_dir = os.path.join(os.environ['HOME'],'venv3/')
+
+activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+with open(activate_this) as f:
+    code = compile(f.read(), "activate_this.py", 'exec')
+    exec(code, dict(__file__=activate_this))
+
+os.environ['HOME']
+EOF
+
   " Plug {
   function! UpgradePlugins()
     " TODO: update packages in nvim pyenvs
@@ -338,13 +356,21 @@
 " syntax
   Plug 'sheerun/vim-polyglot'
   Plug 'benekastah/neomake'
-  "Plug 'rust-lang/rust.vim'
 
 " buffer management
   Plug 'moll/vim-bbye'
 
 " color
   Plug 'nanotech/jellybeans.vim'
+  Plug 'https://github.com/natanbro/browny_vim.git'
+  Plug 'altercation/vim-colors-solarized'
+  Plug 'spf13/vim-colors'
+  Plug 'https://github.com/reedes/vim-colors-pencil.git'
+  Plug 'NLKNguyen/papercolor-theme'
+  Plug 'muellan/am-colors'
+  Plug 'josuegaleas/jay'
+  Plug 'morhetz/gruvbox'
+  Plug 'mkarmona/materialbox'
 
 " git
   Plug 'tpope/vim-fugitive'
@@ -361,6 +387,9 @@
     \ 'do': 'bash install.sh',
     \ }
   Plug 'junegunn/fzf'
+  Plug 'junegunn/fzf.vim'
+  Plug 'https://github.com/kien/ctrlp.vim.git'
+
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
   Plug 'xolox/vim-lua-ftplugin', { 'for': 'lua' } " lua
 
@@ -372,7 +401,13 @@
   Plug 'itchyny/vim-cursorword' " highlight word under cursor
   Plug 'scrooloose/nerdtree'
   " Plug 'powerman/vim-plugin-viewdoc' " Doc integration
-  Plug 'majutsushi/tagbar'
+  Plug 'https://github.com/tomtom/tcomment_vim'
+  Plug 'godlygeek/tabular'
+  Plug 'luochen1990/rainbow'
+  if executable('ctags')
+      Plug 'majutsushi/tagbar'
+  endif
+  Plug 'https://github.com/adelarsq/vim-matchit'
 
 " Language Servers
 
@@ -392,6 +427,8 @@
 " movement
   Plug 'tpope/vim-surround'
   Plug 'ficoos/plumb.vim'
+  Plug 'easymotion/vim-easymotion'
+  Plug 'https://github.com/tpope/vim-repeat.git'
 
 " denite
   Plug 'Shougo/denite.nvim'
@@ -399,6 +436,15 @@
 
 " config
   Plug 'editorconfig/editorconfig-vim'
+
+" Python
+  Plug 'python/black'
+
+" yaml
+  Plug 'stephpy/vim-yaml'
+  "
+  " rst
+  " Plug 'https://github.com/Rykka/riv.vim.git'
 
 " finish set up
   call plug#end()
@@ -463,14 +509,19 @@
   endif
 
   if IsPluginInstalled('ctrlp.vim')
-    let g:ctrlp_map = '<p>'
+    nmap <c-p> :CtrlP<cr>
+
   endif
 
-
+  if IsPluginInstalled("black") && executable('black')
+    let g:black_linelength = 78
+    let g:black_skip_string_normalization = 1
+  endif
 
  " Programming {
      " Trailing blanks
      autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,yaml,perl,sql autocmd BufWritePre <buffer>  call StripTrailingWhitespace()
+     autocmd FileType yaml,yml,md,vim autocmd BufWritePre <buffer>  call StripTrailingWhitespace()
 
      " restructuredtext
      autocmd FileType rst setlocal tw=81 foldenable spell linebreak colorcolumn=80 maxmempattern=40000
