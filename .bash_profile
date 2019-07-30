@@ -1,5 +1,8 @@
 # echo bash_profile
 # .bash_profile
+if [ -z "$BASHRCPROFILE_SOURCED" ]; then
+    export BASHRCPROFILE_SOURCED="Y"
+fi
 
 # Get the aliases and functions
 #if [ -f ~/.bashrc ]; then
@@ -41,6 +44,8 @@ export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 # PS1='\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 
 # Git branch support
+[ -f /usr/share/git-core/contrib/completion/git-prompt.sh ] && . /usr/share/git-core/contrib/completion/git-prompt.sh
+[ -f /usr/share/bash-completion/completions/git ] && . /usr/share/bash-completion/completions/git
 parse_git_branch() {
  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
 }
@@ -66,7 +71,7 @@ export PATH
 # export PS1=${PS1%?}"\n$ " 
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
 PS1=${PS1%?}
 PS1=${PS1%?}\n'$ '
 export PS1
