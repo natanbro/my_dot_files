@@ -343,6 +343,8 @@ EOF
     imap <c-f> <esc>mx[s1z=`xa
   " vertical split
     nmap <leader>! :vsplit<CR>
+    nmap <leader>- :split<CR>
+    nmap <leader>c <C-w>c
 
   " Terminal mode
     tmap <esc><esc> <c-\><c-n>
