@@ -347,6 +347,8 @@ EOF
     nmap <leader>c <C-w>c
 
   " Terminal mode
+    nmap <leader>t :e term://bash<cr>
+
     tmap <esc><esc> <c-\><c-n>
 
     tmap <leader>1  <C-\><C-n><Plug>AirlineSelectTab1
@@ -371,6 +373,7 @@ EOF
     tmap <A-h> <C-\><C-n><C-W>h
     tmap <A-j> <C-\><C-n><C-W>j
     tmap <A-k> <C-\><C-n><C-W>k
+
 
 
 "}}}
