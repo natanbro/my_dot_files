@@ -1,7 +1,7 @@
 " vim: set sw=4 ts=4 sts=4 et tw=78 foldmarker={,} foldlevel=9 foldmethod=marker spell nowrap:
 
 " https://github.com/junegunn/vim-plug call {
-    call plug#begin('~/.vim/plugged') "{
+    call plug#begin(g:plugins_dir) "{
         "IDE {
             Plug 'scrooloose/nerdtree'
             Plug 'tpope/vim-surround'
@@ -25,6 +25,11 @@
             " decorate
             Plug 'vim-airline/vim-airline'
             Plug 'vim-airline/vim-airline-themes'
+
+            "fuzzy file
+            "Plug 'junegunn/fzf'
+            "Plug 'junegunn/fzf.vim'
+            Plug 'https://github.com/kien/ctrlp.vim.git'
 
         "}
         "
@@ -56,7 +61,7 @@
         " }
         "
         " rst {
-            "Plug 'https://github.com/Rykka/riv.vim.git'
+            Plug 'https://github.com/Rykka/riv.vim.git'
         "
         " }
 

@@ -428,7 +428,7 @@
   let g:viewdoc_only=0
   let g:viewdoc_openempty=0
   nmap <leader>D :doc! <cword><CR>
-  let g:viewdoc_godoc_cmd='go doc'
+  let g:viewdoc_godoc_cmd='go docf'
 "
 
 " plumb -------------------------------------------------------------------{{{
@@ -452,5 +452,12 @@
   let g:localvimrc_persistent=2
 "}}}
 
+  let g:LanguageClient_serverCommands = {
+    \ 'rust':   ['rls'],
+    \ 'c'   :   [g:plug_home.'/ccls/Release/ccls'],
+    \ 'cpp' :   [g:plug_home.'/ccls/Release/ccls'],
+    \ 'go'  :   ['bingo'],
+    \ 'python': [g:plug_home.'/pyls-vimplug/pyls'],
+    \ }
 " vim: set tabstop=2 shiftwidth=2 expandtab:
 
