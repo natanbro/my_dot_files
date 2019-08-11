@@ -452,7 +452,7 @@ EOF
   function! BuildPyls(info)
     !./install.sh
   endfunction
-  Plug 'ficoos/pyls-vimplug', { 'do': function('BuildPyls') }
+  Plug 'natanbro/pyls-vimplug', { 'do': function('BuildPyls') }
 
   function! BuildCCLS(info)
     !cmake -H. -BRelease && cmake --build Release
