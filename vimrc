@@ -232,7 +232,7 @@ EOF
         if LINUX() && has("gui")
           set guifont=Andale\ Mono\ Regular\ 11,Menlo\ Regular\ 11,Consolas\ Regular\ 11,Courier\ New\ Regular\ 11
         elseif OSX() && has("gui")
-          set guifont=Andale\ Mono\ Regular:h16,Menlo\ Regular:h14,Consolas\ Regular:h14,Courier\ New\ Regular:h14
+          set guifont=Andale\ Mono\ Regular:h16,Menlo\ Regular:h16,Consolas\ Regular:h16,Courier\ New\ Regular:h16
         elseif WINDOWS() && has("gui")
           set guifont=Andale_Mono:h12,Menlo:h12,Consolas:h12,Courier_New:h12
         endif
@@ -557,152 +557,19 @@ EOF
 
 "}}}
 
-
-  " Denite ----------------------------------------------------------------{{{
-"@@   if IsPluginInstalled('denite.nvim')
-"@@     call denite#custom#option('default', 'prompt', '»')
-"@@     call denite#custom#option('default', 'auto-resize', 1)
-"@@     call denite#custom#option('default', 'direction', 'botright')
-"@@     call denite#custom#source('default', 'matchers', ['matcher_cpsm'])
-"@@
-"@@     " Change mappings.
-"@@     call denite#custom#map(
-"@@           \ 'insert',
-"@@           \ '<down>',
-"@@           \ '<denite:move_to_next_line>',
-"@@           \ 'noremap'
-"@@           \)
-"@@     call denite#custom#map(
-"@@           \ 'insert',
-"@@           \ '<up>',
-"@@           \ '<denite:move_to_previous_line>',
-"@@           \ 'noremap'
-"@@           \)
-"@@
-"@@     function! CtrlP()
-"@@       call denite#start(b:ctrlp_sources)
-"@@     endfunction
-"@@
-"@@     function! DetectSources()
-"@@       if exists('b:ctrlp_sources')
-"@@         return
-"@@       endif
-"@@
-"@@       let b:ctrlp_sources = []
-"@@       silent! !git status
-"@@       if v:shell_error == 0
-"@@         call add(b:ctrlp_sources, {'name': 'git', 'args': []})
-"@@         call add(b:ctrlp_sources, {'name': 'git-other', 'args': []})
-"@@         silent! !git config --file .gitmodules --list
-"@@         if v:shell_error == 0
-"@@           call add(b:ctrlp_sources, {'name': 'git-submodules', 'args': []})
-"@@         endif
-"@@       else
-"@@         call add(b:ctrlp_sources, {'name': 'file/rec', 'args': []})
-"@@       endif
-"@@     endfunction
-
-""":   au BufEnter * call DetectSources()
-""":   nnoremap <silent> <c-p> :call CtrlP() <CR>
-""":   nnoremap <silent> <c-j> :Denite -auto-resize -direction=botright location_list<CR>
-""":   nnoremap <silent> <a-p> :DeniteCursorWord -auto-resize -direction=botright grep<CR>
-""":   nnoremap <silent> <a-s-p> :Denite -auto-resize -direction=botright grep<CR>
-""":   nnoremap <silent> <c-a-o> :Denite -auto-resize -direction=botright outline<CR>
-""":   nnoremap <leader>\ :Denite -auto-resize -direction=botright command<CR>
-
-""   call denite#custom#alias('source', 'git', 'file/rec')
-""   call denite#custom#var('git', 'command',
-""         \['git',
-""         \ 'ls-files',
-""         \ '-c'])
-""
-""   call denite#custom#alias('source', 'git-other', 'file/rec')
-""   call denite#custom#var('git-other', 'command',
-""         \['git',
-""         \ 'ls-files',
-""         \ '-o',
-""         \ '--exclude-standard'])
-""
-""   call denite#custom#alias('source', 'git-submodules', 'file/rec')
-""   call denite#custom#var('git-submodules', 'command',
-""         \['sh', '-c',
-""         \ 'git config --file .gitmodules --get-regexp path | cut -d " " -f2- | xargs git ls-files --recurse-submodules'])
-""
-""   call denite#custom#var('file/rec', 'command',
-""         \['ag',
-""         \'--follow',
-""         \'--nocolor',
-""         \'--nogroup',
-""         \'-g', ''])
-"@@   endif
-  "}}}
-
-  " Depolete --------------------------------------------------------------{{{
-"@@  if IsPluginInstalled('deoplete.nvim')
-"@@    set completeopt=menuone,noinsert
-"@@    let g:deoplete#enable_at_startup = 1
-"@@    let g:deoplete#auto_completion_start_length = 1
-"@@    let g:deoplete#enable_smart_case = 1
-"@@    " set omni complete
-"@@    if !exists('g:deoplete#omni#input_patterns')
-"@@      let g:deoplete#omni#input_patterns = {}
-"@@    endif
-"@@    call deoplete#custom#source('ultisnips', 'matchers', ['matcher_fuzzy'])
-"@@
-"@@    " Close the documentation window when completion is done
-"@@    " autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-"@@    autocmd InsertLeave,CompleteDone * if pumvisible() != 0 | pclose | endif
-"@@
-"@@     """":  if !exists('g:deoplete#sources')
-"@@     """":    let g:deoplete#sources={}
-"@@     """":  endif
-"@@     """":  let g:deoplete#sources._=['buffer', 'file', 'ultisnips']
-"@@     """":  let g:deoplete#sources.python=['buffer', 'file', 'ultisnips', 'LanguageClient']
-"@@     """":  let g:deoplete#sources.rust=['ultisnips', 'LanguageClient']
-"@@     """":  let g:deoplete#sources.cpp=['ultisnips', 'LanguageClient']
-"@@     """":  let g:deoplete#sources.c=['ultisnips', 'LanguageClient']
-"@@     """":  let g:deoplete#sources.go=['ultisnips', 'LanguageClient']
-"@@     """":
-"@@     """":  let g:LanguageClient_hasSnippetSupport = 0
-"@@     """":
-"@@
-"@@   endif
-  " }}}
-  "
-"@@  function! SetLSPShortcuts()
-"@@    nnoremap <leader>ld :call LanguageClient#textDocument_definition()<CR>
-"@@    nnoremap <leader>lr :call LanguageClient#textDocument_rename()<CR>
-"@@    nnoremap <leader>lf :call LanguageClient#textDocument_formatting()<CR>
-"@@    nnoremap <leader>lt :call LanguageClient#textDocument_typeDefinition()<CR>
-"@@    nnoremap <leader>lx :call LanguageClient#textDocument_references()<CR>
-"@@    nnoremap <leader>la :call LanguageClient_workspace_applyEdit()<CR>
-"@@    nnoremap <leader>lc :call LanguageClient#textDocument_completion()<CR>
-"@@    nnoremap <leader>lh :call LanguageClient#textDocument_hover()<CR>
-"@@    nnoremap <leader>ls :Denite -auto-resize -direction=botright documentSymbol<CR>
-"@@    nnoremap <leader>lS :Denite -auto-resize -direction=botright workspaceSymbol<CR>
-"@@    nnoremap <leader>lm :call LanguageClient_contextMenu()<CR>
-"@@
-"@@    nnoremap <F1> :Denite -auto-resize -direction=botright contextMenu<CR>
-"@@    nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
-"@@  endfunction()
-"""
-"@@  augroup LSP
-"@@    autocmd!
-"@@    autocmd FileType cpp,c,go,rust,python call SetLSPShortcuts()
-"@@  augroup END
-"@@
-"@@  let g:LanguageClient_serverCommands = {
-"@@   \ 'rust':   ['rls'],
-"@@   \ 'c'   :   [g:plug_home.'/ccls/Release/ccls'],
-"@@   \ 'cpp' :   [g:plug_home.'/ccls/Release/ccls'],
-"@@   \ 'go'  :   ['bingo'],
-"@@   \ 'python': [g:plug_home.'/pyls-vimplug/pyls'],
-"@@   \ }
-"@@ "   ""}}}
-
- nmap <F12> :nohl<CR>:call LanguageClient_clearDocumentHighlight()<CR>
-
  :highlight ExtraWhitespace ctermbg=darkgreen guibg=lightgreen
  :au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
  :au InsertLeave * match ExtraWhitespace /\s\+$/
+
+ " Writing {
+ "
+ augroup textobj_quote
+  autocmd!
+  autocmd FileType markdown call textobj#quote#init()
+  autocmd FileType textile call textobj#quote#init()
+  autocmd FileType text call textobj#quote#init({'educate': 0})
+augroup END
+
+
+ " }
 " vim: set tabstop=2 shiftwidth=2 expandtab:
