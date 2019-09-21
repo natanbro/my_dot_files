@@ -382,15 +382,11 @@ EOF
   call plug#begin(g:plugins_dir)
 
 " aux
-  Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-  Plug 'xolox/vim-misc'
+  "@@ Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+  "@@ Plug 'xolox/vim-misc'
   Plug 'embear/vim-localvimrc'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-
-" syntax
-  Plug 'sheerun/vim-polyglot'
-  Plug 'benekastah/neomake'
+  "@@ Plug 'roxma/nvim-yarp'
+  "@@ Plug 'roxma/vim-hug-neovim-rpc'
 
 " buffer management
   Plug 'moll/vim-bbye'
@@ -402,7 +398,6 @@ EOF
   Plug 'spf13/vim-colors'
   Plug 'https://github.com/reedes/vim-colors-pencil.git'
   Plug 'NLKNguyen/papercolor-theme'
-  Plug 'muellan/am-colors'
   Plug 'josuegaleas/jay'
   Plug 'morhetz/gruvbox'
   Plug 'mkarmona/materialbox'
@@ -416,17 +411,9 @@ EOF
   Plug 'vim-airline/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
 
-" autocomplete
-  Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
-  Plug 'junegunn/fzf'
-  Plug 'junegunn/fzf.vim'
-  Plug 'https://github.com/kien/ctrlp.vim.git'
 
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  Plug 'xolox/vim-lua-ftplugin', { 'for': 'lua' } " lua
+  "@@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  "@@ Plug 'xolox/vim-lua-ftplugin', { 'for': 'lua' } " lua
 
 " snippets
   Plug 'SirVer/ultisnips'
@@ -435,51 +422,50 @@ EOF
 " IDE
   Plug 'itchyny/vim-cursorword' " highlight word under cursor
   Plug 'scrooloose/nerdtree'
-  " Plug 'powerman/vim-plugin-viewdoc' " Doc integration
-  Plug 'https://github.com/tomtom/tcomment_vim'
   Plug 'godlygeek/tabular'
   Plug 'luochen1990/rainbow'
   if executable('ctags')
       Plug 'majutsushi/tagbar'
   endif
   Plug 'https://github.com/adelarsq/vim-matchit'
+  Plug 'https://github.com/kien/ctrlp.vim'
 
-" Language Servers
+  " substitute preview
+  Plug 'osyo-manga/vim-over'
 
-  " The reason we use a function is because we want to get the event
-  " even if the package is unchanged as the updates are not tracked in
-  " this repo
-  function! BuildPyls(info)
-    !./install.sh
-  endfunction
-  Plug 'natanbro/pyls-vimplug', { 'do': function('BuildPyls') }
-
-  function! BuildCCLS(info)
-    !cmake -H. -BRelease && cmake --build Release
-  endfunction
-  Plug 'MaskRay/ccls', { 'do': function('BuildCCLS') }
 
 " movement
   Plug 'tpope/vim-surround'
-  Plug 'ficoos/plumb.vim'
   Plug 'easymotion/vim-easymotion'
   Plug 'https://github.com/tpope/vim-repeat.git'
 
-" denite
-  Plug 'Shougo/denite.nvim'
-  Plug 'nixprime/cpsm'
+" Languages
+  Plug 'plasticboy/vim-markdown'
+  Plug 'iamcco/markdown-preview.nvim', {'do': 'yarn install'}
 
-" config
-  Plug 'editorconfig/editorconfig-vim'
+" writing
 
-" Python
-  Plug 'python/black'
+  " Create your own text objects
+  Plug 'kana/vim-textobj-user'
 
-" yaml
-  Plug 'stephpy/vim-yaml'
-  "
-  " rst
-  " Plug 'https://github.com/Rykka/riv.vim.git'
+  " Text objects for indented blocks of lines
+  Plug 'kana/vim-textobj-indent'
+
+  " Smart selection of the closest text object
+  Plug 'gcmt/wildfire.vim'
+
+
+  " Improving on Vim's native sentence text object and motion
+  Plug 'reedes/vim-textobj-sentence'
+
+  " Use ‘curly’ quote characters in Vim
+  Plug 'reedes/vim-textobj-quote'
+
+  " Highlight current paragraph
+  Plug 'junegunn/limelight.vim'
+
+  " Distraction free writing
+  Plug 'junegunn/goyo.vim'
 
 " finish set up
   call plug#end()
@@ -517,16 +503,16 @@ EOF
     let g:nerdtree_tabs_open_on_gui_startup=0
   endif
 "
-  if IsPluginInstalled("ultisnips")
-    let g:UltiSnipsSnippetDirectories=["/home/natan/ultisnips", "UltiSnips"]
-    let g:UltiSnipsUsePythonVersion = 3
-        " let g:UltiSnipsExpandTrigger="<c-space>"
-        " let g:UltiSnipsJumpForwardTrigger="<c-l>"
-        " let g:UltiSnipsJumpBackwardTrigger="<c-h>"
-
-        " :UltiSnipsEdit will to split your window.
-    let g:UltiSnipsEditSplit="vertical"
-  endif
+  "@@ if IsPluginInstalled("ultisnips")
+  "@@   let g:UltiSnipsSnippetDirectories=["/home/natan/ultisnips", "UltiSnips"]
+  "@@   let g:UltiSnipsUsePythonVersion = 3
+  "@@       " let g:UltiSnipsExpandTrigger="<c-space>"
+  "@@       " let g:UltiSnipsJumpForwardTrigger="<c-l>"
+  "@@       " let g:UltiSnipsJumpBackwardTrigger="<c-h>"
+"@@
+"@@         " :UltiSnipsEdit will to split your window.
+"@@     let g:UltiSnipsEditSplit="vertical"
+"@@   endif
 "
   if IsPluginInstalled('vim-airline')
     let g:airline#extensions#tagbar#enabled = 1
@@ -556,7 +542,7 @@ EOF
  " Programming {
      " Trailing blanks
      autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,yaml,perl,sql autocmd BufWritePre <buffer>  call StripTrailingWhitespace()
-     autocmd FileType yaml,yml,md,vim autocmd BufWritePre <buffer>  call StripTrailingWhitespace()
+     autocmd FileType yaml,yml,vim autocmd BufWritePre <buffer>  call StripTrailingWhitespace()
 
      " restructuredtext
      autocmd FileType rst setlocal tw=81 foldenable spell linebreak colorcolumn=80 maxmempattern=40000
@@ -573,48 +559,48 @@ EOF
 
 
   " Denite ----------------------------------------------------------------{{{
-  if IsPluginInstalled('denite.nvim')
-    call denite#custom#option('default', 'prompt', '»')
-    call denite#custom#option('default', 'auto-resize', 1)
-    call denite#custom#option('default', 'direction', 'botright')
-    call denite#custom#source('default', 'matchers', ['matcher_cpsm'])
-
-    " Change mappings.
-    call denite#custom#map(
-          \ 'insert',
-          \ '<down>',
-          \ '<denite:move_to_next_line>',
-          \ 'noremap'
-          \)
-    call denite#custom#map(
-          \ 'insert',
-          \ '<up>',
-          \ '<denite:move_to_previous_line>',
-          \ 'noremap'
-          \)
-
-    function! CtrlP()
-      call denite#start(b:ctrlp_sources)
-    endfunction
-
-    function! DetectSources()
-      if exists('b:ctrlp_sources')
-        return
-      endif
-
-      let b:ctrlp_sources = []
-      silent! !git status
-      if v:shell_error == 0
-        call add(b:ctrlp_sources, {'name': 'git', 'args': []})
-        call add(b:ctrlp_sources, {'name': 'git-other', 'args': []})
-        silent! !git config --file .gitmodules --list
-        if v:shell_error == 0
-          call add(b:ctrlp_sources, {'name': 'git-submodules', 'args': []})
-        endif
-      else
-        call add(b:ctrlp_sources, {'name': 'file/rec', 'args': []})
-      endif
-    endfunction
+"@@   if IsPluginInstalled('denite.nvim')
+"@@     call denite#custom#option('default', 'prompt', '»')
+"@@     call denite#custom#option('default', 'auto-resize', 1)
+"@@     call denite#custom#option('default', 'direction', 'botright')
+"@@     call denite#custom#source('default', 'matchers', ['matcher_cpsm'])
+"@@
+"@@     " Change mappings.
+"@@     call denite#custom#map(
+"@@           \ 'insert',
+"@@           \ '<down>',
+"@@           \ '<denite:move_to_next_line>',
+"@@           \ 'noremap'
+"@@           \)
+"@@     call denite#custom#map(
+"@@           \ 'insert',
+"@@           \ '<up>',
+"@@           \ '<denite:move_to_previous_line>',
+"@@           \ 'noremap'
+"@@           \)
+"@@
+"@@     function! CtrlP()
+"@@       call denite#start(b:ctrlp_sources)
+"@@     endfunction
+"@@
+"@@     function! DetectSources()
+"@@       if exists('b:ctrlp_sources')
+"@@         return
+"@@       endif
+"@@
+"@@       let b:ctrlp_sources = []
+"@@       silent! !git status
+"@@       if v:shell_error == 0
+"@@         call add(b:ctrlp_sources, {'name': 'git', 'args': []})
+"@@         call add(b:ctrlp_sources, {'name': 'git-other', 'args': []})
+"@@         silent! !git config --file .gitmodules --list
+"@@         if v:shell_error == 0
+"@@           call add(b:ctrlp_sources, {'name': 'git-submodules', 'args': []})
+"@@         endif
+"@@       else
+"@@         call add(b:ctrlp_sources, {'name': 'file/rec', 'args': []})
+"@@       endif
+"@@     endfunction
 
 """:   au BufEnter * call DetectSources()
 """:   nnoremap <silent> <c-p> :call CtrlP() <CR>
@@ -648,71 +634,71 @@ EOF
 ""         \'--nocolor',
 ""         \'--nogroup',
 ""         \'-g', ''])
-  endif
+"@@   endif
   "}}}
 
   " Depolete --------------------------------------------------------------{{{
- if IsPluginInstalled('deoplete.nvim')
-   set completeopt=menuone,noinsert
-   let g:deoplete#enable_at_startup = 1
-   let g:deoplete#auto_completion_start_length = 1
-   let g:deoplete#enable_smart_case = 1
-   " set omni complete
-   if !exists('g:deoplete#omni#input_patterns')
-     let g:deoplete#omni#input_patterns = {}
-   endif
-   call deoplete#custom#source('ultisnips', 'matchers', ['matcher_fuzzy'])
-
-   " Close the documentation window when completion is done
-   " autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-   autocmd InsertLeave,CompleteDone * if pumvisible() != 0 | pclose | endif
-
-    """":  if !exists('g:deoplete#sources')
-    """":    let g:deoplete#sources={}
-    """":  endif
-    """":  let g:deoplete#sources._=['buffer', 'file', 'ultisnips']
-    """":  let g:deoplete#sources.python=['buffer', 'file', 'ultisnips', 'LanguageClient']
-    """":  let g:deoplete#sources.rust=['ultisnips', 'LanguageClient']
-    """":  let g:deoplete#sources.cpp=['ultisnips', 'LanguageClient']
-    """":  let g:deoplete#sources.c=['ultisnips', 'LanguageClient']
-    """":  let g:deoplete#sources.go=['ultisnips', 'LanguageClient']
-    """":
-    """":  let g:LanguageClient_hasSnippetSupport = 0
-    """":
-
-  endif
+"@@  if IsPluginInstalled('deoplete.nvim')
+"@@    set completeopt=menuone,noinsert
+"@@    let g:deoplete#enable_at_startup = 1
+"@@    let g:deoplete#auto_completion_start_length = 1
+"@@    let g:deoplete#enable_smart_case = 1
+"@@    " set omni complete
+"@@    if !exists('g:deoplete#omni#input_patterns')
+"@@      let g:deoplete#omni#input_patterns = {}
+"@@    endif
+"@@    call deoplete#custom#source('ultisnips', 'matchers', ['matcher_fuzzy'])
+"@@
+"@@    " Close the documentation window when completion is done
+"@@    " autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+"@@    autocmd InsertLeave,CompleteDone * if pumvisible() != 0 | pclose | endif
+"@@
+"@@     """":  if !exists('g:deoplete#sources')
+"@@     """":    let g:deoplete#sources={}
+"@@     """":  endif
+"@@     """":  let g:deoplete#sources._=['buffer', 'file', 'ultisnips']
+"@@     """":  let g:deoplete#sources.python=['buffer', 'file', 'ultisnips', 'LanguageClient']
+"@@     """":  let g:deoplete#sources.rust=['ultisnips', 'LanguageClient']
+"@@     """":  let g:deoplete#sources.cpp=['ultisnips', 'LanguageClient']
+"@@     """":  let g:deoplete#sources.c=['ultisnips', 'LanguageClient']
+"@@     """":  let g:deoplete#sources.go=['ultisnips', 'LanguageClient']
+"@@     """":
+"@@     """":  let g:LanguageClient_hasSnippetSupport = 0
+"@@     """":
+"@@
+"@@   endif
   " }}}
   "
- function! SetLSPShortcuts()
-   nnoremap <leader>ld :call LanguageClient#textDocument_definition()<CR>
-   nnoremap <leader>lr :call LanguageClient#textDocument_rename()<CR>
-   nnoremap <leader>lf :call LanguageClient#textDocument_formatting()<CR>
-   nnoremap <leader>lt :call LanguageClient#textDocument_typeDefinition()<CR>
-   nnoremap <leader>lx :call LanguageClient#textDocument_references()<CR>
-   nnoremap <leader>la :call LanguageClient_workspace_applyEdit()<CR>
-   nnoremap <leader>lc :call LanguageClient#textDocument_completion()<CR>
-   nnoremap <leader>lh :call LanguageClient#textDocument_hover()<CR>
-   nnoremap <leader>ls :Denite -auto-resize -direction=botright documentSymbol<CR>
-   nnoremap <leader>lS :Denite -auto-resize -direction=botright workspaceSymbol<CR>
-   nnoremap <leader>lm :call LanguageClient_contextMenu()<CR>
-
-   nnoremap <F1> :Denite -auto-resize -direction=botright contextMenu<CR>
-   nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
- endfunction()
+"@@  function! SetLSPShortcuts()
+"@@    nnoremap <leader>ld :call LanguageClient#textDocument_definition()<CR>
+"@@    nnoremap <leader>lr :call LanguageClient#textDocument_rename()<CR>
+"@@    nnoremap <leader>lf :call LanguageClient#textDocument_formatting()<CR>
+"@@    nnoremap <leader>lt :call LanguageClient#textDocument_typeDefinition()<CR>
+"@@    nnoremap <leader>lx :call LanguageClient#textDocument_references()<CR>
+"@@    nnoremap <leader>la :call LanguageClient_workspace_applyEdit()<CR>
+"@@    nnoremap <leader>lc :call LanguageClient#textDocument_completion()<CR>
+"@@    nnoremap <leader>lh :call LanguageClient#textDocument_hover()<CR>
+"@@    nnoremap <leader>ls :Denite -auto-resize -direction=botright documentSymbol<CR>
+"@@    nnoremap <leader>lS :Denite -auto-resize -direction=botright workspaceSymbol<CR>
+"@@    nnoremap <leader>lm :call LanguageClient_contextMenu()<CR>
+"@@
+"@@    nnoremap <F1> :Denite -auto-resize -direction=botright contextMenu<CR>
+"@@    nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+"@@  endfunction()
 """
- augroup LSP
-   autocmd!
-   autocmd FileType cpp,c,go,rust,python call SetLSPShortcuts()
- augroup END
-
- let g:LanguageClient_serverCommands = {
-  \ 'rust':   ['rls'],
-  \ 'c'   :   [g:plug_home.'/ccls/Release/ccls'],
-  \ 'cpp' :   [g:plug_home.'/ccls/Release/ccls'],
-  \ 'go'  :   ['bingo'],
-  \ 'python': [g:plug_home.'/pyls-vimplug/pyls'],
-  \ }
-"   ""}}}
+"@@  augroup LSP
+"@@    autocmd!
+"@@    autocmd FileType cpp,c,go,rust,python call SetLSPShortcuts()
+"@@  augroup END
+"@@
+"@@  let g:LanguageClient_serverCommands = {
+"@@   \ 'rust':   ['rls'],
+"@@   \ 'c'   :   [g:plug_home.'/ccls/Release/ccls'],
+"@@   \ 'cpp' :   [g:plug_home.'/ccls/Release/ccls'],
+"@@   \ 'go'  :   ['bingo'],
+"@@   \ 'python': [g:plug_home.'/pyls-vimplug/pyls'],
+"@@   \ }
+"@@ "   ""}}}
 
  nmap <F12> :nohl<CR>:call LanguageClient_clearDocumentHighlight()<CR>
 
