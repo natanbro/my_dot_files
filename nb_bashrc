@@ -95,5 +95,17 @@ if [ -z "$NBBASHRCSOURCED" ]; then
     PS1=${PS1%?}
     PS1=${PS1%?}\n'$ '
     export PS1
+
+    if [ ! -d "${HOME}/.npm-packages" ]
+    then
+       mkdir "${HOME}/.npm-packages"
+    fi
+
+    # Make npm local to user
+    npm config set prefix "${HOME}/.npm-packages"
+    NPM_PACKAGES="${HOME}/.npm-packages"
+
+    export PATH="$NPM_PACKAGES/bin:$PATH"
+
 fi
 
