@@ -382,11 +382,7 @@ EOF
   call plug#begin(g:plugins_dir)
 
 " aux
-  "@@ Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-  "@@ Plug 'xolox/vim-misc'
   Plug 'embear/vim-localvimrc'
-  "@@ Plug 'roxma/nvim-yarp'
-  "@@ Plug 'roxma/vim-hug-neovim-rpc'
 
 " buffer management
   Plug 'moll/vim-bbye'
@@ -411,9 +407,6 @@ EOF
   Plug 'vim-airline/vim-airline'
   Plug 'vim-airline/vim-airline-themes'
 
-
-  "@@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  "@@ Plug 'xolox/vim-lua-ftplugin', { 'for': 'lua' } " lua
 
 " snippets
   Plug 'SirVer/ultisnips'
@@ -441,25 +434,26 @@ EOF
 
 " Languages
   Plug 'plasticboy/vim-markdown'
+  " Plug 'natanbro/vim_spanish_md'
   Plug 'iamcco/markdown-preview.nvim', {'do': 'yarn install'}
 
 " writing
 
   " Create your own text objects
-  Plug 'kana/vim-textobj-user'
+  " Plug 'kana/vim-textobj-user'
 
   " Text objects for indented blocks of lines
-  Plug 'kana/vim-textobj-indent'
+  " Plug 'kana/vim-textobj-indent'
 
   " Smart selection of the closest text object
-  Plug 'gcmt/wildfire.vim'
+  " Plug 'gcmt/wildfire.vim'
 
 
   " Improving on Vim's native sentence text object and motion
-  Plug 'reedes/vim-textobj-sentence'
+  " Plug 'reedes/vim-textobj-sentence'
 
   " Use ‘curly’ quote characters in Vim
-  Plug 'reedes/vim-textobj-quote'
+  " Plug 'reedes/vim-textobj-quote'
 
   " Highlight current paragraph
   Plug 'junegunn/limelight.vim'
@@ -563,12 +557,48 @@ EOF
 
  " Writing {
  "
- augroup textobj_quote
-  autocmd!
-  autocmd FileType markdown call textobj#quote#init()
-  autocmd FileType textile call textobj#quote#init()
-  autocmd FileType text call textobj#quote#init({'educate': 0})
-augroup END
+
+function! Mde_spanish()
+  " Markdown in spanish
+	setl filetype=markdown
+  setl fileencoding=utf-8
+  setl encoding=utf-8
+  setl spell
+  setl spelllang=es
+  setl wrap
+  setl textwidth=0
+  setl linebreak
+  setl breakat=79
+  setl breakindent
+  setl sw=4
+  setl ts=4
+
+  inoremap << «
+  inoremap >> »
+
+  inoremap a' á
+  inoremap A' Á
+  inoremap e' é
+  inoremap E' É
+  inoremap i' í
+  inoremap I' Í
+  inoremap o' ó
+  inoremap O' Ó
+  inoremap u' ú
+  inoremap U' Ú
+  inoremap nn ñ
+  inoremap NN Ñ
+  inoremap u: ü
+  inoremap U: Ü
+  inoremap ?? ¿
+  inoremap !! ¡
+  inoremap -- –
+endfunc
+
+aug mde
+   au!
+   autocmd! BufRead,BufNewFile *.{mde,mds,mdspanish} call Mde_spanish()
+augroup end
 
 
  " }
