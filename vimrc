@@ -2,7 +2,7 @@
 " Python venvs ------------------------------------------------------------{{{
 
   let g:plugins_dir = expand('~/.local/share/nvim/plugged')
-  let g:python_host_prog = $HOME.'/.config/nvim/pyenv2/bin/python'
+"  let g:python_host_prog = $HOME.'/.config/nvim/pyenv2/bin/python'
   let g:python3_host_prog = $HOME.'/.config/nvim/pyenv3/bin/python'
 "}}}
 "
@@ -43,35 +43,35 @@
   " }
   "
 " activate python virtualenv environment for vim {
-py3 << EOF
-import os
-import sys
+""" NB: py3 << EOF
+""" NB: import os
+""" NB: import sys
+""" NB:
+""" NB: if 'VIRTUAL_ENV' in os.environ:
+""" NB:     project_base_dir = os.environ['VIRTUAL_ENV']
+""" NB: else:
+""" NB:     project_base_dir = os.path.join(os.environ['HOME'],'venv3/')
+""" NB:
+""" NB: activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+""" NB: with open(activate_this) as f:
+""" NB:     code = compile(f.read(), "activate_this.py", 'exec')
+""" NB:     exec(code, dict(__file__=activate_this))
+""" NB:
+""" NB: os.environ['HOME']
+""" NB: EOF
 
-if 'VIRTUAL_ENV' in os.environ:
-    project_base_dir = os.environ['VIRTUAL_ENV']
-else:
-    project_base_dir = os.path.join(os.environ['HOME'],'venv3/')
-
-activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-with open(activate_this) as f:
-    code = compile(f.read(), "activate_this.py", 'exec')
-    exec(code, dict(__file__=activate_this))
-
-os.environ['HOME']
-EOF
-
-  " Plug {
-  function! UpgradePlugins()
-    " TODO: update packages in nvim pyenvs
-    " upgrade vim-plug itself
-    :PlugUpgrade
-    " upgrade the vim-go binaries
-    :call GoUpdateBinaries()
-    " upgrade the plugins
-    :PlugUpdate
-  endfunction
-  nnoremap <silent> <leader>u :call UpgradePlugins()<CR>
-  "}
+""" NB:   " Plug {
+""" NB:   function! UpgradePlugins()
+""" NB:     " TODO: update packages in nvim pyenvs
+""" NB:     " upgrade vim-plug itself
+""" NB:     :PlugUpgrade
+""" NB:     " upgrade the vim-go binaries
+""" NB:     :call GoUpdateBinaries()
+""" NB:     " upgrade the plugins
+""" NB:     :PlugUpdate
+""" NB:   endfunction
+""" NB:   nnoremap <silent> <leader>u :call UpgradePlugins()<CR>
+""" NB:   "}
 
   function! IsPluginInstalled(name)
     " echom "Asked to check for: >".a:name."<"
@@ -158,10 +158,8 @@ EOF
 
       set virtualedit=onemore,block       " Allow for cursor beyond last character
       set history=1000                    " Store a ton of history (default is 20)
-      set nospell                         " Spell checking off
       set hidden                          " Allow buffer switching without saving
       set number
-      set relativenumber
 
       set iskeyword-=.                    " '.' is an end of word designator
       set iskeyword-=#                    " '#' is an end of word designator
@@ -214,6 +212,9 @@ EOF
 
   " Vim UI {
       set cursorline                  " Highlight current line
+
+      " always show signcolumns
+      set signcolumn=yes
 
       highlight clear SignColumn      " SignColumn should match background
       highlight clear LineNr          " Current line number row will have same background color in relative mode
@@ -287,17 +288,6 @@ EOF
     nmap <leader>f8 :set foldlevel=8<CR>
     nmap <leader>f9 :set foldlevel=9<CR>
   "
-  " buffers
-    nmap <leader>1 <Plug>AirlineSelectTab1
-    nmap <leader>2 <Plug>AirlineSelectTab2
-    nmap <leader>3 <Plug>AirlineSelectTab3
-    nmap <leader>4 <Plug>AirlineSelectTab4
-    nmap <leader>5 <Plug>AirlineSelectTab5
-    nmap <leader>6 <Plug>AirlineSelectTab6
-    nmap <leader>7 <Plug>AirlineSelectTab7
-    nmap <leader>8 <Plug>AirlineSelectTab8
-    nmap <leader>9 <Plug>AirlineSelectTab9
-
   " Select the whole file
     nnoremap <c-a> <esc>ggVG
 
@@ -350,16 +340,6 @@ EOF
     nmap <leader>t :e term://bash<cr>
 
     tmap <esc><esc> <c-\><c-n>
-
-    tmap <leader>1  <C-\><C-n><Plug>AirlineSelectTab1
-    tmap <leader>2  <C-\><C-n><Plug>AirlineSelectTab2
-    tmap <leader>3  <C-\><C-n><Plug>AirlineSelectTab3
-    tmap <leader>4  <C-\><C-n><Plug>AirlineSelectTab4
-    tmap <leader>5  <C-\><C-n><Plug>AirlineSelectTab5
-    tmap <leader>6  <C-\><C-n><Plug>AirlineSelectTab6
-    tmap <leader>7  <C-\><C-n><Plug>AirlineSelectTab7
-    tmap <leader>8  <C-\><C-n><Plug>AirlineSelectTab8
-    tmap <leader>9  <C-\><C-n><Plug>AirlineSelectTab9
 
     tmap <c-j> <C-\><C-n>:bnext<cr>
     tmap <c-k> :<C-\><C-n>bprevious<cr>
@@ -417,18 +397,20 @@ EOF
   Plug 'vim-airline/vim-airline-themes'
 
 " autocomplete
-  Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
+
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  """ NB: Plug 'autozimu/LanguageClient-neovim', {
+  """ NB:   \ 'branch': 'next',
+  """ NB:   \ 'do': 'bash install.sh',
+  """ NB:   \ }
   Plug 'junegunn/fzf'
   Plug 'junegunn/fzf.vim'
   Plug 'https://github.com/kien/ctrlp.vim.git'
 
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  Plug 'xolox/vim-lua-ftplugin', { 'for': 'lua' } " lua
+  """ NB: Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  """ NB: Plug 'xolox/vim-lua-ftplugin', { 'for': 'lua' } " lua
 
-" snippets
+  " NB: snippets
   Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
 
@@ -449,25 +431,25 @@ EOF
   " The reason we use a function is because we want to get the event
   " even if the package is unchanged as the updates are not tracked in
   " this repo
-  function! BuildPyls(info)
-    !./install.sh
-  endfunction
-  Plug 'natanbro/pyls-vimplug', { 'do': function('BuildPyls') }
+  """ NB: function! BuildPyls(info)
+  """ NB:   !./install.sh
+  """ NB: endfunction
+  """ NB: Plug 'natanbro/pyls-vimplug', { 'do': function('BuildPyls') }
 
-  function! BuildCCLS(info)
-    !cmake -H. -BRelease && cmake --build Release
-  endfunction
-  Plug 'MaskRay/ccls', { 'do': function('BuildCCLS') }
+  """ NB: function! BuildCCLS(info)
+  """ NB:   !cmake -H. -BRelease && cmake --build Release
+  """ NB: endfunction
+  """ NB: Plug 'MaskRay/ccls', { 'do': function('BuildCCLS') }
 
 " movement
   Plug 'tpope/vim-surround'
-  Plug 'ficoos/plumb.vim'
+  """ NB: Plug 'ficoos/plumb.vim'
   Plug 'easymotion/vim-easymotion'
   Plug 'https://github.com/tpope/vim-repeat.git'
 
 " denite
-  Plug 'Shougo/denite.nvim'
-  Plug 'nixprime/cpsm'
+  """ NB: Plug 'Shougo/denite.nvim'
+  """ NB: Plug 'nixprime/cpsm'
 
 " config
   Plug 'editorconfig/editorconfig-vim'
@@ -490,6 +472,117 @@ EOF
 
 " Plugins configuration ---------------------------------------------------{{{
 "
+
+" coc config
+let g:coc_global_extensions = [
+  \ 'coc-snippets',
+  \ 'coc-pairs',
+  \ 'coc-tsserver',
+  \ 'coc-eslint',
+  \ 'coc-prettier',
+  \ 'coc-json',
+  \ 'coc-python',
+  \ 'coc-markdownlint'
+  \ ]
+" from readme
+" if hidden is not set, TextEdit might fail.
+set updatetime=300
+
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" Or use `complete_info` if your vim support it, like:
+" inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" Remap keys for gotos
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
+" Remap for rename current word
+nmap <F2> <Plug>(coc-rename)
+
+" Remap for format selected region
+xmap <leader>f  <Plug>(coc-format-selected)
+nmap <leader>f  <Plug>(coc-format-selected)
+
+augroup cocgroup
+  autocmd!
+  " Setup formatexpr specified filetype(s).
+  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+  " Update signature help on jump placeholder
+  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+augroup end
+
+" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+
+" Remap for do codeAction of current line
+nmap <leader>ac  <Plug>(coc-codeaction)
+" Fix autofix problem of current line
+nmap <leader>qf  <Plug>(coc-fix-current)
+
+" Create mappings for function text object, requires document symbols feature of languageserver.
+xmap if <Plug>(coc-funcobj-i)
+xmap af <Plug>(coc-funcobj-a)
+omap if <Plug>(coc-funcobj-i)
+omap af <Plug>(coc-funcobj-a)
+
+" Use `:Format` to format current buffer
+command! -nargs=0 Format :call CocAction('format')
+
+" Use `:Fold` to fold current buffer
+command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+
+" use `:OR` for organize import of current buffer
+command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+
+" Add status line support, for integration with other plugin, checkout `:h coc-status`
+set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+
+" Using CocList
+" Show all diagnostics
+nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+" Manage extensions
+nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+" Show commands
+nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+" Find symbol of current document
+nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+" Search workspace symbols
+nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+" Do default action for next item.
+nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+" Do default action for previous item.
+nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+" Resume latest coc list
+nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+
+
   if IsPluginInstalled("nerdtree")
     function! IsNerdTreeEnabled()
       return exists('t:NERDTreeBufName') && bufwinnr(t:NERDTreeBufName) != -1
@@ -541,6 +634,29 @@ EOF
     let g:airline_right_alt_sep = ''
     let g:airline_powerline_fonts = 0
     "let g:airline_theme='jellybeans'
+    "
+
+    " buffers
+    nmap <leader>1 <Plug>AirlineSelectTab1
+    nmap <leader>2 <Plug>AirlineSelectTab2
+    nmap <leader>3 <Plug>AirlineSelectTab3
+    nmap <leader>4 <Plug>AirlineSelectTab4
+    nmap <leader>5 <Plug>AirlineSelectTab5
+    nmap <leader>6 <Plug>AirlineSelectTab6
+    nmap <leader>7 <Plug>AirlineSelectTab7
+    nmap <leader>8 <Plug>AirlineSelectTab8
+    nmap <leader>9 <Plug>AirlineSelectTab9
+
+    tmap <leader>1  <C-\><C-n><Plug>AirlineSelectTab1
+    tmap <leader>2  <C-\><C-n><Plug>AirlineSelectTab2
+    tmap <leader>3  <C-\><C-n><Plug>AirlineSelectTab3
+    tmap <leader>4  <C-\><C-n><Plug>AirlineSelectTab4
+    tmap <leader>5  <C-\><C-n><Plug>AirlineSelectTab5
+    tmap <leader>6  <C-\><C-n><Plug>AirlineSelectTab6
+    tmap <leader>7  <C-\><C-n><Plug>AirlineSelectTab7
+    tmap <leader>8  <C-\><C-n><Plug>AirlineSelectTab8
+    tmap <leader>9  <C-\><C-n><Plug>AirlineSelectTab9
+
   endif
 
   if IsPluginInstalled('ctrlp.vim')
@@ -567,55 +683,55 @@ EOF
 
 " Python development ------------------------------------------------------{{{
 
-  let g:neomake_python_enabled_makers = [] " we use LSP
+""" NB:  let g:neomake_python_enabled_makers = [] " we use LSP
 
 "}}}
 
 
   " Denite ----------------------------------------------------------------{{{
-  if IsPluginInstalled('denite.nvim')
-    call denite#custom#option('default', 'prompt', '»')
-    call denite#custom#option('default', 'auto-resize', 1)
-    call denite#custom#option('default', 'direction', 'botright')
-    call denite#custom#source('default', 'matchers', ['matcher_cpsm'])
+""" NB:  if IsPluginInstalled('denite.nvim')
+""" NB:    call denite#custom#option('default', 'prompt', '»')
+""" NB:    call denite#custom#option('default', 'auto-resize', 1)
+""" NB:    call denite#custom#option('default', 'direction', 'botright')
+""" NB:    call denite#custom#source('default', 'matchers', ['matcher_cpsm'])
 
     " Change mappings.
-    call denite#custom#map(
-          \ 'insert',
-          \ '<down>',
-          \ '<denite:move_to_next_line>',
-          \ 'noremap'
-          \)
-    call denite#custom#map(
-          \ 'insert',
-          \ '<up>',
-          \ '<denite:move_to_previous_line>',
-          \ 'noremap'
-          \)
-
-    function! CtrlP()
-      call denite#start(b:ctrlp_sources)
-    endfunction
-
-    function! DetectSources()
-      if exists('b:ctrlp_sources')
-        return
-      endif
-
-      let b:ctrlp_sources = []
-      silent! !git status
-      if v:shell_error == 0
-        call add(b:ctrlp_sources, {'name': 'git', 'args': []})
-        call add(b:ctrlp_sources, {'name': 'git-other', 'args': []})
-        silent! !git config --file .gitmodules --list
-        if v:shell_error == 0
-          call add(b:ctrlp_sources, {'name': 'git-submodules', 'args': []})
-        endif
-      else
-        call add(b:ctrlp_sources, {'name': 'file/rec', 'args': []})
-      endif
-    endfunction
-
+""" NB:    call denite#custom#map(
+""" NB:          \ 'insert',
+""" NB:          \ '<down>',
+""" NB:          \ '<denite:move_to_next_line>',
+""" NB:          \ 'noremap'
+""" NB:          \)
+""" NB:    call denite#custom#map(
+""" NB:          \ 'insert',
+""" NB:          \ '<up>',
+""" NB:          \ '<denite:move_to_previous_line>',
+""" NB:          \ 'noremap'
+""" NB:          \)
+""" NB:
+""" NB:    function! CtrlP()
+""" NB:      call denite#start(b:ctrlp_sources)
+""" NB:    endfunction
+""" NB:
+""" NB:    function! DetectSources()
+""" NB:      if exists('b:ctrlp_sources')
+""" NB:        return
+""" NB:      endif
+""" NB:
+""" NB:      let b:ctrlp_sources = []
+""" NB:      silent! !git status
+""" NB:      if v:shell_error == 0
+""" NB:        call add(b:ctrlp_sources, {'name': 'git', 'args': []})
+""" NB:        call add(b:ctrlp_sources, {'name': 'git-other', 'args': []})
+""" NB:        silent! !git config --file .gitmodules --list
+""" NB:        if v:shell_error == 0
+""" NB:          call add(b:ctrlp_sources, {'name': 'git-submodules', 'args': []})
+""" NB:        endif
+""" NB:      else
+""" NB:        call add(b:ctrlp_sources, {'name': 'file/rec', 'args': []})
+""" NB:      endif
+""" NB:    endfunction
+""" NB:
 """:   au BufEnter * call DetectSources()
 """:   nnoremap <silent> <c-p> :call CtrlP() <CR>
 """:   nnoremap <silent> <c-j> :Denite -auto-resize -direction=botright location_list<CR>
@@ -648,24 +764,24 @@ EOF
 ""         \'--nocolor',
 ""         \'--nogroup',
 ""         \'-g', ''])
-  endif
+"""  endif
   "}}}
 
   " Depolete --------------------------------------------------------------{{{
- if IsPluginInstalled('deoplete.nvim')
-   set completeopt=menuone,noinsert
-   let g:deoplete#enable_at_startup = 1
-   let g:deoplete#auto_completion_start_length = 1
-   let g:deoplete#enable_smart_case = 1
-   " set omni complete
-   if !exists('g:deoplete#omni#input_patterns')
-     let g:deoplete#omni#input_patterns = {}
-   endif
-   call deoplete#custom#source('ultisnips', 'matchers', ['matcher_fuzzy'])
-
-   " Close the documentation window when completion is done
-   " autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-   autocmd InsertLeave,CompleteDone * if pumvisible() != 0 | pclose | endif
+""" NB:  if IsPluginInstalled('deoplete.nvim')
+""" NB:    set completeopt=menuone,noinsert
+""" NB:    let g:deoplete#enable_at_startup = 1
+""" NB:    let g:deoplete#auto_completion_start_length = 1
+""" NB:    let g:deoplete#enable_smart_case = 1
+""" NB:    " set omni complete
+""" NB:    if !exists('g:deoplete#omni#input_patterns')
+""" NB:      let g:deoplete#omni#input_patterns = {}
+""" NB:    endif
+""" NB:    call deoplete#custom#source('ultisnips', 'matchers', ['matcher_fuzzy'])
+""" NB:
+""" NB:    " Close the documentation window when completion is done
+""" NB:    " autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+""" NB:    autocmd InsertLeave,CompleteDone * if pumvisible() != 0 | pclose | endif
 
     """":  if !exists('g:deoplete#sources')
     """":    let g:deoplete#sources={}
@@ -680,41 +796,40 @@ EOF
     """":  let g:LanguageClient_hasSnippetSupport = 0
     """":
 
-  endif
   " }}}
   "
- function! SetLSPShortcuts()
-   nnoremap <leader>ld :call LanguageClient#textDocument_definition()<CR>
-   nnoremap <leader>lr :call LanguageClient#textDocument_rename()<CR>
-   nnoremap <leader>lf :call LanguageClient#textDocument_formatting()<CR>
-   nnoremap <leader>lt :call LanguageClient#textDocument_typeDefinition()<CR>
-   nnoremap <leader>lx :call LanguageClient#textDocument_references()<CR>
-   nnoremap <leader>la :call LanguageClient_workspace_applyEdit()<CR>
-   nnoremap <leader>lc :call LanguageClient#textDocument_completion()<CR>
-   nnoremap <leader>lh :call LanguageClient#textDocument_hover()<CR>
-   nnoremap <leader>ls :Denite -auto-resize -direction=botright documentSymbol<CR>
-   nnoremap <leader>lS :Denite -auto-resize -direction=botright workspaceSymbol<CR>
-   nnoremap <leader>lm :call LanguageClient_contextMenu()<CR>
-
-   nnoremap <F1> :Denite -auto-resize -direction=botright contextMenu<CR>
-   nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
- endfunction()
-"""
- augroup LSP
-   autocmd!
-   autocmd FileType cpp,c,go,rust,python call SetLSPShortcuts()
- augroup END
-
- let g:LanguageClient_serverCommands = {
-  \ 'rust':   ['rls'],
-  \ 'c'   :   [g:plug_home.'/ccls/Release/ccls'],
-  \ 'cpp' :   [g:plug_home.'/ccls/Release/ccls'],
-  \ 'go'  :   ['bingo'],
-  \ 'python': [g:plug_home.'/pyls-vimplug/pyls'],
-  \ }
-"   ""}}}
-
- nmap <F12> :nohl<CR>:call LanguageClient_clearDocumentHighlight()<CR>
+""" NB:  function! SetLSPShortcuts()
+""" NB:    nnoremap <leader>ld :call LanguageClient#textDocument_definition()<CR>
+""" NB:    nnoremap <leader>lr :call LanguageClient#textDocument_rename()<CR>
+""" NB:    nnoremap <leader>lf :call LanguageClient#textDocument_formatting()<CR>
+""" NB:    nnoremap <leader>lt :call LanguageClient#textDocument_typeDefinition()<CR>
+""" NB:    nnoremap <leader>lx :call LanguageClient#textDocument_references()<CR>
+""" NB:    nnoremap <leader>la :call LanguageClient_workspace_applyEdit()<CR>
+""" NB:    nnoremap <leader>lc :call LanguageClient#textDocument_completion()<CR>
+""" NB:    nnoremap <leader>lh :call LanguageClient#textDocument_hover()<CR>
+""" NB:    nnoremap <leader>ls :Denite -auto-resize -direction=botright documentSymbol<CR>
+""" NB:    nnoremap <leader>lS :Denite -auto-resize -direction=botright workspaceSymbol<CR>
+""" NB:    nnoremap <leader>lm :call LanguageClient_contextMenu()<CR>
+""" NB:
+""" NB:    nnoremap <F1> :Denite -auto-resize -direction=botright contextMenu<CR>
+""" NB:    nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
+""" NB:  endfunction()
+""" NB: """
+""" NB:  augroup LSP
+""" NB:    autocmd!
+""" NB:    autocmd FileType cpp,c,go,rust,python call SetLSPShortcuts()
+""" NB:  augroup END
+""" NB:
+""" NB:  let g:LanguageClient_serverCommands = {
+""" NB:   \ 'rust':   ['rls'],
+""" NB:   \ 'c'   :   [g:plug_home.'/ccls/Release/ccls'],
+""" NB:   \ 'cpp' :   [g:plug_home.'/ccls/Release/ccls'],
+""" NB:   \ 'go'  :   ['bingo'],
+""" NB:   \ 'python': [g:plug_home.'/pyls-vimplug/pyls'],
+""" NB:   \ }
+""" NB: "   ""}}}
+""" NB:
+""" NB:  nmap <F12> :nohl<CR>:call LanguageClient_clearDocumentHighlight()<CR>
 
  :highlight ExtraWhitespace ctermbg=darkgreen guibg=lightgreen
  :au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
