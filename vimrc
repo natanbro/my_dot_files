@@ -462,6 +462,9 @@
   "
   " rst
   " Plug 'https://github.com/Rykka/riv.vim.git'
+  "
+" Markdown
+  Plug 'https://github.com/plasticboy/vim-markdown/'
 
 " finish set up
   call plug#end()
@@ -482,7 +485,8 @@ let g:coc_global_extensions = [
   \ 'coc-prettier',
   \ 'coc-json',
   \ 'coc-python',
-  \ 'coc-markdownlint'
+  \ 'coc-markdownlint',
+  \ 'coc-vetur'
   \ ]
 " from readme
 " if hidden is not set, TextEdit might fail.
@@ -834,4 +838,48 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
  :highlight ExtraWhitespace ctermbg=darkgreen guibg=lightgreen
  :au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
  :au InsertLeave * match ExtraWhitespace /\s\+$/
+
+
+function! Mde_spanish()
+  " Markdown in spanish
+	setl filetype=markdown
+  setl fileencoding=utf-8
+  setl encoding=utf-8
+  setl spell
+  setl spelllang=es
+  setl wrap
+  setl textwidth=0
+  setl linebreak
+  setl breakat=79
+  setl breakindent
+  setl sw=4
+  setl ts=4
+
+  inoremap << «
+  inoremap >> »
+
+  inoremap a' á
+  inoremap A' Á
+  inoremap e' é
+  inoremap E' É
+  inoremap i' í
+  inoremap I' Í
+  inoremap o' ó
+  inoremap O' Ó
+  inoremap u' ú
+  inoremap U' Ú
+  inoremap nn ñ
+  inoremap NN Ñ
+  inoremap u: ü
+  inoremap U: Ü
+  inoremap ?? ¿
+  inoremap !! ¡
+  inoremap -- –
+endfunc
+
+aug mde
+   au!
+   autocmd! BufRead,BufNewFile *.{mde,mds,mdspanish} call Mde_spanish()
+augroup end
+
 " vim: set tabstop=2 shiftwidth=2 expandtab:
