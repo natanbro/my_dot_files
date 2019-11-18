@@ -466,6 +466,10 @@
 " Markdown
   Plug 'https://github.com/plasticboy/vim-markdown/'
 
+
+" wiki
+  Plug 'https://github.com/vimwiki/vimwiki'
+
 " finish set up
   call plug#end()
   filetype plugin indent on
@@ -668,9 +672,18 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
   endif
 
+  if IsPluginInstalled('vim-localvimrc')
+    let g:localvimrc_ask = 0
+  endif
+
   if IsPluginInstalled("black") && executable('black')
     let g:black_linelength = 78
     let g:black_skip_string_normalization = 1
+  endif
+
+
+  if IsPluginInstalled("vimwiki")
+
   endif
 
  " Programming {
