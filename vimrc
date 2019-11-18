@@ -233,7 +233,7 @@
         if LINUX() && has("gui")
           set guifont=Andale\ Mono\ Regular\ 11,Menlo\ Regular\ 11,Consolas\ Regular\ 11,Courier\ New\ Regular\ 11
         elseif OSX() && has("gui")
-          set guifont=Andale\ Mono\ Regular:h16,Menlo\ Regular:h14,Consolas\ Regular:h14,Courier\ New\ Regular:h14
+          set guifont=Andale\ Mono\ Regular:h16,Menlo\ Regular:h16,Consolas\ Regular:h16,Courier\ New\ Regular:h16
         elseif WINDOWS() && has("gui")
           set guifont=Andale_Mono:h12,Menlo:h12,Consolas:h12,Courier_New:h12
         endif
@@ -466,6 +466,11 @@
 " Markdown
   Plug 'https://github.com/plasticboy/vim-markdown/'
 
+ " Highlight current paragraph
+  Plug 'junegunn/limelight.vim'
+
+  " Distraction free writing
+  Plug 'junegunn/goyo.vim'
 
 " wiki
   Plug 'https://github.com/vimwiki/vimwiki'
@@ -895,4 +900,6 @@ aug mde
    autocmd! BufRead,BufNewFile *.{mde,mds,mdspanish} call Mde_spanish()
 augroup end
 
+
+ " }
 " vim: set tabstop=2 shiftwidth=2 expandtab:
