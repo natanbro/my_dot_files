@@ -676,7 +676,7 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
   endif
 
   if IsPluginInstalled("black")
-    let g:black_virtualenv=g:python3_host_prog
+    " let g:black_virtualenv=g:python3_host_prog
     let g:black_linelength = 78
     let g:black_skip_string_normalization = 1
   endif
@@ -871,20 +871,22 @@ function! Mde_spanish()
   inoremap << «
   inoremap >> »
 
-  inoremap a' á
-  inoremap A' Á
-  inoremap e' é
-  inoremap E' É
-  inoremap i' í
-  inoremap I' Í
-  inoremap o' ó
-  inoremap O' Ó
-  inoremap u' ú
-  inoremap U' Ú
+  inoremap 'a á
+  inoremap 'A Á
+  inoremap 'e é
+  inoremap 'E É
+  inoremap 'i í
+  inoremap 'I Í
+  inoremap 'o ó
+  inoremap 'O Ó
+  inoremap 'u ú
+  inoremap 'U Ú
+  inoremap ~n ñ
   inoremap nn ñ
+  inoremap ~N Ñ
   inoremap NN Ñ
-  inoremap u: ü
-  inoremap U: Ü
+  inoremap :u ü
+  inoremap :U Ü
   inoremap ?? ¿
   inoremap !! ¡
   inoremap -- –
