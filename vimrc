@@ -624,13 +624,7 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
   endif
 "
   if IsPluginInstalled("ultisnips")
-    let g:UltiSnipsSnippetDirectories=["/home/natan/ultisnips", "UltiSnips"]
-    let g:UltiSnipsUsePythonVersion = 3
-        " let g:UltiSnipsExpandTrigger="<c-space>"
-        " let g:UltiSnipsJumpForwardTrigger="<c-l>"
-        " let g:UltiSnipsJumpBackwardTrigger="<c-h>"
-
-        " :UltiSnipsEdit will to split your window.
+    let g:UltiSnipsSnippetDirectories=["~/ultisnips", "UltiSnips"]
     let g:UltiSnipsEditSplit="vertical"
   endif
 "
@@ -681,7 +675,8 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
     let g:localvimrc_ask = 0
   endif
 
-  if IsPluginInstalled("black") && executable('black')
+  if IsPluginInstalled("black")
+    let g:black_virtualenv=g:python3_host_prog
     let g:black_linelength = 78
     let g:black_skip_string_normalization = 1
   endif
