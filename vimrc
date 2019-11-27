@@ -387,6 +387,7 @@
   Plug 'morhetz/gruvbox'
   Plug 'mkarmona/materialbox'
 
+
 " git
   Plug 'tpope/vim-fugitive'
   Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -453,6 +454,10 @@
 
 " config
   Plug 'editorconfig/editorconfig-vim'
+
+" CSS Colors
+"  Plug 'https://github.com/skammer/vim-css-color.git'
+  Plug 'https://github.com/lilydjwg/colorizer.git'
 
 " Python
   Plug 'python/black'
