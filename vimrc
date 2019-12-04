@@ -386,7 +386,8 @@
   Plug 'josuegaleas/jay'
   Plug 'morhetz/gruvbox'
   Plug 'mkarmona/materialbox'
-
+  Plug 'https://github.com/vim-scripts/autumnleaf_modified.vim.git'
+  Plug 'https://github.com/baeuml/summerfruit256.vim.git'
 
 " git
   Plug 'tpope/vim-fugitive'
@@ -608,7 +609,15 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
     function! NERDTreeFindToggle()
       if IsNerdTreeEnabled()
-        :NERDTreeClose
+        " Check if NerdTree is the current buffer
+        if @% == t:NERDTreeBufName
+          " If Nerdtree is selected and the current buffer, goto the
+          " window it was open before entering NERDTree
+          wincmd w
+        else
+          :NERDTreeFocus
+        endif
+"        :NERDTreeClose
       else
         :NERDTreeFind
       endif
