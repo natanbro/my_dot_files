@@ -615,10 +615,12 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
           " window it was open before entering NERDTree
           wincmd w
         else
-          :NERDTreeFocus
+          :NERDTreeFind
         endif
 "        :NERDTreeClose
       else
+        :NERDTree
+        wincmd w
         :NERDTreeFind
       endif
     endfunction
