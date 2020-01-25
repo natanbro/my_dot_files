@@ -240,6 +240,7 @@
       endif
       colorscheme default
       set bg=light
+      hi pmenu guibg=white
 
     " }
     "
