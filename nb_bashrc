@@ -85,7 +85,7 @@ if [ -z "$NBBASHRCSOURCED" ]; then
     PATH=$PATH:$HOME/.local/bin:$HOME/bin
     #
     # Add path for golang
-    PATH=$PATH:/usr/local/go/bin:$HOME/go/bin
+    PATH=$PATH:/usr/local/go/bin:$HOME/go/bin:$HOME/.npm-packages/bin/
 
     export PATH
     # export PS1=${PS1%?}"\n$ " 
