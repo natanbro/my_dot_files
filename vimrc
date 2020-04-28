@@ -332,8 +332,12 @@
     map <c-k> :bprevious<cr>
 
   " Easy change between Windows
-    noremap <C-L> <C-W>l
-    noremap <C-H> <C-W>h
+    noremap <c-l> <c-w>l
+    noremap <c-h> <c-w>h
+    map <c-up> <c-w>k
+    map <c-down> <c-w>j
+    map <c-right> <c-w>l
+    map <c-left> <c-w>h
 
       " Use alt keys
     map <A-l> <C-W>l
