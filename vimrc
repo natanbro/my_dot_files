@@ -420,6 +420,8 @@
   "
 " Markdown
   Plug 'https://github.com/plasticboy/vim-markdown/'
+  Plug 'https://github.com/previm/previm/'
+  Plug 'https://github.com/tyru/open-browser.vim'
 
  " Highlight current paragraph
   Plug 'junegunn/limelight.vim'
