@@ -2,7 +2,6 @@
 " Python venvs ------------------------------------------------------------{{{
 
   let g:plugins_dir = expand('~/.local/share/nvim/plugged')
-"  let g:python_host_prog = $HOME.'/.config/nvim/pyenv2/bin/python'
   let g:python3_host_prog = $HOME.'/.config/nvim/pyenv3/bin/python'
 "}}}
 "
@@ -42,37 +41,6 @@
     " }
   " }
   "
-" activate python virtualenv environment for vim {
-""" NB: py3 << EOF
-""" NB: import os
-""" NB: import sys
-""" NB:
-""" NB: if 'VIRTUAL_ENV' in os.environ:
-""" NB:     project_base_dir = os.environ['VIRTUAL_ENV']
-""" NB: else:
-""" NB:     project_base_dir = os.path.join(os.environ['HOME'],'venv3/')
-""" NB:
-""" NB: activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-""" NB: with open(activate_this) as f:
-""" NB:     code = compile(f.read(), "activate_this.py", 'exec')
-""" NB:     exec(code, dict(__file__=activate_this))
-""" NB:
-""" NB: os.environ['HOME']
-""" NB: EOF
-
-""" NB:   " Plug {
-""" NB:   function! UpgradePlugins()
-""" NB:     " TODO: update packages in nvim pyenvs
-""" NB:     " upgrade vim-plug itself
-""" NB:     :PlugUpgrade
-""" NB:     " upgrade the vim-go binaries
-""" NB:     :call GoUpdateBinaries()
-""" NB:     " upgrade the plugins
-""" NB:     :PlugUpdate
-""" NB:   endfunction
-""" NB:   nnoremap <silent> <leader>u :call UpgradePlugins()<CR>
-""" NB:   "}
-
   function! IsPluginInstalled(name)
     " echom "Asked to check for: >".a:name."<"
     let s:plugin_fqpath = g:plugins_dir."/".a:name
@@ -168,7 +136,6 @@
 
       set backspace=indent,eol,start  " Backspace for dummies
       set linespace=0                 " No extra spaces between rows
-      set backspace=indent,eol,start  " Backspace for dummies
       set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too
       set belloff=all                 " Completely disable the bell for errors and pressing "ESC" on normal mode
 
@@ -402,17 +369,11 @@
 
 " autocomplete
 
-  Plug 'neoclide/coc.nvim', {'branch': 'release'}
-  """ NB: Plug 'autozimu/LanguageClient-neovim', {
-  """ NB:   \ 'branch': 'next',
-  """ NB:   \ 'do': 'bash install.sh',
-  """ NB:   \ }
   Plug 'junegunn/fzf'
   Plug 'junegunn/fzf.vim'
   Plug 'https://github.com/kien/ctrlp.vim.git'
 
   """ NB: Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  """ NB: Plug 'xolox/vim-lua-ftplugin', { 'for': 'lua' } " lua
 
   " NB: snippets
   Plug 'SirVer/ultisnips'
@@ -421,7 +382,6 @@
 " IDE
   Plug 'itchyny/vim-cursorword' " highlight word under cursor
   Plug 'scrooloose/nerdtree'
-  " Plug 'powerman/vim-plugin-viewdoc' " Doc integration
   Plug 'https://github.com/tomtom/tcomment_vim'
   Plug 'godlygeek/tabular'
   Plug 'luochen1990/rainbow'
@@ -431,23 +391,11 @@
   Plug 'https://github.com/adelarsq/vim-matchit'
 
 " Language Servers
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-  " The reason we use a function is because we want to get the event
-  " even if the package is unchanged as the updates are not tracked in
-  " this repo
-  """ NB: function! BuildPyls(info)
-  """ NB:   !./install.sh
-  """ NB: endfunction
-  """ NB: Plug 'natanbro/pyls-vimplug', { 'do': function('BuildPyls') }
-
-  """ NB: function! BuildCCLS(info)
-  """ NB:   !cmake -H. -BRelease && cmake --build Release
-  """ NB: endfunction
-  """ NB: Plug 'MaskRay/ccls', { 'do': function('BuildCCLS') }
 
 " movement
   Plug 'tpope/vim-surround'
-  """ NB: Plug 'ficoos/plumb.vim'
   Plug 'easymotion/vim-easymotion'
   Plug 'https://github.com/tpope/vim-repeat.git'
 
@@ -459,7 +407,6 @@
   Plug 'editorconfig/editorconfig-vim'
 
 " CSS Colors
-"  Plug 'https://github.com/skammer/vim-css-color.git'
   Plug 'https://github.com/lilydjwg/colorizer.git'
 
 " Python
@@ -718,154 +665,12 @@ nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
 " Python development ------------------------------------------------------{{{
 
-""" NB:  let g:neomake_python_enabled_makers = [] " we use LSP
-
 "}}}
 
-
-  " Denite ----------------------------------------------------------------{{{
-""" NB:  if IsPluginInstalled('denite.nvim')
-""" NB:    call denite#custom#option('default', 'prompt', '»')
-""" NB:    call denite#custom#option('default', 'auto-resize', 1)
-""" NB:    call denite#custom#option('default', 'direction', 'botright')
-""" NB:    call denite#custom#source('default', 'matchers', ['matcher_cpsm'])
-
-    " Change mappings.
-""" NB:    call denite#custom#map(
-""" NB:          \ 'insert',
-""" NB:          \ '<down>',
-""" NB:          \ '<denite:move_to_next_line>',
-""" NB:          \ 'noremap'
-""" NB:          \)
-""" NB:    call denite#custom#map(
-""" NB:          \ 'insert',
-""" NB:          \ '<up>',
-""" NB:          \ '<denite:move_to_previous_line>',
-""" NB:          \ 'noremap'
-""" NB:          \)
-""" NB:
-""" NB:    function! CtrlP()
-""" NB:      call denite#start(b:ctrlp_sources)
-""" NB:    endfunction
-""" NB:
-""" NB:    function! DetectSources()
-""" NB:      if exists('b:ctrlp_sources')
-""" NB:        return
-""" NB:      endif
-""" NB:
-""" NB:      let b:ctrlp_sources = []
-""" NB:      silent! !git status
-""" NB:      if v:shell_error == 0
-""" NB:        call add(b:ctrlp_sources, {'name': 'git', 'args': []})
-""" NB:        call add(b:ctrlp_sources, {'name': 'git-other', 'args': []})
-""" NB:        silent! !git config --file .gitmodules --list
-""" NB:        if v:shell_error == 0
-""" NB:          call add(b:ctrlp_sources, {'name': 'git-submodules', 'args': []})
-""" NB:        endif
-""" NB:      else
-""" NB:        call add(b:ctrlp_sources, {'name': 'file/rec', 'args': []})
-""" NB:      endif
-""" NB:    endfunction
-""" NB:
-""":   au BufEnter * call DetectSources()
-""":   nnoremap <silent> <c-p> :call CtrlP() <CR>
-""":   nnoremap <silent> <c-j> :Denite -auto-resize -direction=botright location_list<CR>
-""":   nnoremap <silent> <a-p> :DeniteCursorWord -auto-resize -direction=botright grep<CR>
-""":   nnoremap <silent> <a-s-p> :Denite -auto-resize -direction=botright grep<CR>
-""":   nnoremap <silent> <c-a-o> :Denite -auto-resize -direction=botright outline<CR>
-""":   nnoremap <leader>\ :Denite -auto-resize -direction=botright command<CR>
-
-""   call denite#custom#alias('source', 'git', 'file/rec')
-""   call denite#custom#var('git', 'command',
-""         \['git',
-""         \ 'ls-files',
-""         \ '-c'])
-""
-""   call denite#custom#alias('source', 'git-other', 'file/rec')
-""   call denite#custom#var('git-other', 'command',
-""         \['git',
-""         \ 'ls-files',
-""         \ '-o',
-""         \ '--exclude-standard'])
-""
-""   call denite#custom#alias('source', 'git-submodules', 'file/rec')
-""   call denite#custom#var('git-submodules', 'command',
-""         \['sh', '-c',
-""         \ 'git config --file .gitmodules --get-regexp path | cut -d " " -f2- | xargs git ls-files --recurse-submodules'])
-""
-""   call denite#custom#var('file/rec', 'command',
-""         \['ag',
-""         \'--follow',
-""         \'--nocolor',
-""         \'--nogroup',
-""         \'-g', ''])
-"""  endif
-  "}}}
-
   " Depolete --------------------------------------------------------------{{{
-""" NB:  if IsPluginInstalled('deoplete.nvim')
-""" NB:    set completeopt=menuone,noinsert
-""" NB:    let g:deoplete#enable_at_startup = 1
-""" NB:    let g:deoplete#auto_completion_start_length = 1
-""" NB:    let g:deoplete#enable_smart_case = 1
-""" NB:    " set omni complete
-""" NB:    if !exists('g:deoplete#omni#input_patterns')
-""" NB:      let g:deoplete#omni#input_patterns = {}
-""" NB:    endif
-""" NB:    call deoplete#custom#source('ultisnips', 'matchers', ['matcher_fuzzy'])
-""" NB:
-""" NB:    " Close the documentation window when completion is done
-""" NB:    " autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-""" NB:    autocmd InsertLeave,CompleteDone * if pumvisible() != 0 | pclose | endif
-
-    """":  if !exists('g:deoplete#sources')
-    """":    let g:deoplete#sources={}
-    """":  endif
-    """":  let g:deoplete#sources._=['buffer', 'file', 'ultisnips']
-    """":  let g:deoplete#sources.python=['buffer', 'file', 'ultisnips', 'LanguageClient']
-    """":  let g:deoplete#sources.rust=['ultisnips', 'LanguageClient']
-    """":  let g:deoplete#sources.cpp=['ultisnips', 'LanguageClient']
-    """":  let g:deoplete#sources.c=['ultisnips', 'LanguageClient']
-    """":  let g:deoplete#sources.go=['ultisnips', 'LanguageClient']
-    """":
-    """":  let g:LanguageClient_hasSnippetSupport = 0
-    """":
 
   " }}}
   "
-""" NB:  function! SetLSPShortcuts()
-""" NB:    nnoremap <leader>ld :call LanguageClient#textDocument_definition()<CR>
-""" NB:    nnoremap <leader>lr :call LanguageClient#textDocument_rename()<CR>
-""" NB:    nnoremap <leader>lf :call LanguageClient#textDocument_formatting()<CR>
-""" NB:    nnoremap <leader>lt :call LanguageClient#textDocument_typeDefinition()<CR>
-""" NB:    nnoremap <leader>lx :call LanguageClient#textDocument_references()<CR>
-""" NB:    nnoremap <leader>la :call LanguageClient_workspace_applyEdit()<CR>
-""" NB:    nnoremap <leader>lc :call LanguageClient#textDocument_completion()<CR>
-""" NB:    nnoremap <leader>lh :call LanguageClient#textDocument_hover()<CR>
-""" NB:    nnoremap <leader>ls :Denite -auto-resize -direction=botright documentSymbol<CR>
-""" NB:    nnoremap <leader>lS :Denite -auto-resize -direction=botright workspaceSymbol<CR>
-""" NB:    nnoremap <leader>lm :call LanguageClient_contextMenu()<CR>
-""" NB:
-""" NB:    nnoremap <F1> :Denite -auto-resize -direction=botright contextMenu<CR>
-""" NB:    nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
-""" NB:  endfunction()
-""" NB: """
-""" NB:  augroup LSP
-""" NB:    autocmd!
-""" NB:    autocmd FileType cpp,c,go,rust,python call SetLSPShortcuts()
-""" NB:  augroup END
-""" NB:
-""" NB:  let g:LanguageClient_serverCommands = {
-""" NB:   \ 'rust':   ['rls'],
-""" NB:   \ 'c'   :   [g:plug_home.'/ccls/Release/ccls'],
-""" NB:   \ 'cpp' :   [g:plug_home.'/ccls/Release/ccls'],
-""" NB:   \ 'go'  :   ['bingo'],
-""" NB:   \ 'python': [g:plug_home.'/pyls-vimplug/pyls'],
-""" NB:   \ }
-""" NB: "   ""}}}
-""" NB:
-""" NB:  nmap <F12> :nohl<CR>:call LanguageClient_clearDocumentHighlight()<CR>
-
  :highlight ExtraWhitespace ctermbg=darkgreen guibg=lightgreen
  :au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
  :au InsertLeave * match ExtraWhitespace /\s\+$/
