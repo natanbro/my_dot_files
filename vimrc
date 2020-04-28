@@ -123,7 +123,15 @@
         else         " On mac and Windows, use * register for copy-paste
           set clipboard=unnamed
         endif
+      " CTRL-C and CTRL-Insert are Copy
+        vnoremap <C-C> "+y
+        vnoremap <C-Insert> "+y
+        " CTRL-V and SHIFT-Insert are Paste
+        map <S-Insert> "+gP
+        imap <S-Insert>	<C-R>+
+        cmap <S-Insert>	<C-R>+
       endif
+
 
       set virtualedit=onemore,block       " Allow for cursor beyond last character
       set history=1000                    " Store a ton of history (default is 20)
@@ -136,8 +144,7 @@
 
       set backspace=indent,eol,start  " Backspace for dummies
       set linespace=0                 " No extra spaces between rows
-      set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too
-      set belloff=all                 " Completely disable the bell for errors and pressing "ESC" on normal mode
+      set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too set belloff=all                 " Completely disable the bell for errors and pressing "ESC" on normal mode
 
       set nowrap                      " Do not wrap long lines
       set autoindent                  " Indent at the same level of the previous line
