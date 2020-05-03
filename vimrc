@@ -468,7 +468,7 @@
 " Markdown
   Plug 'https://github.com/plasticboy/vim-markdown/'
   Plug 'https://github.com/previm/previm/'
-  Plug 'https://github.com/tyru/open-browser.vim'
+"  Plug 'https://github.com/tyru/open-browser.vim'
 
  " Highlight current paragraph
   Plug 'junegunn/limelight.vim'
@@ -725,8 +725,12 @@ inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
  :au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
  :au InsertLeave * match ExtraWhitespace /\s\+$/
 
+ " Previm {
+   let g:previm_open_cmd = 'open -a Google\ Chrome'"
+ " {
 
 function! Mde_spanish()
+
   " Markdown in spanish
 	setl filetype=markdown
   setl fileencoding=utf-8
@@ -734,13 +738,16 @@ function! Mde_spanish()
   setl spell
   setl spelllang=es
   setl wrap
-  setl textwidth=0
+  setl textwidth=79
   setl linebreak
   setl breakat=79
-  setl breakindent
+"  setl breakindent
   setl sw=4
   setl ts=4
+  call SpanishMap()
+endfunc
 
+function! SpanishMap()
   inoremap << «
   inoremap >> »
 
@@ -764,6 +771,7 @@ function! Mde_spanish()
   inoremap !! ¡
   inoremap -- –
 endfunc
+
 
 aug mde
    au!
