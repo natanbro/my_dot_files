@@ -457,7 +457,7 @@
   Plug 'https://github.com/lilydjwg/colorizer.git'
 
 " Python
-  Plug 'python/black'
+"  Plug 'python/black'
 
 " yaml
   Plug 'stephpy/vim-yaml'
@@ -468,7 +468,7 @@
 " Markdown
   Plug 'https://github.com/plasticboy/vim-markdown/'
   Plug 'https://github.com/previm/previm/'
-"  Plug 'https://github.com/tyru/open-browser.vim'
+  Plug 'https://github.com/tyru/open-browser.vim'
 
  " Highlight current paragraph
   Plug 'junegunn/limelight.vim'
@@ -520,11 +520,11 @@ function! s:check_back_space() abort
 endfunction
 
 " Use <c-space> to trigger completion.
-inoremap <silent><expr> <c-space> coc#refresh()
+" inoremap <silent><expr> <c-space> coc#refresh()
 
 " Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
 " Coc only does snippet and additional edit on confirm.
-inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 " Or use `complete_info` if your vim support it, like:
 " inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
 
@@ -729,6 +729,20 @@ inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
    let g:previm_open_cmd = 'open -a Google\ Chrome'"
  " {
 
+ " Markdown {
+  setl fileencoding=utf-8
+  setl encoding=utf-8
+  setl spell
+  setl wrap
+  setl textwidth=79
+  setl linebreak
+  setl sw=4
+  setl ts=4
+ " }
+ "
+
+let g:previm_open_cmd = 'open -a Firefox'
+
 function! Mde_spanish()
 
   " Markdown in spanish
@@ -737,6 +751,7 @@ function! Mde_spanish()
   setl encoding=utf-8
   setl spell
   setl spelllang=es
+  setl breakat=79
   setl wrap
   setl textwidth=79
   setl linebreak
