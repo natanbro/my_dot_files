@@ -180,7 +180,8 @@
 
       set backspace=indent,eol,start  " Backspace for dummies
       set linespace=0                 " No extra spaces between rows
-      set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too set belloff=all                 " Completely disable the bell for errors and pressing "ESC" on normal mode
+      set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too
+      set belloff=all                 " Completely disable the bell for errors and pressing "ESC" on normal mode
 
       set nowrap                      " Do not wrap long lines
       set autoindent                  " Indent at the same level of the previous line
@@ -457,7 +458,7 @@
   Plug 'https://github.com/lilydjwg/colorizer.git'
 
 " Python
-"  Plug 'python/black'
+  Plug 'python/black'
 
 " yaml
   Plug 'stephpy/vim-yaml'
