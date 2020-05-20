@@ -458,7 +458,7 @@
   Plug 'https://github.com/lilydjwg/colorizer.git'
 
 " Python
-  Plug 'python/black'
+"  Plug 'python/black'
 
 " yaml
   Plug 'stephpy/vim-yaml'
@@ -727,7 +727,7 @@ endfunction
  :au InsertLeave * match ExtraWhitespace /\s\+$/
 
  " Previm {
-   let g:previm_open_cmd = 'open -a Google\ Chrome'"
+"   let g:previm_open_cmd = 'open -a Google\ Chrome'"
  " {
 
  " Markdown {
@@ -742,7 +742,7 @@ endfunction
  " }
  "
 
-let g:previm_open_cmd = 'open -a Firefox'
+" let g:previm_open_cmd = 'start Firefox'
 
 function! Mde_spanish()
 
