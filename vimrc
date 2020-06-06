@@ -1,8 +1,8 @@
 " vim: set sw=2 ts=2 sts=2 et tw=78 foldmarker={,} foldlevel=9 foldmethod=marker nowrap:
 " Python venvs ------------------------------------------------------------{{{
 
-  let g:plugins_dir = expand('~/.local/share/nvim/plugged')
-  let g:python3_host_prog = $HOME.'/.config/nvim/pyenv3/bin/python'
+"  let g:plugins_dir = expand('~/.local/share/nvim/plugged')
+"  let g:python3_host_prog = $HOME.'/.config/nvim/pyenv3/bin/python'
 "}}}
 "
 " Leader definition {
@@ -29,6 +29,8 @@
     set nocompatible        " Must be first line
     if !WINDOWS()
       set shell=/bin/sh
+      let g:plugins_dir = expand('~/.local/share/nvim/plugged')
+      let g:python3_host_prog = $HOME.'/.config/nvim/pyenv3/bin/python'
     endif
     " }
 
@@ -37,28 +39,42 @@
     " across (heterogeneous) systems easier.
     if WINDOWS()
       set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
+      let g:plugins_dir = expand('~/vimfiles/plugged')
+    "}}}
+
     endif
     " }
   " }
   "
   function! IsPluginInstalled(name)
     " echom "Asked to check for: >".a:name."<"
-    let s:plugin_fqpath = g:plugins_dir."/".a:name
-    " Check if the Plugin is part of the runtimepath
-    let s:myrtp = split((&rtp), ',')
-    " echom s:myrtp
-    " echom "Searching for >".s:plugin_fqpath."<"
-    if matchstr(s:myrtp, s:plugin_fqpath) != ""
-      " Found a bug that some plugin managers update the rtp even if
-      " they where not able to install the actual plugin.
-      " echom g:plugins_dir."/".a:name
-      " echom isdirectory(expand(g:plugins_dir."/".a:name))
+    if WINDOWS()
+      let s:plugin_fqpath = g:plugins_dir."\\".a:name
       if isdirectory(expand(g:plugins_dir."/".a:name))
-        unlet s:myrtp
+        " echom "WINDOWS found plugin ".a:name
         return 1
       endif
+    else
+
+      let s:plugin_fqpath = g:plugins_dir."/".a:name
+
+      " Check if the Plugin is part of the runtimepath
+      let s:myrtp = split((&rtp), ',')
+       " echom s:myrtp
+       " echom "Searching for >".s:plugin_fqpath."<"
+      if matchstr(s:myrtp, s:plugin_fqpath) != ""
+        " Found a bug that some plugin managers update the rtp even if
+        " they where not able to install the actual plugin.
+        "  echom "_____________________found __________________"
+        "  echom g:plugins_dir."/".a:name
+        "  echom isdirectory(expand(g:plugins_dir."/".a:name))
+        if isdirectory(expand(g:plugins_dir."/".a:name))
+          unlet s:myrtp
+          return 1
+        endif
+      endif
+      unlet s:myrtp
     endif
-    unlet s:myrtp
   endfunction
   "
   function! StripTrailingWhitespace()
@@ -233,21 +249,23 @@
       set tabpagemax=15               " Only show 15 tabs
       set linespace=0                 " No extra spaces between rows
       if has('gui')
-        set lines=41                " 40 lines of text instead of 24
-        " disable GUI menus
-        set guioptions-=m
-        set guioptions-=M
+        if !WINDOWS()
+            set lines=41                " 40 lines of text instead of 24
+            " disable GUI menus
+            set guioptions-=m
+            set guioptions-=M
 
-        " disable GUI toolbar
-        set guioptions-=T           " Remove the toolbar
-
+            " disable GUI toolbar
+            set guioptions-=T           " Remove the toolbar
+        endif
 
         if LINUX() && has("gui")
           set guifont=Andale\ Mono\ Regular\ 11,Menlo\ Regular\ 11,Consolas\ Regular\ 11,Courier\ New\ Regular\ 11
         elseif OSX() && has("gui")
           set guifont=Andale\ Mono\ Regular:h16,Menlo\ Regular:h16,Consolas\ Regular:h16,Courier\ New\ Regular:h16
         elseif WINDOWS() && has("gui")
-          set guifont=Andale_Mono:h12,Menlo:h12,Consolas:h12,Courier_New:h12
+          set lines=30
+          set guifont=Consolas:h11,Fixedsys:h12,Andale_Mono:h12,Menlo:h12,Consolas:h12,Courier_New:h12
         endif
       endif
       colorscheme default
@@ -388,6 +406,7 @@
 " syntax
   Plug 'sheerun/vim-polyglot'
   Plug 'benekastah/neomake'
+  Plug 'https://github.com/vim-syntastic/syntastic'
 
 " buffer management
   Plug 'moll/vim-bbye'
@@ -432,6 +451,7 @@
   Plug 'scrooloose/nerdtree'
   Plug 'https://github.com/tomtom/tcomment_vim'
   Plug 'godlygeek/tabular'
+  Plug 'junegunn/vim-easy-align'
   Plug 'luochen1990/rainbow'
   if executable('ctags')
       Plug 'majutsushi/tagbar'
@@ -458,7 +478,7 @@
   Plug 'https://github.com/lilydjwg/colorizer.git'
 
 " Python
-  Plug 'python/black'
+"  Plug 'python/black'
 
 " yaml
   Plug 'stephpy/vim-yaml'
@@ -508,20 +528,20 @@
 "  \ ]
 " from readme
 " if hidden is not set, TextEdit might fail.
-set updatetime=300
+" set updatetime=300
 
 " Use tab for trigger completion with characters ahead and navigate.
 " Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
-inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
+" inoremap <silent><expr> <TAB>
+"       \ pumvisible() ? "\<C-n>" :
+"       \ <SID>check_back_space() ? "\<TAB>" :
+"       \ coc#refresh()
+" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+"
+" function! s:check_back_space() abort
+"   let col = col('.') - 1
+"   return !col || getline('.')[col - 1]  =~# '\s'
+" endfunction
 
 " Use <c-space> to trigger completion.
 " inoremap <silent><expr> <c-space> coc#refresh()
@@ -708,7 +728,7 @@ endfunction
  " Programming {
      " Trailing blanks
      autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,yaml,perl,sql autocmd BufWritePre <buffer>  call StripTrailingWhitespace()
-     autocmd FileType yaml,yml,md,vim autocmd BufWritePre <buffer>  call StripTrailingWhitespace()
+     autocmd FileType yaml,yml,vim autocmd BufWritePre <buffer>  call StripTrailingWhitespace()
 
      " restructuredtext
      autocmd FileType rst setlocal tw=81 foldenable spell linebreak colorcolumn=80 maxmempattern=40000
@@ -745,36 +765,47 @@ endfunction
  :au InsertLeave * match ExtraWhitespace /\s\+$/
 
  " Previm {
-   let g:previm_open_cmd = 'open -a Google\ Chrome'"
+   if WINDOWS()
+     let g:previm_open_cmd = 'start firefox'
+   else
+     " let g:previm_open_cmd = 'open -a Firefox'
+   endif
  " {
 
  " Markdown {
-  setl fileencoding=utf-8
-  setl encoding=utf-8
-  setl spell
-  setl wrap
-  setl textwidth=79
-  setl linebreak
-  setl sw=4
-  setl ts=4
+ "
+  function! MdBuffer()
+    let g:mdbuffer=1
+    if WINDOWS()
+      set fileformat=unix
+    endif
+    set fileencoding=utf-8
+    set encoding=utf-8
+    set spell
+    set wrap
+    set colorcolumn=80
+    set textwidth=79
+    set linebreak
+    set sw=4
+    set ts=4
+  endfunction
  " }
  "
 
-let g:previm_open_cmd = 'open -a Firefox'
+" let g:previm_open_cmd = 'start Firefox'
 
 function! Mde_spanish()
 
   " Markdown in spanish
-	setl filetype=markdown
+  setl filetype=markdown
   setl fileencoding=utf-8
   setl encoding=utf-8
   setl spell
   setl spelllang=es
-  setl breakat=79
+"  setl breakat=79
   setl wrap
   setl textwidth=79
   setl linebreak
-  setl breakat=79
 "  setl breakindent
   setl sw=4
   setl ts=4
@@ -811,6 +842,23 @@ aug mde
    au!
    autocmd! BufRead,BufNewFile *.{mde,mds,mdspanish} call Mde_spanish()
 augroup end
+
+aug markdown
+   au!
+   "set filetype=markdown
+   autocmd BufRead,BufNewFile *.{md,markdown} call MdBuffer()
+   autocmd BufWritePre <buffer>  call StripTrailingWhitespace()
+augroup end
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+set signcolumn=yes
+
+autocmd ColorScheme * :highlight ExtraWhitespace ctermbg=darkgreen guibg=lightgreen
 
 
  " }
