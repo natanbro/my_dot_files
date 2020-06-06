@@ -471,6 +471,9 @@
   Plug 'https://github.com/previm/previm/'
   Plug 'https://github.com/tyru/open-browser.vim'
 
+" Syntax checking
+  Plug 'https://github.com/vim-syntastic/syntastic'
+
  " Highlight current paragraph
   Plug 'junegunn/limelight.vim'
 
@@ -711,6 +714,21 @@ endfunction
      autocmd FileType rst setlocal tw=81 foldenable spell linebreak colorcolumn=80 maxmempattern=40000
  " }
  "
+ "
+ " Syntatic {
+  if IsPluginInstalled("syntastic")
+
+    set statusline+=%#warningmsg#
+    set statusline+=%{SyntasticStatuslineFlag()}
+    set statusline+=%*
+
+    let g:syntastic_always_populate_loc_list = 1
+    let g:syntastic_auto_loc_list = 1
+    let g:syntastic_check_on_open = 1
+    let g:syntastic_check_on_wq = 0
+  endif
+
+ " }
  "}}}
 
 
