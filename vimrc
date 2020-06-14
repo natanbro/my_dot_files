@@ -841,6 +841,7 @@ endfunc
 aug mde
    au!
    autocmd! BufRead,BufNewFile *.{mde,mds,mdspanish} call Mde_spanish()
+   autocmd BufWritePre <buffer>  call StripTrailingWhitespace()
 augroup end
 
 aug markdown
