@@ -268,8 +268,8 @@
           set guifont=Consolas:h11,Fixedsys:h12,Andale_Mono:h12,Menlo:h12,Consolas:h12,Courier_New:h12
         endif
       endif
-      colorscheme default
-      set bg=light
+      " colorscheme default
+      " set bg=light
       hi pmenu guibg=white
 
     " }
@@ -399,7 +399,6 @@
 " aux
   Plug 'Shougo/vimproc.vim', {'do' : 'make'}
   Plug 'xolox/vim-misc'
-  Plug 'embear/vim-localvimrc'
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 
@@ -424,6 +423,10 @@
   Plug 'mkarmona/materialbox'
   Plug 'https://github.com/vim-scripts/autumnleaf_modified.vim.git'
   Plug 'https://github.com/baeuml/summerfruit256.vim.git'
+"  Plug 'https://github.com/sonph/onehalf.git'
+"  Plug 'https://github.com/dracula/dracula-theme.git'
+  Plug 'sonph/onehalf', {'rtp': 'vim/'}
+  Plug 'dracula/vim', { 'as': 'dracula' }
 
 " git
   Plug 'tpope/vim-fugitive'
@@ -457,6 +460,7 @@
       Plug 'majutsushi/tagbar'
   endif
   Plug 'https://github.com/adelarsq/vim-matchit'
+  Plug 'embear/vim-localvimrc'
 
 " Language Servers
 "  Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -502,6 +506,7 @@
 
 " wiki
   Plug 'https://github.com/vimwiki/vimwiki'
+  Plug 'https://github.com/vimoutliner/vimoutliner'
 
 " finish set up
   call plug#end()
@@ -711,7 +716,9 @@
   endif
 
   if IsPluginInstalled('vim-localvimrc')
+    let g:localvimrc_sandbox = 0
     let g:localvimrc_ask = 0
+    let g:localvimrc_enable = 1
   endif
 
   if IsPluginInstalled("black")
@@ -860,6 +867,7 @@ set statusline+=%*
 set signcolumn=yes
 
 autocmd ColorScheme * :highlight ExtraWhitespace ctermbg=darkgreen guibg=lightgreen
+colorscheme dracula
 
 
  " }
