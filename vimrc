@@ -842,6 +842,7 @@ function! SpanishMap()
   inoremap ?? ¿
   inoremap !! ¡
   inoremap -- –
+  inoremap 'c ción
 endfunc
 
 
