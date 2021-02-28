@@ -156,6 +156,10 @@
 
   command! -nargs=1 -complete=command -bar -range Redir silent call Redir(<q-args>, <range>, <line1>, <line2>)
 
+  function! ToggleBg()
+    let &background = ( &background == "dark"? "light" : "dark" )
+  endfunction
+
 
 "}}}
 
@@ -216,6 +220,7 @@
       set foldenable
       set foldlevel=9
       set listchars=tab:›\ ,trail:•,eol:$,extends:#,nbsp:. " Highlight problematic whitespace
+      set spell
   " }
 
   " Search {
@@ -260,7 +265,7 @@
         endif
 
         if LINUX() && has("gui")
-          set guifont=Andale\ Mono\ Regular\ 11,Menlo\ Regular\ 11,Consolas\ Regular\ 11,Courier\ New\ Regular\ 11
+          set guifont=Andale\ Mono\ Regular\ 12,Menlo\ Regular\ 12,Consolas\ Regular\ 12,Courier\ New\ Regular\ 12
         elseif OSX() && has("gui")
           set guifont=Andale\ Mono\ Regular:h16,Menlo\ Regular:h16,Consolas\ Regular:h16,Courier\ New\ Regular:h16
         elseif WINDOWS() && has("gui")
@@ -341,6 +346,9 @@
   "Split line at cursor position leaving cursor in place
     nnoremap <c-Enter> i<cr><esc>k$
 
+  " Insert a <cr> at current cursor position
+    nnoremap <Enter> a<cr><esc>
+
   " Allow using the repeat operator with a visual selection (!)
   " http://stackoverflow.com/a/8064607/127816
     vnoremap . :normal .<CR>
@@ -389,7 +397,7 @@
     tmap <A-j> <C-\><C-n><C-W>j
     tmap <A-k> <C-\><C-n><C-W>k
 
-
+    nmap <leader>bg :call ToggleBg()<cr>
 
 "}}}
 
@@ -423,6 +431,8 @@
   Plug 'mkarmona/materialbox'
   Plug 'https://github.com/vim-scripts/autumnleaf_modified.vim.git'
   Plug 'https://github.com/baeuml/summerfruit256.vim.git'
+  Plug 'https://github.com/datMaffin/vim-colors-bionik.git'
+  Plug 'https://github.com/yasukotelin/shirotelin.git'
 "  Plug 'https://github.com/sonph/onehalf.git'
 "  Plug 'https://github.com/dracula/dracula-theme.git'
   Plug 'sonph/onehalf', {'rtp': 'vim/'}
