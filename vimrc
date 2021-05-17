@@ -505,8 +505,8 @@
   Plug 'https://github.com/previm/previm/'
   Plug 'https://github.com/tyru/open-browser.vim'
 
-" Syntax checking
-  Plug 'https://github.com/vim-syntastic/syntastic'
+" Golang
+  Plug 'https://github.com/fatih/vim-go'
 
  " Highlight current paragraph
   Plug 'junegunn/limelight.vim'
@@ -758,11 +758,13 @@
     set statusline+=%#warningmsg#
     set statusline+=%{SyntasticStatuslineFlag()}
     set statusline+=%*
+    set signcolumn=yes
 
     let g:syntastic_always_populate_loc_list = 1
     let g:syntastic_auto_loc_list = 1
     let g:syntastic_check_on_open = 1
     let g:syntastic_check_on_wq = 0
+
   endif
 
  " }
@@ -869,13 +871,6 @@ aug markdown
    autocmd BufWritePre <buffer>  call StripTrailingWhitespace()
 augroup end
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-set signcolumn=yes
 
 autocmd ColorScheme * :highlight ExtraWhitespace ctermbg=darkgreen guibg=lightgreen
 colorscheme dracula
