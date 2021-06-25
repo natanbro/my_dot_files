@@ -479,6 +479,7 @@
 " movement
   Plug 'tpope/vim-surround'
   Plug 'easymotion/vim-easymotion'
+  Plug 'https://github.com/unblevable/quick-scope.git'
   Plug 'https://github.com/tpope/vim-repeat.git'
 
 " denite
@@ -504,6 +505,7 @@
   Plug 'https://github.com/plasticboy/vim-markdown/'
   Plug 'https://github.com/previm/previm/'
   Plug 'https://github.com/tyru/open-browser.vim'
+  Plug 'https://github.com/instant-markdown/vim-instant-markdown.git'
 
 " Golang
   Plug 'https://github.com/fatih/vim-go'
@@ -759,11 +761,15 @@
     set statusline+=%{SyntasticStatuslineFlag()}
     set statusline+=%*
     set signcolumn=yes
+    " let g:syntastic_markdown_checkers = ['syntastic-markdown-mdl', 'syntastic-markdown-proselint','syntastic-markdown-textlint']
+    let g:syntastic_markdown_mdl_exec = "~/.npm-packages/markdownlint.cmd"
+    let g:syntastic_markdown_mdl_args = "%"
 
     let g:syntastic_always_populate_loc_list = 1
     let g:syntastic_auto_loc_list = 1
     let g:syntastic_check_on_open = 1
     let g:syntastic_check_on_wq = 0
+    " let g:syntastic_debug = 33
 
   endif
 
