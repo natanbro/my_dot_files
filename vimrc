@@ -1,9 +1,8 @@
 " vim: set sw=2 ts=2 sts=2 et tw=78 foldmarker={,} foldlevel=9 foldmethod=marker nowrap:
 " Python venvs ------------------------------------------------------------{{{
 
-  let g:plugins_dir = expand('~/.local/share/nvim/plugged')
-  let g:python_host_prog = $HOME.'/.config/nvim/pyenv2/bin/python'
-  let g:python3_host_prog = $HOME.'/.config/nvim/pyenv3/bin/python'
+"  let g:plugins_dir = expand('~/.local/share/nvim/plugged')
+"  let g:python3_host_prog = $HOME.'/.config/nvim/pyenv3/bin/python'
 "}}}
 "
 " Leader definition {
@@ -30,6 +29,8 @@
     set nocompatible        " Must be first line
     if !WINDOWS()
       set shell=/bin/sh
+      let g:plugins_dir = expand('~/.local/share/nvim/plugged')
+      let g:python3_host_prog = $HOME.'/.config/nvim/pyenv3/bin/python'
     endif
     " }
 
@@ -38,59 +39,42 @@
     " across (heterogeneous) systems easier.
     if WINDOWS()
       set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
+      let g:plugins_dir = expand('~/vimfiles/plugged')
+    "}}}
+
     endif
     " }
   " }
   "
-" activate python virtualenv environment for vim {
-py3 << EOF
-import os
-import sys
-
-if 'VIRTUAL_ENV' in os.environ:
-    project_base_dir = os.environ['VIRTUAL_ENV']
-else:
-    project_base_dir = os.path.join(os.environ['HOME'],'venv3/')
-
-activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-with open(activate_this) as f:
-    code = compile(f.read(), "activate_this.py", 'exec')
-    exec(code, dict(__file__=activate_this))
-
-os.environ['HOME']
-EOF
-
-  " Plug {
-  function! UpgradePlugins()
-    " TODO: update packages in nvim pyenvs
-    " upgrade vim-plug itself
-    :PlugUpgrade
-    " upgrade the vim-go binaries
-    :call GoUpdateBinaries()
-    " upgrade the plugins
-    :PlugUpdate
-  endfunction
-  nnoremap <silent> <leader>u :call UpgradePlugins()<CR>
-  "}
-
   function! IsPluginInstalled(name)
     " echom "Asked to check for: >".a:name."<"
-    let s:plugin_fqpath = g:plugins_dir."/".a:name
-    " Check if the Plugin is part of the runtimepath
-    let s:myrtp = split((&rtp), ',')
-    " echom s:myrtp
-    " echom "Searching for >".s:plugin_fqpath."<"
-    if matchstr(s:myrtp, s:plugin_fqpath) != ""
-      " Found a bug that some plugin managers update the rtp even if
-      " they where not able to install the actual plugin.
-      " echom g:plugins_dir."/".a:name
-      " echom isdirectory(expand(g:plugins_dir."/".a:name))
+    if WINDOWS()
+      let s:plugin_fqpath = g:plugins_dir."\\".a:name
       if isdirectory(expand(g:plugins_dir."/".a:name))
-        unlet s:myrtp
+        " echom "WINDOWS found plugin ".a:name
         return 1
       endif
+    else
+
+      let s:plugin_fqpath = g:plugins_dir."/".a:name
+
+      " Check if the Plugin is part of the runtimepath
+      let s:myrtp = split((&rtp), ',')
+       " echom s:myrtp
+       " echom "Searching for >".s:plugin_fqpath."<"
+      if matchstr(s:myrtp, s:plugin_fqpath) != ""
+        " Found a bug that some plugin managers update the rtp even if
+        " they where not able to install the actual plugin.
+        "  echom "_____________________found __________________"
+        "  echom g:plugins_dir."/".a:name
+        "  echom isdirectory(expand(g:plugins_dir."/".a:name))
+        if isdirectory(expand(g:plugins_dir."/".a:name))
+          unlet s:myrtp
+          return 1
+        endif
+      endif
+      unlet s:myrtp
     endif
-    unlet s:myrtp
   endfunction
   "
   function! StripTrailingWhitespace()
@@ -137,6 +121,46 @@ EOF
   endfunction
   call InitializeDirectories()
 
+  " romainl/redir.md
+  " https://gist.github.com/romainl/eae0a260ab9c135390c30cd370c20cd7
+  "
+
+  function! Redir(cmd, rng, start, end)
+    for win in range(1, winnr('$'))
+      if getwinvar(win, 'scratch')
+        execute win . 'windo close'
+      endif
+    endfor
+    if a:cmd =~ '^!'
+      let cmd = a:cmd =~' %'
+        \ ? matchstr(substitute(a:cmd, ' %', ' ' . expand('%:p'), ''), '^!\zs.*')
+        \ : matchstr(a:cmd, '^!\zs.*')
+      if a:rng == 0
+        let output = systemlist(cmd)
+      else
+        let joined_lines = join(getline(a:start, a:end), '\n')
+        let cleaned_lines = substitute(shellescape(joined_lines), "'\\\\''", "\\\\'", 'g')
+        let output = systemlist(cmd . " <<< $" . cleaned_lines)
+      endif
+    else
+      redir => output
+      execute a:cmd
+      redir END
+      let output = split(output, "\n")
+    endif
+    new
+    let w:scratch = 1
+    setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile
+    call setline(1, output)
+  endfunction
+
+  command! -nargs=1 -complete=command -bar -range Redir silent call Redir(<q-args>, <range>, <line1>, <line2>)
+
+  function! ToggleBg()
+    let &background = ( &background == "dark"? "light" : "dark" )
+  endfunction
+
+
 "}}}
 
 " My sane defaults --------------------------------------------------------{{{
@@ -147,21 +171,28 @@ EOF
       set mouse=a                 " Automatically enable mouse usage
       set mousehide               " Hide the mouse cursor while typing
       scriptencoding utf-8
-
+      " Increment number under the cursor
+      nnoremap <A-a> <C-a>
       if has('clipboard')
         if has('unnamedplus')  " When possible use + register for copy-paste
           set clipboard=unnamed,unnamedplus
         else         " On mac and Windows, use * register for copy-paste
           set clipboard=unnamed
         endif
+      " CTRL-C and CTRL-Insert are Copy
+        vnoremap <C-C> "+y
+        vnoremap <C-Insert> "+y
+        " CTRL-V and SHIFT-Insert are Paste
+        map <S-Insert> "+gP
+        imap <S-Insert>	<C-R>+
+        cmap <S-Insert>	<C-R>+
       endif
+
 
       set virtualedit=onemore,block       " Allow for cursor beyond last character
       set history=1000                    " Store a ton of history (default is 20)
-      set nospell                         " Spell checking off
       set hidden                          " Allow buffer switching without saving
       set number
-      set relativenumber
 
       set iskeyword-=.                    " '.' is an end of word designator
       set iskeyword-=#                    " '#' is an end of word designator
@@ -169,7 +200,6 @@ EOF
 
       set backspace=indent,eol,start  " Backspace for dummies
       set linespace=0                 " No extra spaces between rows
-      set backspace=indent,eol,start  " Backspace for dummies
       set whichwrap=b,s,h,l,<,>,[,]   " Backspace and cursor keys wrap too
       set belloff=all                 " Completely disable the bell for errors and pressing "ESC" on normal mode
 
@@ -190,6 +220,7 @@ EOF
       set foldenable
       set foldlevel=9
       set listchars=tab:›\ ,trail:•,eol:$,extends:#,nbsp:. " Highlight problematic whitespace
+      set spell
   " }
 
   " Search {
@@ -215,30 +246,36 @@ EOF
   " Vim UI {
       set cursorline                  " Highlight current line
 
+      " always show signcolumns
+      set signcolumn=yes
+
       highlight clear SignColumn      " SignColumn should match background
       highlight clear LineNr          " Current line number row will have same background color in relative mode
       set tabpagemax=15               " Only show 15 tabs
       set linespace=0                 " No extra spaces between rows
       if has('gui')
-        set lines=41                " 40 lines of text instead of 24
-        " disable GUI menus
-        set guioptions-=m
-        set guioptions-=M
+        if !WINDOWS()
+            set lines=41                " 40 lines of text instead of 24
+            " disable GUI menus
+            set guioptions-=m
+            set guioptions-=M
 
-        " disable GUI toolbar
-        set guioptions-=T           " Remove the toolbar
-
+            " disable GUI toolbar
+            set guioptions-=T           " Remove the toolbar
+        endif
 
         if LINUX() && has("gui")
-          set guifont=Andale\ Mono\ Regular\ 11,Menlo\ Regular\ 11,Consolas\ Regular\ 11,Courier\ New\ Regular\ 11
+          set guifont=Andale\ Mono\ Regular\ 12,Menlo\ Regular\ 12,Consolas\ Regular\ 12,Courier\ New\ Regular\ 12
         elseif OSX() && has("gui")
-          set guifont=Andale\ Mono\ Regular:h16,Menlo\ Regular:h14,Consolas\ Regular:h14,Courier\ New\ Regular:h14
+          set guifont=Andale\ Mono\ Regular:h16,Menlo\ Regular:h16,Consolas\ Regular:h16,Courier\ New\ Regular:h16
         elseif WINDOWS() && has("gui")
-          set guifont=Andale_Mono:h12,Menlo:h12,Consolas:h12,Courier_New:h12
+          set lines=30
+          set guifont=Consolas:h11,Fixedsys:h12,Andale_Mono:h12,Menlo:h12,Consolas:h12,Courier_New:h12
         endif
       endif
-      colorscheme default
-      set bg=light
+      " colorscheme default
+      " set bg=light
+      hi pmenu guibg=white
 
     " }
     "
@@ -287,17 +324,6 @@ EOF
     nmap <leader>f8 :set foldlevel=8<CR>
     nmap <leader>f9 :set foldlevel=9<CR>
   "
-  " buffers
-    nmap <leader>1 <Plug>AirlineSelectTab1
-    nmap <leader>2 <Plug>AirlineSelectTab2
-    nmap <leader>3 <Plug>AirlineSelectTab3
-    nmap <leader>4 <Plug>AirlineSelectTab4
-    nmap <leader>5 <Plug>AirlineSelectTab5
-    nmap <leader>6 <Plug>AirlineSelectTab6
-    nmap <leader>7 <Plug>AirlineSelectTab7
-    nmap <leader>8 <Plug>AirlineSelectTab8
-    nmap <leader>9 <Plug>AirlineSelectTab9
-
   " Select the whole file
     nnoremap <c-a> <esc>ggVG
 
@@ -320,6 +346,9 @@ EOF
   "Split line at cursor position leaving cursor in place
     nnoremap <c-Enter> i<cr><esc>k$
 
+  " Insert a <cr> at current cursor position
+    nnoremap <Enter> a<cr><esc>
+
   " Allow using the repeat operator with a visual selection (!)
   " http://stackoverflow.com/a/8064607/127816
     vnoremap . :normal .<CR>
@@ -330,8 +359,12 @@ EOF
     map <c-k> :bprevious<cr>
 
   " Easy change between Windows
-    map <C-L> <C-W>l
-    map <C-H> <C-W>h
+    noremap <c-l> <c-w>l
+    noremap <c-h> <c-w>h
+    map <c-up> <c-w>k
+    map <c-down> <c-w>j
+    map <c-right> <c-w>l
+    map <c-left> <c-w>h
 
       " Use alt keys
     map <A-l> <C-W>l
@@ -351,16 +384,6 @@ EOF
 
     tmap <esc><esc> <c-\><c-n>
 
-    tmap <leader>1  <C-\><C-n><Plug>AirlineSelectTab1
-    tmap <leader>2  <C-\><C-n><Plug>AirlineSelectTab2
-    tmap <leader>3  <C-\><C-n><Plug>AirlineSelectTab3
-    tmap <leader>4  <C-\><C-n><Plug>AirlineSelectTab4
-    tmap <leader>5  <C-\><C-n><Plug>AirlineSelectTab5
-    tmap <leader>6  <C-\><C-n><Plug>AirlineSelectTab6
-    tmap <leader>7  <C-\><C-n><Plug>AirlineSelectTab7
-    tmap <leader>8  <C-\><C-n><Plug>AirlineSelectTab8
-    tmap <leader>9  <C-\><C-n><Plug>AirlineSelectTab9
-
     tmap <c-j> <C-\><C-n>:bnext<cr>
     tmap <c-k> :<C-\><C-n>bprevious<cr>
 
@@ -374,7 +397,7 @@ EOF
     tmap <A-j> <C-\><C-n><C-W>j
     tmap <A-k> <C-\><C-n><C-W>k
 
-
+    nmap <leader>bg :call ToggleBg()<cr>
 
 "}}}
 
@@ -384,13 +407,13 @@ EOF
 " aux
   Plug 'Shougo/vimproc.vim', {'do' : 'make'}
   Plug 'xolox/vim-misc'
-  Plug 'embear/vim-localvimrc'
   Plug 'roxma/nvim-yarp'
   Plug 'roxma/vim-hug-neovim-rpc'
 
 " syntax
   Plug 'sheerun/vim-polyglot'
   Plug 'benekastah/neomake'
+  Plug 'https://github.com/vim-syntastic/syntastic'
 
 " buffer management
   Plug 'moll/vim-bbye'
@@ -406,6 +429,14 @@ EOF
   Plug 'josuegaleas/jay'
   Plug 'morhetz/gruvbox'
   Plug 'mkarmona/materialbox'
+  Plug 'https://github.com/vim-scripts/autumnleaf_modified.vim.git'
+  Plug 'https://github.com/baeuml/summerfruit256.vim.git'
+  Plug 'https://github.com/datMaffin/vim-colors-bionik.git'
+  Plug 'https://github.com/yasukotelin/shirotelin.git'
+"  Plug 'https://github.com/sonph/onehalf.git'
+"  Plug 'https://github.com/dracula/dracula-theme.git'
+  Plug 'sonph/onehalf', {'rtp': 'vim/'}
+  Plug 'dracula/vim', { 'as': 'dracula' }
 
 " git
   Plug 'tpope/vim-fugitive'
@@ -417,69 +448,77 @@ EOF
   Plug 'vim-airline/vim-airline-themes'
 
 " autocomplete
-  Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
-  Plug 'junegunn/fzf'
-  Plug 'junegunn/fzf.vim'
+
+"  Plug 'junegunn/fzf'
+"  Plug 'junegunn/fzf.vim'
   Plug 'https://github.com/kien/ctrlp.vim.git'
 
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-  Plug 'xolox/vim-lua-ftplugin', { 'for': 'lua' } " lua
+  """ NB: Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
-" snippets
+  " NB: snippets
   Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
 
 " IDE
   Plug 'itchyny/vim-cursorword' " highlight word under cursor
   Plug 'scrooloose/nerdtree'
-  " Plug 'powerman/vim-plugin-viewdoc' " Doc integration
   Plug 'https://github.com/tomtom/tcomment_vim'
   Plug 'godlygeek/tabular'
+  Plug 'junegunn/vim-easy-align'
   Plug 'luochen1990/rainbow'
   if executable('ctags')
       Plug 'majutsushi/tagbar'
   endif
   Plug 'https://github.com/adelarsq/vim-matchit'
+  Plug 'embear/vim-localvimrc'
 
 " Language Servers
+"  Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-  " The reason we use a function is because we want to get the event
-  " even if the package is unchanged as the updates are not tracked in
-  " this repo
-  function! BuildPyls(info)
-    !./install.sh
-  endfunction
-  Plug 'natanbro/pyls-vimplug', { 'do': function('BuildPyls') }
-
-  function! BuildCCLS(info)
-    !cmake -H. -BRelease && cmake --build Release
-  endfunction
-  Plug 'MaskRay/ccls', { 'do': function('BuildCCLS') }
 
 " movement
   Plug 'tpope/vim-surround'
-  Plug 'ficoos/plumb.vim'
   Plug 'easymotion/vim-easymotion'
+  Plug 'https://github.com/unblevable/quick-scope.git'
   Plug 'https://github.com/tpope/vim-repeat.git'
 
 " denite
-  Plug 'Shougo/denite.nvim'
-  Plug 'nixprime/cpsm'
+  """ NB: Plug 'Shougo/denite.nvim'
+  """ NB: Plug 'nixprime/cpsm'
 
 " config
   Plug 'editorconfig/editorconfig-vim'
 
+" CSS Colors
+  Plug 'https://github.com/lilydjwg/colorizer.git'
+
 " Python
-  Plug 'python/black'
+"  Plug 'python/black'
 
 " yaml
   Plug 'stephpy/vim-yaml'
   "
   " rst
   " Plug 'https://github.com/Rykka/riv.vim.git'
+  "
+" Markdown
+  Plug 'https://github.com/plasticboy/vim-markdown/'
+  Plug 'https://github.com/previm/previm/'
+  Plug 'https://github.com/tyru/open-browser.vim'
+  Plug 'https://github.com/instant-markdown/vim-instant-markdown.git'
+
+" Golang
+  Plug 'https://github.com/fatih/vim-go'
+
+ " Highlight current paragraph
+  Plug 'junegunn/limelight.vim'
+
+  " Distraction free writing
+  Plug 'junegunn/goyo.vim'
+
+" wiki
+  Plug 'https://github.com/vimwiki/vimwiki'
+  Plug 'https://github.com/vimoutliner/vimoutliner'
 
 " finish set up
   call plug#end()
@@ -488,8 +527,121 @@ EOF
 "}}}
 
 
+
 " Plugins configuration ---------------------------------------------------{{{
 "
+
+"  coc config
+"let g:coc_global_extensions = [
+"  \ 'coc-snippets',
+"  \ 'coc-pairs',
+"  \ 'coc-tsserver',
+"  \ 'coc-eslint',
+"  \ 'coc-prettier',
+"  \ 'coc-json',
+"  \ 'coc-python',
+"  \ 'coc-markdownlint',
+"  \ 'coc-vetur'
+"  \ ]
+" from readme
+" if hidden is not set, TextEdit might fail.
+" set updatetime=300
+
+" Use tab for trigger completion with characters ahead and navigate.
+" Use command ':verbose imap <tab>' to make sure tab is not mapped by other plugin.
+" inoremap <silent><expr> <TAB>
+"       \ pumvisible() ? "\<C-n>" :
+"       \ <SID>check_back_space() ? "\<TAB>" :
+"       \ coc#refresh()
+" inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+"
+" function! s:check_back_space() abort
+"   let col = col('.') - 1
+"   return !col || getline('.')[col - 1]  =~# '\s'
+" endfunction
+
+" Use <c-space> to trigger completion.
+" inoremap <silent><expr> <c-space> coc#refresh()
+
+" Use <cr> to confirm completion, `<C-g>u` means break undo chain at current position.
+" Coc only does snippet and additional edit on confirm.
+" inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" Or use `complete_info` if your vim support it, like:
+" inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+
+"  Use `[g` and `]g` to navigate diagnostics
+"nmap <silent> [g <Plug>(coc-diagnostic-prev)
+"nmap <silent> ]g <Plug>(coc-diagnostic-next)
+"
+"" Remap keys for gotos
+"nmap <silent> gd <Plug>(coc-definition)
+"nmap <silent> gy <Plug>(coc-type-definition)
+"nmap <silent> gi <Plug>(coc-implementation)
+"nmap <silent> gr <Plug>(coc-references)
+"
+"autocmd CursorHold * silent call CocActionAsync('highlight')
+"
+"" Remap for rename current word
+"nmap <F2> <Plug>(coc-rename)
+"
+"" Remap for format selected region
+"xmap <leader>f  <Plug>(coc-format-selected)
+"nmap <leader>f  <Plug>(coc-format-selected)
+"
+"augroup cocgroup
+"  autocmd!
+"  " Setup formatexpr specified filetype(s).
+"  autocmd FileType typescript,json setl formatexpr=CocAction('formatSelected')
+"  " Update signature help on jump placeholder
+"  autocmd User CocJumpPlaceholder call CocActionAsync('showSignatureHelp')
+"augroup end
+"
+"" Remap for do codeAction of selected region, ex: `<leader>aap` for current paragraph
+"xmap <leader>a  <Plug>(coc-codeaction-selected)
+"nmap <leader>a  <Plug>(coc-codeaction-selected)
+"
+"" Remap for do codeAction of current line
+"nmap <leader>ac  <Plug>(coc-codeaction)
+"" Fix autofix problem of current line
+"nmap <leader>qf  <Plug>(coc-fix-current)
+"
+"" Create mappings for function text object, requires document symbols feature of languageserver.
+"xmap if <Plug>(coc-funcobj-i)
+"xmap af <Plug>(coc-funcobj-a)
+"omap if <Plug>(coc-funcobj-i)
+"omap af <Plug>(coc-funcobj-a)
+"
+"" Use `:Format` to format current buffer
+"command! -nargs=0 Format :call CocAction('format')
+"
+"" Use `:Fold` to fold current buffer
+"command! -nargs=? Fold :call     CocAction('fold', <f-args>)
+"
+"" use `:OR` for organize import of current buffer
+"command! -nargs=0 OR   :call     CocAction('runCommand', 'editor.action.organizeImport')
+"
+"" Add status line support, for integration with other plugin, checkout `:h coc-status`
+"set statusline^=%{coc#status()}%{get(b:,'coc_current_function','')}
+"
+"" Using CocList
+"" Show all diagnostics
+"nnoremap <silent> <space>a  :<C-u>CocList diagnostics<cr>
+"" Manage extensions
+"nnoremap <silent> <space>e  :<C-u>CocList extensions<cr>
+"" Show commands
+"nnoremap <silent> <space>c  :<C-u>CocList commands<cr>
+"" Find symbol of current document
+"nnoremap <silent> <space>o  :<C-u>CocList outline<cr>
+"" Search workspace symbols
+"nnoremap <silent> <space>s  :<C-u>CocList -I symbols<cr>
+"" Do default action for next item.
+"nnoremap <silent> <space>j  :<C-u>CocNext<CR>
+"" Do default action for previous item.
+"nnoremap <silent> <space>k  :<C-u>CocPrev<CR>
+"" Resume latest coc list
+"nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
+
+
   if IsPluginInstalled("nerdtree")
     function! IsNerdTreeEnabled()
       return exists('t:NERDTreeBufName') && bufwinnr(t:NERDTreeBufName) != -1
@@ -497,8 +649,18 @@ EOF
 
     function! NERDTreeFindToggle()
       if IsNerdTreeEnabled()
-        :NERDTreeClose
+        " Check if NerdTree is the current buffer
+        if @% == t:NERDTreeBufName
+          " If Nerdtree is selected and the current buffer, goto the
+          " window it was open before entering NERDTree
+          wincmd w
+        else
+          :NERDTreeFind
+        endif
+"        :NERDTreeClose
       else
+        :NERDTree
+        wincmd w
         :NERDTreeFind
       endif
     endfunction
@@ -518,13 +680,7 @@ EOF
   endif
 "
   if IsPluginInstalled("ultisnips")
-    let g:UltiSnipsSnippetDirectories=["/home/natan/ultisnips", "UltiSnips"]
-    let g:UltiSnipsUsePythonVersion = 3
-        " let g:UltiSnipsExpandTrigger="<c-space>"
-        " let g:UltiSnipsJumpForwardTrigger="<c-l>"
-        " let g:UltiSnipsJumpBackwardTrigger="<c-h>"
-
-        " :UltiSnipsEdit will to split your window.
+    let g:UltiSnipsSnippetDirectories=["~/ultisnips", "UltiSnips"]
     let g:UltiSnipsEditSplit="vertical"
   endif
 "
@@ -541,6 +697,29 @@ EOF
     let g:airline_right_alt_sep = ''
     let g:airline_powerline_fonts = 0
     "let g:airline_theme='jellybeans'
+    "
+
+    " buffers
+    nmap <leader>1 <Plug>AirlineSelectTab1
+    nmap <leader>2 <Plug>AirlineSelectTab2
+    nmap <leader>3 <Plug>AirlineSelectTab3
+    nmap <leader>4 <Plug>AirlineSelectTab4
+    nmap <leader>5 <Plug>AirlineSelectTab5
+    nmap <leader>6 <Plug>AirlineSelectTab6
+    nmap <leader>7 <Plug>AirlineSelectTab7
+    nmap <leader>8 <Plug>AirlineSelectTab8
+    nmap <leader>9 <Plug>AirlineSelectTab9
+
+    tmap <leader>1  <C-\><C-n><Plug>AirlineSelectTab1
+    tmap <leader>2  <C-\><C-n><Plug>AirlineSelectTab2
+    tmap <leader>3  <C-\><C-n><Plug>AirlineSelectTab3
+    tmap <leader>4  <C-\><C-n><Plug>AirlineSelectTab4
+    tmap <leader>5  <C-\><C-n><Plug>AirlineSelectTab5
+    tmap <leader>6  <C-\><C-n><Plug>AirlineSelectTab6
+    tmap <leader>7  <C-\><C-n><Plug>AirlineSelectTab7
+    tmap <leader>8  <C-\><C-n><Plug>AirlineSelectTab8
+    tmap <leader>9  <C-\><C-n><Plug>AirlineSelectTab9
+
   endif
 
   if IsPluginInstalled('ctrlp.vim')
@@ -548,175 +727,160 @@ EOF
 
   endif
 
-  if IsPluginInstalled("black") && executable('black')
+  if IsPluginInstalled('vim-localvimrc')
+    let g:localvimrc_sandbox = 0
+    let g:localvimrc_ask = 0
+    let g:localvimrc_enable = 1
+  endif
+
+  if IsPluginInstalled("black")
+    " let g:black_virtualenv=g:python3_host_prog
     let g:black_linelength = 78
     let g:black_skip_string_normalization = 1
+  endif
+
+
+  if IsPluginInstalled("vimwiki")
+
   endif
 
  " Programming {
      " Trailing blanks
      autocmd FileType c,cpp,java,go,php,javascript,puppet,python,rust,twig,xml,yml,yaml,perl,sql autocmd BufWritePre <buffer>  call StripTrailingWhitespace()
-     autocmd FileType yaml,yml,md,vim autocmd BufWritePre <buffer>  call StripTrailingWhitespace()
+     autocmd FileType yaml,yml,vim autocmd BufWritePre <buffer>  call StripTrailingWhitespace()
 
      " restructuredtext
      autocmd FileType rst setlocal tw=81 foldenable spell linebreak colorcolumn=80 maxmempattern=40000
  " }
  "
+ "
+ " Syntatic {
+  if IsPluginInstalled("syntastic")
+
+    set statusline+=%#warningmsg#
+    set statusline+=%{SyntasticStatuslineFlag()}
+    set statusline+=%*
+    set signcolumn=yes
+    " let g:syntastic_markdown_checkers = ['syntastic-markdown-mdl', 'syntastic-markdown-proselint','syntastic-markdown-textlint']
+    let g:syntastic_markdown_mdl_exec = "~/.npm-packages/markdownlint.cmd"
+    let g:syntastic_markdown_mdl_args = "%"
+
+    let g:syntastic_always_populate_loc_list = 1
+    let g:syntastic_auto_loc_list = 1
+    let g:syntastic_check_on_open = 1
+    let g:syntastic_check_on_wq = 0
+    " let g:syntastic_debug = 33
+
+  endif
+
+ " }
  "}}}
 
 
 " Python development ------------------------------------------------------{{{
 
-  let g:neomake_python_enabled_makers = [] " we use LSP
-
 "}}}
 
-
-  " Denite ----------------------------------------------------------------{{{
-  if IsPluginInstalled('denite.nvim')
-    call denite#custom#option('default', 'prompt', '»')
-    call denite#custom#option('default', 'auto-resize', 1)
-    call denite#custom#option('default', 'direction', 'botright')
-    call denite#custom#source('default', 'matchers', ['matcher_cpsm'])
-
-    " Change mappings.
-    call denite#custom#map(
-          \ 'insert',
-          \ '<down>',
-          \ '<denite:move_to_next_line>',
-          \ 'noremap'
-          \)
-    call denite#custom#map(
-          \ 'insert',
-          \ '<up>',
-          \ '<denite:move_to_previous_line>',
-          \ 'noremap'
-          \)
-
-    function! CtrlP()
-      call denite#start(b:ctrlp_sources)
-    endfunction
-
-    function! DetectSources()
-      if exists('b:ctrlp_sources')
-        return
-      endif
-
-      let b:ctrlp_sources = []
-      silent! !git status
-      if v:shell_error == 0
-        call add(b:ctrlp_sources, {'name': 'git', 'args': []})
-        call add(b:ctrlp_sources, {'name': 'git-other', 'args': []})
-        silent! !git config --file .gitmodules --list
-        if v:shell_error == 0
-          call add(b:ctrlp_sources, {'name': 'git-submodules', 'args': []})
-        endif
-      else
-        call add(b:ctrlp_sources, {'name': 'file/rec', 'args': []})
-      endif
-    endfunction
-
-""":   au BufEnter * call DetectSources()
-""":   nnoremap <silent> <c-p> :call CtrlP() <CR>
-""":   nnoremap <silent> <c-j> :Denite -auto-resize -direction=botright location_list<CR>
-""":   nnoremap <silent> <a-p> :DeniteCursorWord -auto-resize -direction=botright grep<CR>
-""":   nnoremap <silent> <a-s-p> :Denite -auto-resize -direction=botright grep<CR>
-""":   nnoremap <silent> <c-a-o> :Denite -auto-resize -direction=botright outline<CR>
-""":   nnoremap <leader>\ :Denite -auto-resize -direction=botright command<CR>
-
-""   call denite#custom#alias('source', 'git', 'file/rec')
-""   call denite#custom#var('git', 'command',
-""         \['git',
-""         \ 'ls-files',
-""         \ '-c'])
-""
-""   call denite#custom#alias('source', 'git-other', 'file/rec')
-""   call denite#custom#var('git-other', 'command',
-""         \['git',
-""         \ 'ls-files',
-""         \ '-o',
-""         \ '--exclude-standard'])
-""
-""   call denite#custom#alias('source', 'git-submodules', 'file/rec')
-""   call denite#custom#var('git-submodules', 'command',
-""         \['sh', '-c',
-""         \ 'git config --file .gitmodules --get-regexp path | cut -d " " -f2- | xargs git ls-files --recurse-submodules'])
-""
-""   call denite#custom#var('file/rec', 'command',
-""         \['ag',
-""         \'--follow',
-""         \'--nocolor',
-""         \'--nogroup',
-""         \'-g', ''])
-  endif
-  "}}}
-
   " Depolete --------------------------------------------------------------{{{
- if IsPluginInstalled('deoplete.nvim')
-   set completeopt=menuone,noinsert
-   let g:deoplete#enable_at_startup = 1
-   let g:deoplete#auto_completion_start_length = 1
-   let g:deoplete#enable_smart_case = 1
-   " set omni complete
-   if !exists('g:deoplete#omni#input_patterns')
-     let g:deoplete#omni#input_patterns = {}
-   endif
-   call deoplete#custom#source('ultisnips', 'matchers', ['matcher_fuzzy'])
 
-   " Close the documentation window when completion is done
-   " autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-   autocmd InsertLeave,CompleteDone * if pumvisible() != 0 | pclose | endif
-
-    """":  if !exists('g:deoplete#sources')
-    """":    let g:deoplete#sources={}
-    """":  endif
-    """":  let g:deoplete#sources._=['buffer', 'file', 'ultisnips']
-    """":  let g:deoplete#sources.python=['buffer', 'file', 'ultisnips', 'LanguageClient']
-    """":  let g:deoplete#sources.rust=['ultisnips', 'LanguageClient']
-    """":  let g:deoplete#sources.cpp=['ultisnips', 'LanguageClient']
-    """":  let g:deoplete#sources.c=['ultisnips', 'LanguageClient']
-    """":  let g:deoplete#sources.go=['ultisnips', 'LanguageClient']
-    """":
-    """":  let g:LanguageClient_hasSnippetSupport = 0
-    """":
-
-  endif
   " }}}
   "
- function! SetLSPShortcuts()
-   nnoremap <leader>ld :call LanguageClient#textDocument_definition()<CR>
-   nnoremap <leader>lr :call LanguageClient#textDocument_rename()<CR>
-   nnoremap <leader>lf :call LanguageClient#textDocument_formatting()<CR>
-   nnoremap <leader>lt :call LanguageClient#textDocument_typeDefinition()<CR>
-   nnoremap <leader>lx :call LanguageClient#textDocument_references()<CR>
-   nnoremap <leader>la :call LanguageClient_workspace_applyEdit()<CR>
-   nnoremap <leader>lc :call LanguageClient#textDocument_completion()<CR>
-   nnoremap <leader>lh :call LanguageClient#textDocument_hover()<CR>
-   nnoremap <leader>ls :Denite -auto-resize -direction=botright documentSymbol<CR>
-   nnoremap <leader>lS :Denite -auto-resize -direction=botright workspaceSymbol<CR>
-   nnoremap <leader>lm :call LanguageClient_contextMenu()<CR>
-
-   nnoremap <F1> :Denite -auto-resize -direction=botright contextMenu<CR>
-   nnoremap <silent> <F2> :call LanguageClient_textDocument_rename()<CR>
- endfunction()
-"""
- augroup LSP
-   autocmd!
-   autocmd FileType cpp,c,go,rust,python call SetLSPShortcuts()
- augroup END
-
- let g:LanguageClient_serverCommands = {
-  \ 'rust':   ['rls'],
-  \ 'c'   :   [g:plug_home.'/ccls/Release/ccls'],
-  \ 'cpp' :   [g:plug_home.'/ccls/Release/ccls'],
-  \ 'go'  :   ['bingo'],
-  \ 'python': [g:plug_home.'/pyls-vimplug/pyls'],
-  \ }
-"   ""}}}
-
- nmap <F12> :nohl<CR>:call LanguageClient_clearDocumentHighlight()<CR>
-
  :highlight ExtraWhitespace ctermbg=darkgreen guibg=lightgreen
  :au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
  :au InsertLeave * match ExtraWhitespace /\s\+$/
+
+ " Previm {
+   if WINDOWS()
+     let g:previm_open_cmd = 'start firefox'
+   else
+     " let g:previm_open_cmd = 'open -a Firefox'
+   endif
+ " {
+
+ " Markdown {
+ "
+  function! MdBuffer()
+    let g:mdbuffer=1
+    if WINDOWS()
+      set fileformat=unix
+    endif
+    set fileencoding=utf-8
+    set encoding=utf-8
+    set spell
+    set wrap
+    set colorcolumn=80
+    set textwidth=79
+    set linebreak
+    set sw=4
+    set ts=4
+  endfunction
+ " }
+ "
+
+" let g:previm_open_cmd = 'start Firefox'
+
+function! Mde_spanish()
+
+  " Markdown in spanish
+  setl filetype=markdown
+  setl fileencoding=utf-8
+  setl encoding=utf-8
+  setl spell
+  setl spelllang=es
+"  setl breakat=79
+  setl wrap
+  setl textwidth=79
+  setl linebreak
+"  setl breakindent
+  setl sw=4
+  setl ts=4
+  call SpanishMap()
+endfunc
+
+function! SpanishMap()
+  inoremap << «
+  inoremap >> »
+
+  inoremap 'a á
+  inoremap 'A Á
+  inoremap 'e é
+  inoremap 'E É
+  inoremap 'i í
+  inoremap 'I Í
+  inoremap 'o ó
+  inoremap 'O Ó
+  inoremap 'u ú
+  inoremap 'U Ú
+  inoremap ~n ñ
+  inoremap nn ñ
+  inoremap ~N Ñ
+  inoremap NN Ñ
+  inoremap :u ü
+  inoremap :U Ü
+  inoremap ?? ¿
+  inoremap !! ¡
+  inoremap -- –
+  inoremap 'c ción
+endfunc
+
+
+aug mde
+   au!
+   autocmd! BufRead,BufNewFile *.{mde,mds,mdspanish} call Mde_spanish()
+   autocmd BufWritePre <buffer>  call StripTrailingWhitespace()
+augroup end
+
+aug markdown
+   au!
+   "set filetype=markdown
+   autocmd BufRead,BufNewFile *.{md,markdown} call MdBuffer()
+   autocmd BufWritePre <buffer>  call StripTrailingWhitespace()
+augroup end
+
+
+autocmd ColorScheme * :highlight ExtraWhitespace ctermbg=darkgreen guibg=lightgreen
+colorscheme dracula
+
+
+ " }
 " vim: set tabstop=2 shiftwidth=2 expandtab:
