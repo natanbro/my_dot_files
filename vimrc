@@ -479,7 +479,7 @@
 " movement
   Plug 'tpope/vim-surround'
   Plug 'easymotion/vim-easymotion'
-  Plug 'https://github.com/unblevable/quick-scope.git'
+  " Plug 'https://github.com/unblevable/quick-scope.git'
   Plug 'https://github.com/tpope/vim-repeat.git'
 
 " denite
@@ -809,7 +809,8 @@
     set spell
     set wrap
     set colorcolumn=80
-    set textwidth=79
+    " set textwidth=79
+    set textwidth=0
     set linebreak
     set sw=4
     set ts=4
