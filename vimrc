@@ -664,10 +664,11 @@
         :NERDTreeFind
       endif
     endfunction
-    nnoremap <silent> <leader>e :call NERDTreeFindToggle()<CR>
+    " nnoremap <silent> <leader>e :call NERDTreeFindToggle()<CR>
 
     "map <leader>e  :NERDTree<CR>
     "map <leader>ef :NERDTreeFind<CR>
+    nnoremap <silent> <leader>e :NERDTreeToggle<CR>
 
     let NERDTreeShowBookmarks=1
     let NERDTreeIgnore=['\.py[cd]$', '\~$', '\.swo$', '\.swp$', '^\.git$', '^\.hg$', '^\.svn$', '\.bzr$']
