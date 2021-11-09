@@ -7,7 +7,7 @@
 #fi
 
 # User specific environment and startup programs
-if [ -z "$NBBASHRCSOURCED" ]; then
+# if [ -z "$NBBASHRCSOURCED" ]; then
     NBBASHRCSOURCED="Y"
 
     # enable color support of ls and also add handy aliases
@@ -88,12 +88,17 @@ if [ -z "$NBBASHRCSOURCED" ]; then
     PATH=$PATH:/usr/local/go/bin:$HOME/go/bin:$HOME/.npm-packages/bin/
 
     export PATH
-    # export PS1=${PS1%?}"\n$ " 
+    # export PS1=${PS1%?}"\n$ "
 
     [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
     PS1=${PS1%?}
     PS1=${PS1%?}\n'$ '
     export PS1
-fi
+
+    export NPM_PACKAGES="${HOME}/.npm-packages"
+    unset MANPATH # delete if you already modified MANPATH elsewhere in your config
+    export MANPATH="$NPM_PACKAGES/share/man:$(manpath)"
+
+# fi
 
