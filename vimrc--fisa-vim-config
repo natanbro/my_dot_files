@@ -253,10 +253,10 @@ endif
 
 " Override configs by directory
 Plug 'arielrossanigo/dir-configs-override.vim'
-" fisa ---  " Code commenter
-" fisa --- Plug 'scrooloose/nerdcommenter'
-" fisa ---  " Better file browser
-" fisa --- Plug 'scrooloose/nerdtree'
+" Code commenter
+Plug 'scrooloose/nerdcommenter'
+" Better file browser
+Plug 'scrooloose/nerdtree'
 " Class/module browser
 Plug 'majutsushi/tagbar'
 " Search results counter
@@ -270,8 +270,8 @@ Plug 'vim-airline/vim-airline-themes'
 " Code and files fuzzy finder
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-" fisa ---  " Pending tasks list
-" fisa --- Plug 'fisadev/FixedTaskList.vim'
+" Pending tasks list
+Plug 'fisadev/FixedTaskList.vim'
 " Async autocompletion
 if using_neovim && vim_plug_just_installed
     Plug 'Shougo/deoplete.nvim', {'do': ':autocmd VimEnter * UpdateRemotePlugins'}
@@ -303,16 +303,16 @@ Plug 'mileszs/ack.vim'
 Plug 'lilydjwg/colorizer'
 " Window chooser
 Plug 't9md/vim-choosewin'
-" fisa ---  " Automatically sort python imports
-" fisa --- Plug 'fisadev/vim-isort'
-" fisa ---  " Highlight matching html tags
-" fisa --- Plug 'valloric/MatchTagAlways'
-" fisa ---  " Generate html in a simple way
-" fisa --- Plug 'mattn/emmet-vim'
+" Automatically sort python imports
+Plug 'fisadev/vim-isort'
+" Highlight matching html tags
+Plug 'valloric/MatchTagAlways'
+" Generate html in a simple way
+Plug 'mattn/emmet-vim'
 " Git integration
 Plug 'tpope/vim-fugitive'
-" fisa ---  " Git/mercurial/others diff icons on the side of the file lines
-" fisa --- Plug 'mhinz/vim-signify'
+" Git/mercurial/others diff icons on the side of the file lines
+Plug 'mhinz/vim-signify'
 " Yank history navigation
 Plug 'vim-scripts/YankRing.vim'
 " Linters
@@ -322,9 +322,9 @@ Plug 'neomake/neomake'
 " on/off. When the plugin is present, will always activate the relative
 " numbering every time you go to normal mode. Author refuses to add a setting
 " to avoid that)
-" fisa --- Plug 'myusuf3/numbers.vim'
+Plug 'myusuf3/numbers.vim'
 " Nice icons in the file explorer and file type status line.
-" fisa --- Plug 'ryanoasis/vim-devicons'
+Plug 'ryanoasis/vim-devicons'
 
 if using_vim
     " Consoles as buffers (neovim has its own consoles as buffers)
@@ -337,15 +337,6 @@ endif
 " and g:hound_port, pointing to your hound instance
 " Plug 'mattn/webapi-vim'
 " Plug 'jfo/hound.vim'
-
-" TPOPE equivalent to NERDTree
-Plug 'tpope/vim-vinegar'
-Plug 'tpope/vim-repeat'
-"mappings for working with JSON in Vim:
-Plug 'https://github.com/tpope/vim-jdaddy'
-" tagbar-markdown is a tagbar extension for markdown.
-Plug 'epii1/tagbar-markdown'
-
 
 " Tell vim-plug we finished declaring plugins, so it can load them
 call plug#end()
