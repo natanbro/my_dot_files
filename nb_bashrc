@@ -31,6 +31,8 @@
 
     #
     alias glog='git log --graph --decorate --pretty=oneline --abbrev-commit'
+
+    alias vim=vimx
     #
 ######     if [ -f `which powerline-daemon` ]; then
 ######         powerline-daemon -q

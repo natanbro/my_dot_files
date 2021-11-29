@@ -9,53 +9,9 @@
     let mapleader = ','
 "}
 
-"if has('unix') && has('win32unix')
-"    source /c/vim/vim82/autoload/plug.vim
-"    source /c/Users/n00437896/Documents/mydotfiles/my_dot_files-markdown-01/vimrc
-"
-"else
-"    source /Users/n00437896/Documents/mydotfiles/my_dot_files-markdown-01/vimrc
-"endif
-"set belloff=all
-
-""   function! StripTrailingWhitespace()
-""     " Preparation: save last search, and cursor position.
-""     let _s=@/
-""     let l = line(".")
-""     let c = col(".")
-""     " do the business:
-""     %s/\s\+$//e
-""     " clean up: restore previous search history, and cursor position
-""     let @/=_s
-""     call cursor(l, c)
-""   endfunction
-"" 
-" Active plugins
-" You can disable or add new ones here:
-
-" this needs to be here, so vim-plug knows we are declaring the plugins we
-" want to use
-call plug#begin("~/.vim/plugged")
-
-" Now the actual plugins:
-
-" Override configs by directory
-Plug 'patstockwell/vim-monokai-tasty'
-" Airline
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-
-Plug 'tpope/vim-repeat'
-"mappings for working with JSON in Vim:
-Plug 'https://github.com/tpope/vim-jdaddy'
-
-" Tell vim-plug we finished declaring plugins, so it can load them
-call plug#end()
-
-" ============================================================================
-" Install plugins the first time vim runs
-
 set nocompatible
+set belloff=all
+set clipboard=unnamedplus
 
   " allow plugins by file type (required for plugins!)
 filetype plugin on
@@ -83,12 +39,39 @@ set shiftwidth=4
 set nu
 
 
+" Active plugins
+" You can disable or add new ones here:
+
+" this needs to be here, so vim-plug knows we are declaring the plugins we
+" want to use
+call plug#begin("~/.vim/plugged")
+
+" Now the actual plugins:
+
+" Override configs by directory
+Plug 'patstockwell/vim-monokai-tasty'
+" Airline
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+Plug 'tpope/vim-repeat'
+"mappings for working with JSON in Vim:
+Plug 'https://github.com/tpope/vim-jdaddy'
+
+" Tell vim-plug we finished declaring plugins, so it can load them
+call plug#end()
+
+" ============================================================================
+" Install plugins the first time vim runs
+
 " use 256 colors when possible
-if has('gui_running') || using_neovim || (&term =~? 'mlterm\|xterm\|xterm-256\|screen-256')
+if has('gui_running') || (&term =~? 'mlterm\|xterm\|xterm-256\|screen-256')
     if !has('gui_running')
         let &t_Co = 256
     endif
-    colorscheme vim-monokai-tasty
+    if isdirectory('vim/plugged/vim-monokai-tasty/')
+      colorscheme vim-monokai-tasty
+    endif
 else
     colorscheme delek
 endif
