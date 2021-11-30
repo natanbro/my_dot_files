@@ -49,7 +49,8 @@ call plug#begin("~/.vim/plugged")
 " Now the actual plugins:
 
 " Override configs by directory
-Plug 'patstockwell/vim-monokai-tasty'
+Plug 'natanbro/vim-monokai-tasty'
+" Plug 'patstockwell/vim-monokai-tasty'
 " Airline
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
