@@ -437,6 +437,7 @@
 "  Plug 'https://github.com/dracula/dracula-theme.git'
   Plug 'sonph/onehalf', {'rtp': 'vim/'}
   Plug 'dracula/vim', { 'as': 'dracula' }
+  Plug 'patstockwell/vim-monokai-tasty'
 
 " git
   Plug 'tpope/vim-fugitive'
@@ -517,7 +518,7 @@
   Plug 'junegunn/goyo.vim'
 
 " wiki
-  Plug 'https://github.com/vimwiki/vimwiki'
+"  Plug 'https://github.com/vimwiki/vimwiki'
   Plug 'https://github.com/vimoutliner/vimoutliner'
 
 " finish set up
