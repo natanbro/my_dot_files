@@ -1,8 +1,8 @@
 " vim: set sw=2 ts=2 sts=2 et tw=78 foldmarker={,} foldlevel=9 foldmethod=marker nowrap:
 " Python venvs ------------------------------------------------------------{{{
 
-"  let g:plugins_dir = expand('~/.local/share/nvim/plugged')
-"  let g:python3_host_prog = $HOME.'/.config/nvim/pyenv3/bin/python'
+let g:plugins_dir = expand('$HOME/.vim/plugged')
+let g:python3_host_prog = expand('$HOME/.vim/.venv/bin/python')
 "}}}
 "
 " Leader definition {
@@ -11,6 +11,7 @@
 
 set nocompatible
 set belloff=all
+" Use systems clipboard
 set clipboard=unnamedplus
 
   " allow plugins by file type (required for plugins!)
@@ -38,26 +39,74 @@ set shiftwidth=4
 " show line numbers
 set nu
 
+  " Easy changing between buffers
+    map <c-j> :bnext<cr>
+    map <c-k> :bprevious<cr>
+
+  " Easy change between Windows
+    noremap <c-l> <c-w>l
+    noremap <c-h> <c-w>h
+    map <c-up> <c-w>k
+    map <c-down> <c-w>j
+    map <c-right> <c-w>l
+    map <c-left> <c-w>h
+
+      " Use alt keys
+    map <A-l> <C-W>l
+    map <A-h> <C-W>h
+    map <A-j> <C-W>j
+    map <A-k> <C-W>k
 
 " Active plugins
 " You can disable or add new ones here:
 
 " this needs to be here, so vim-plug knows we are declaring the plugins we
 " want to use
-call plug#begin("~/.vim/plugged")
 
-" Now the actual plugins:
+call plug#begin(g:plugins_dir)
 
-" Override configs by directory
-Plug 'natanbro/vim-monokai-tasty'
-" Plug 'patstockwell/vim-monokai-tasty'
-" Airline
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+  " Override configs by directory
+  " 
+  Plug 'arielrossanigo/dir-configs-override.vim'
 
-Plug 'tpope/vim-repeat'
-"mappings for working with JSON in Vim:
-Plug 'https://github.com/tpope/vim-jdaddy'
+  " buffer management
+  Plug 'moll/vim-bbye'
+
+  " Better file browser
+  Plug 'scrooloose/nerdtree'
+
+  " Search results counter
+  Plug 'vim-scripts/IndexedSearch'
+
+  Plug 'natanbro/vim-monokai-tasty'
+  " Plug 'patstockwell/vim-monokai-tasty'
+  " Airline
+  Plug 'vim-airline/vim-airline'
+  Plug 'vim-airline/vim-airline-themes'
+    " Consoles as buffers (neovim has its own consoles as buffers)
+    Plug 'rosenfeld/conque-term'
+
+" Yank history navigation
+Plug 'vim-scripts/YankRing.vim'
+
+" Ack code search (requires ack installed in the system)
+Plug 'mileszs/ack.vim'
+" Paint css colors with the real color
+Plug 'lilydjwg/colorizer'
+" Window chooser
+Plug 't9md/vim-choosewin'
+
+
+  Plug 'tpope/vim-repeat'
+  "mappings for working with JSON in Vim:
+  Plug 'https://github.com/tpope/vim-jdaddy'
+
+    " Markdown
+  Plug 'https://github.com/plasticboy/vim-markdown/'
+  Plug 'https://github.com/previm/previm/'
+  Plug 'https://github.com/tyru/open-browser.vim'
+  Plug 'https://github.com/instant-markdown/vim-instant-markdown.git'
+
 
 " Tell vim-plug we finished declaring plugins, so it can load them
 call plug#end()
