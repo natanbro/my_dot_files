@@ -1,6 +1,8 @@
 " vim: set sw=2 ts=2 sts=2 et tw=78 foldmarker={,} foldlevel=9 foldmethod=marker nowrap:
 " Python venvs ------------------------------------------------------------{{{
 
+  let g:plugins_dir = expand('$HOME/.vim/plugged')
+  let g:python3_host_prog = expand('$HOME/.vim/.venv/bin/python')
 "  let g:plugins_dir = expand('~/.local/share/nvim/plugged')
 "  let g:python3_host_prog = $HOME.'/.config/nvim/pyenv3/bin/python'
 "}}}
@@ -29,8 +31,10 @@
     set nocompatible        " Must be first line
     if !WINDOWS()
       set shell=/bin/sh
-      let g:plugins_dir = expand('~/.local/share/nvim/plugged')
-      let g:python3_host_prog = $HOME.'/.config/nvim/pyenv3/bin/python'
+      let g:plugins_dir = expand('$HOME/.vim/plugged')
+      let g:python3_host_prog = expand('$HOME/.vim/.venv/bin/python')
+"      let g:plugins_dir = expand('~/.local/share/nvim/plugged')
+"      let g:python3_host_prog = $HOME.'/.config/nvim/pyenv3/bin/python'
     endif
     " }
 
@@ -418,6 +422,13 @@
 " buffer management
   Plug 'moll/vim-bbye'
 
+  " use terminals as buffers
+  Plug 'rosenfeld/conque-term'
+  "
+  " Window selector
+  Plug 't9md/vim-choosewin'
+  "
+
 " color
   Plug 'nanotech/jellybeans.vim'
   Plug 'https://github.com/natanbro/browny_vim.git'
@@ -438,6 +449,9 @@
   Plug 'sonph/onehalf', {'rtp': 'vim/'}
   Plug 'dracula/vim', { 'as': 'dracula' }
   Plug 'patstockwell/vim-monokai-tasty'
+
+  " Override configurations using .vim.custom files
+  Plug 'arielrossanigo/dir-configs-override.vim'
 
 " git
   Plug 'tpope/vim-fugitive'
@@ -470,8 +484,10 @@
   if executable('ctags')
       Plug 'majutsushi/tagbar'
   endif
+  Plug 'vim-scripts/IndexedSearch'
+  Plug 'vim-scripts/YankRing.vim'
   Plug 'https://github.com/adelarsq/vim-matchit'
-  Plug 'embear/vim-localvimrc'
+  " Plug 'embear/vim-localvimrc'
 
 " Language Servers
 "  Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -499,6 +515,11 @@
 " yaml
   Plug 'stephpy/vim-yaml'
   "
+  " JSON
+  " Check out these must have mappings for working with JSON in Vim:"
+  Plug 'https://github.com/tpope/vim-jdaddy'
+
+  "
   " rst
   " Plug 'https://github.com/Rykka/riv.vim.git'
   "
@@ -518,7 +539,7 @@
   Plug 'junegunn/goyo.vim'
 
 " wiki
-"  Plug 'https://github.com/vimwiki/vimwiki'
+"   Plug 'https://github.com/vimwiki/vimwiki'
   Plug 'https://github.com/vimoutliner/vimoutliner'
 
 " finish set up
