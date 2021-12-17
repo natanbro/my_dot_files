@@ -31,8 +31,8 @@
     set nocompatible        " Must be first line
     if !WINDOWS()
       set shell=/bin/sh
-      let g:plugins_dir = expand('$HOME/.vim/plugged')
-      let g:python3_host_prog = expand('$HOME/.vim/.venv/bin/python')
+      " let g:plugins_dir = expand('$HOME/.vim/plugged')
+      " let g:python3_host_prog = expand('$HOME/.vim/.venv/bin/python')
 "      let g:plugins_dir = expand('~/.local/share/nvim/plugged')
 "      let g:python3_host_prog = $HOME.'/.config/nvim/pyenv3/bin/python'
     endif
@@ -43,42 +43,53 @@
     " across (heterogeneous) systems easier.
     if WINDOWS()
       set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
-      let g:plugins_dir = expand('~/vimfiles/plugged')
+      " let g:plugins_dir = expand('~/vimfiles/plugged')
     "}}}
-
     endif
     " }
   " }
   "
   function! IsPluginInstalled(name)
     " echom "Asked to check for: >".a:name."<"
+    " echom g:plugins_dir."/".a:name
+    let s:myrtp = split((&rtp), ',')
+
+    " echo   s:myrtp
+
     if WINDOWS()
-      let s:plugin_fqpath = g:plugins_dir."\\".a:name
+      let s:plugin_fqpath = expand(g:plugins_dir."\\".a:name)
       if isdirectory(expand(g:plugins_dir."/".a:name))
         " echom "WINDOWS found plugin ".a:name
         return 1
       endif
     else
+     "  e
+     "  chom "Linux"
 
-      let s:plugin_fqpath = g:plugins_dir."/".a:name
+      let s:plugin_fqpath = expand(g:plugins_dir."/".a:name)
 
       " Check if the Plugin is part of the runtimepath
       let s:myrtp = split((&rtp), ',')
        " echom s:myrtp
        " echom "Searching for >".s:plugin_fqpath."<"
+      " echom "Matching"
+      " echom matchstr(s:myrtp, s:plugin_fqpath)
+      " echom s:myrtp
+      " echom s:plugin_fqpath
+
       if matchstr(s:myrtp, s:plugin_fqpath) != ""
         " Found a bug that some plugin managers update the rtp even if
         " they where not able to install the actual plugin.
-        "  echom "_____________________found __________________"
-        "  echom g:plugins_dir."/".a:name
-        "  echom isdirectory(expand(g:plugins_dir."/".a:name))
-        if isdirectory(expand(g:plugins_dir."/".a:name))
+          " echom "_____________________found __________________"
+          " echom g:plugins_dir."/".a:name
+          " echom isdirectory(expand(g:plugins_dir."/".a:name))
+          " if isdirectory(expand(g:plugins_dir."/".a:name))
           unlet s:myrtp
           return 1
         endif
       endif
       unlet s:myrtp
-    endif
+    " endif
   endfunction
   "
   function! StripTrailingWhitespace()
@@ -451,7 +462,7 @@
   Plug 'patstockwell/vim-monokai-tasty'
 
   " Override configurations using .vim.custom files
-  Plug 'arielrossanigo/dir-configs-override.vim'
+"  " Plug 'arielrossanigo/dir-configs-override.vim'
 
 " git
   Plug 'tpope/vim-fugitive'
@@ -487,7 +498,7 @@
   Plug 'vim-scripts/IndexedSearch'
   Plug 'vim-scripts/YankRing.vim'
   Plug 'https://github.com/adelarsq/vim-matchit'
-  " Plug 'embear/vim-localvimrc'
+  Plug 'embear/vim-localvimrc'
 
 " Language Servers
 "  Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -664,7 +675,9 @@
 "nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
 
 
-  if IsPluginInstalled("nerdtree")
+  " echom "Checking for Nerdtree"
+  " echo IsPluginInstalled("nerdtree")
+
     function! IsNerdTreeEnabled()
       return exists('t:NERDTreeBufName') && bufwinnr(t:NERDTreeBufName) != -1
     endfunction
@@ -700,7 +713,6 @@
     let NERDTreeShowHidden=1
     let NERDTreeKeepTreeInNewTab=1
     let g:nerdtree_tabs_open_on_gui_startup=0
-  endif
 "
   if IsPluginInstalled("ultisnips")
     let g:UltiSnipsSnippetDirectories=["~/ultisnips", "UltiSnips"]
