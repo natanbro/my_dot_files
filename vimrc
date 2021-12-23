@@ -751,9 +751,9 @@ if IsPluginInstalled('vim-airline')
     set encoding=utf-8
     set spell
     set wrap
-    set colorcolumn=80
+"    set colorcolumn=80
     " set textwidth=79
-    set textwidth=0
+    set textwidth=3000
     set linebreak
     set sw=4
     set ts=4
