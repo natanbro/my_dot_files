@@ -427,16 +427,31 @@
   call plug#begin(g:plugins_dir)
 
 " aux
-  Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-  Plug 'xolox/vim-misc'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
+"  Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+"  Plug 'xolox/vim-misc'
+"""  Plug 'roxma/nvim-yarp'
+"  Plug 'roxma/vim-hug-neovim-rpc'
 
 " syntax
   Plug 'sheerun/vim-polyglot'
-  Plug 'benekastah/neomake'
+"  Plug 'benekastah/neomake'
   Plug 'https://github.com/vim-syntastic/syntastic'
 
+" IDE
+  Plug 'itchyny/vim-cursorword' " highlight word under cursor
+  Plug 'scrooloose/nerdtree'
+  Plug 'https://github.com/tomtom/tcomment_vim'
+  Plug 'godlygeek/tabular'
+  Plug 'junegunn/vim-easy-align'
+"  Plug 'luochen1990/rainbow'
+"  if executable('ctags')
+"      Plug 'majutsushi/tagbar'
+"  endif
+  Plug 'vim-scripts/IndexedSearch'
+"  Plug 'vim-scripts/YankRing.vim'
+  Plug 'https://github.com/adelarsq/vim-matchit'
+  Plug 'embear/vim-localvimrc'
+  "
 " buffer management
   Plug 'moll/vim-bbye'
 
@@ -444,7 +459,7 @@
   Plug 'rosenfeld/conque-term'
   "
   " Window selector
-  Plug 't9md/vim-choosewin'
+"  Plug 't9md/vim-choosewin'
   "
 
 " color
@@ -487,26 +502,19 @@
 "  Plug 'https://github.com/kien/ctrlp.vim.git'
   Plug 'https://github.com/ctrlpvim/ctrlp.vim'
 
-  """ NB: Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'deoplete-plugins/deoplete-jedi'
+  " Completion from other opened files
+  Plug 'Shougo/context_filetype.vim'
+" Just to add the python go-to-definition and similar features, autocompletion
+" from this plugin is disabled
+  Plug 'davidhalter/jedi-vim'
 
   " NB: snippets
   Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
 
-" IDE
-  Plug 'itchyny/vim-cursorword' " highlight word under cursor
-  Plug 'scrooloose/nerdtree'
-  Plug 'https://github.com/tomtom/tcomment_vim'
-  Plug 'godlygeek/tabular'
-  Plug 'junegunn/vim-easy-align'
-  Plug 'luochen1990/rainbow'
-"  if executable('ctags')
-"      Plug 'majutsushi/tagbar'
-"  endif
-  Plug 'vim-scripts/IndexedSearch'
-  Plug 'vim-scripts/YankRing.vim'
-  Plug 'https://github.com/adelarsq/vim-matchit'
-  Plug 'embear/vim-localvimrc'
+
 
 " Language Servers
 "  Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -549,7 +557,7 @@
   Plug 'https://github.com/instant-markdown/vim-instant-markdown.git'
 
 " Golang
-  Plug 'https://github.com/fatih/vim-go'
+  " Plug 'https://github.com/fatih/vim-go'
 
  " Highlight current paragraph
   Plug 'junegunn/limelight.vim'
@@ -574,6 +582,39 @@
 
 " Plugins configuration ---------------------------------------------------{{{
 "
+" Use deoplete.
+if IsPluginInstalled("deoplete")
+    let g:deoplete#enable_at_startup = 1
+    call deoplete#custom#option({
+    \   'ignore_case': v:true,
+    \   'smart_case': v:true,
+    \})
+    " complete with words from any opened file
+    let g:context_filetype#same_filetypes = {}
+    let g:context_filetype#same_filetypes._ = '_'
+
+endif
+
+
+
+    " Jedi-vim ------------------------------
+if IsPluginInstalled("jedi-vim")
+
+    " Disable autocompletion (using deoplete instead)
+    let g:jedi#completions_enabled = 0
+
+    " All these mappings work only for python code:
+    " Go to definition
+    let g:jedi#goto_command = ',d'
+    " Find ocurrences
+    let g:jedi#usages_command = ',o'
+    " Find assignments
+    let g:jedi#goto_assignments_command = ',a'
+    " Go to definition in new tab
+    nmap ,D :tab split<CR>:call jedi#goto()<CR>
+endif
+
+
 
 if IsPluginInstalled("nerdtree")
 " echo "Checking for Nerdtree"
@@ -682,10 +723,6 @@ if IsPluginInstalled('vim-airline')
     let g:black_skip_string_normalization = 1
   endif
 
-
-  if IsPluginInstalled("vimwiki")
-
-  endif
 
  " Programming {
      " Trailing blanks
