@@ -187,24 +187,26 @@
 
 " My sane defaults --------------------------------------------------------{{{
 
-  " Miscellaneous {
+  "{
       filetype plugin indent on   " Automatically detect file types.
       syntax on                   " Syntax highlighting
       set mouse=a                 " Automatically enable mouse usage
       set mousehide               " Hide the mouse cursor while typing
       scriptencoding utf-8
-      " Increment number under the cursor
-      nnoremap <A-a> <C-a>
+      " " Increment number under the cursor
+      " nnoremap <A-a> <C-a>
+      "
+      " Clipboard
       if has('clipboard')
         if has('unnamedplus')  " When possible use + register for copy-paste
           set clipboard=unnamed,unnamedplus
         else         " On mac and Windows, use * register for copy-paste
           set clipboard=unnamed
         endif
-      " CTRL-C and CTRL-Insert are Copy
-        vnoremap <C-C> "+y
+      " CTRL-Insert is Copy
+       " vnoremap <C-C> "+y
         vnoremap <C-Insert> "+y
-        " CTRL-V and SHIFT-Insert are Paste
+        " SHIFT-Insert is Paste
         map <S-Insert> "+gP
         imap <S-Insert>	<C-R>+
         cmap <S-Insert>	<C-R>+
@@ -213,7 +215,6 @@
 
       set virtualedit=onemore,block       " Allow for cursor beyond last character
       set history=1000                    " Store a ton of history (default is 20)
-      set hidden                          " Allow buffer switching without saving
       set number
 
       set iskeyword-=.                    " '.' is an end of word designator
@@ -237,6 +238,7 @@
 
       set shortmess+=filmnrxoOtT      " Abbrev. of messages (avoids 'hit enter')
 
+      set hidden                          " Allow buffer switching without saving
       set autowrite
 
       set foldenable
@@ -294,9 +296,12 @@
           set lines=30
           set guifont=Consolas:h11,Fixedsys:h12,Andale_Mono:h12,Menlo:h12,Consolas:h12,Courier_New:h12
         endif
-      endif
-      " colorscheme default
-      " set bg=light
+      endif "has GUI
+
+      " colors
+      colorscheme default
+      set bg=light
+
       hi pmenu guibg=white
 
     " }
@@ -321,8 +326,8 @@
   :command! WQ wq
   :command! Wq wq
   :command! W w
-  :command! Q q
-
+  " :command! Q q
+  "
   " Common finger slips in English
   :ab THe The
   :ab THey They
@@ -364,6 +369,7 @@
   " toggle spelling and search highlight
     nmap <silent> <leader>/ :set invhlsearch<CR>
     nmap <silent><leader>\  :set invspell<CR>
+    nmap <leader>bg :call ToggleBg()<cr>
 
   "Split line at cursor position leaving cursor in place
     nnoremap <c-Enter> i<cr><esc>k$
@@ -419,7 +425,6 @@
     tmap <A-j> <C-\><C-n><C-W>j
     tmap <A-k> <C-\><C-n><C-W>k
 
-    nmap <leader>bg :call ToggleBg()<cr>
 
 "}}}
 
@@ -450,7 +455,7 @@
   Plug 'vim-scripts/IndexedSearch'
 "  Plug 'vim-scripts/YankRing.vim'
   Plug 'https://github.com/adelarsq/vim-matchit'
-  Plug 'embear/vim-localvimrc'
+  " Plug 'embear/vim-localvimrc'
   "
 " buffer management
   Plug 'moll/vim-bbye'
@@ -554,7 +559,7 @@
   Plug 'https://github.com/plasticboy/vim-markdown/'
   Plug 'https://github.com/previm/previm/'
   Plug 'https://github.com/tyru/open-browser.vim'
-  Plug 'https://github.com/instant-markdown/vim-instant-markdown.git'
+  " Plug 'https://github.com/instant-markdown/vim-instant-markdown.git'
 
 " Golang
   " Plug 'https://github.com/fatih/vim-go'
@@ -576,12 +581,16 @@
 
 "}}}
 
- let g:voom_python_versions = [3]
 
 
 
 " Plugins configuration ---------------------------------------------------{{{
 "
+" VOoM
+if IsPluginInstalled("VOoM")
+  let g:voom_python_versions = [3]
+endif
+
 " Use deoplete.
 if IsPluginInstalled("deoplete")
     let g:deoplete#enable_at_startup = 1
@@ -597,7 +606,7 @@ endif
 
 
 
-    " Jedi-vim ------------------------------
+" Jedi-vim
 if IsPluginInstalled("jedi-vim")
 
     " Disable autocompletion (using deoplete instead)
@@ -649,7 +658,14 @@ if IsPluginInstalled("nerdtree")
     "map <leader>e  :NERDTree<CR>
     "map <leader>ef :NERDTreeFind<CR>
     nnoremap <silent> <leader>e :NERDTreeToggle<CR>
-
+    "
+    " Exit Vim if NERDTree is the only window remaining in the only tab.
+    "
+    autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
+    "
+    "Close the tab if NERDTree is the only window remaining in it.
+    "
+    autocmd BufEnter * if winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | quit | endif
     let NERDTreeShowBookmarks=1
     let NERDTreeIgnore=['\.py[cd]$', '\~$', '\.swo$', '\.swp$', '^\.git$', '^\.hg$', '^\.svn$', '\.bzr$']
     let NERDTreeChDirMode=0
@@ -779,6 +795,13 @@ if IsPluginInstalled('vim-airline')
 
  " Markdown {
  "
+ "
+
+  function! MdSetColors()
+    colorscheme PaperColor
+    set bg=light
+  endfunction
+
   function! MdBuffer()
     let g:mdbuffer=1
     if WINDOWS()
@@ -798,11 +821,12 @@ if IsPluginInstalled('vim-airline')
  " }
  "
 
-" let g:previm_open_cmd = 'start Firefox'
+let g:previm_open_cmd = 'start Firefox'
 
 function! Mde_spanish()
 
   " Markdown in spanish
+  let g:mdspanish=1
   setl filetype=markdown
   setl fileencoding=utf-8
   setl encoding=utf-8
@@ -810,8 +834,8 @@ function! Mde_spanish()
   setl spelllang=es
 "  setl breakat=79
   setl wrap
-  setl textwidth=79
-  setl linebreak
+  setl textwidth=3000
+  " setl linebreak
 "  setl breakindent
   setl sw=4
   setl ts=4
@@ -844,6 +868,29 @@ function! SpanishMap()
   inoremap 'c ción
 endfunc
 
+function! EnableSpanishMarkdown()
+  " Check if the file named "md_spanish" exists in the current directory
+  let s:filename_for_spanish_md="md_spanish"
+  " let s:current_ext=expand('%:e')
+  " echo expand('%:p:h')."/".s:filename_for_spanish_md
+  let s:file_to_check=expand('%:p:h')."/".s:filename_for_spanish_md
+  " echo s:file_to_check
+  " echo "Current extension and path"
+  " echo s:current_ext
+  " echo s:current_filepath
+  " if s:current_ext == "md"
+    " echo "Checking for file"
+    " let s:file_to_check=s:current_filepath . s:filename_for_spanish_md
+    " echo s:file_to_check
+    " if exists(expand(s:filename_for_spanish_md))
+    if filereadable(expand(s:file_to_check))
+      " echo "found"
+      call Mde_spanish()
+      call MdSetColors()
+    else
+      " echo "Notfound"
+    endif
+endfunc
 
 aug mde
    au!
@@ -854,14 +901,17 @@ augroup end
 aug markdown
    au!
    "set filetype=markdown
-   autocmd BufRead,BufNewFile *.{md,markdown} call MdBuffer()
+   autocmd BufRead,BufNewFile *.{md,markdown} call MdBuffer() | call EnableSpanishMarkdown()
    autocmd BufWritePre <buffer>  call StripTrailingWhitespace()
+   " call EnableSpanishMarkdown()
+   " echo "In a markdown file"
 augroup end
 
 
 autocmd ColorScheme * :highlight ExtraWhitespace ctermbg=darkgreen guibg=lightgreen
-colorscheme dracula
-
+" colorscheme dracula
+colorscheme vim-monokai-tasty
+set bg=dark
 
  " }
 " vim: set tabstop=2 shiftwidth=2 expandtab:
