@@ -864,13 +864,16 @@ function! SpanishMap()
   inoremap :U Ü
   inoremap ?? ¿
   inoremap !! ¡
-  inoremap -- –
+  "inoremap -- –
+  " Long dash is <insert><c-v>u2014
+  inoremap -- —
+
   inoremap 'c ción
 endfunc
 
 function! EnableSpanishMarkdown()
   " Check if the file named "md_spanish" exists in the current directory
-  let s:filename_for_spanish_md="md_spanish"
+  let s:filename_for_spanish_md="md_spanish.vim"
   " let s:current_ext=expand('%:e')
   " echo expand('%:p:h')."/".s:filename_for_spanish_md
   let s:file_to_check=expand('%:p:h')."/".s:filename_for_spanish_md
@@ -881,12 +884,14 @@ function! EnableSpanishMarkdown()
   " if s:current_ext == "md"
     " echo "Checking for file"
     " let s:file_to_check=s:current_filepath . s:filename_for_spanish_md
-    " echo s:file_to_check
     " if exists(expand(s:filename_for_spanish_md))
     if filereadable(expand(s:file_to_check))
       " echo "found"
+      " echo expand(s:file_to_check)
+      " source expand(s:file_to_check)
       call Mde_spanish()
       call MdSetColors()
+      set autochdir
     else
       " echo "Notfound"
     endif
