@@ -314,7 +314,7 @@
       set laststatus=2
       set wildmenu                    " Show list instead of just completing
       set wildmode=list:longest,full  " Command <Tab> completion, list matches, then longest common part, then all.
-      set colorcolumn=79
+      " set colorcolumn=79
   " }
 
 "}}}
@@ -357,6 +357,8 @@
   " Wrapped lines goes down/up to next row, rather than next line in file.
     noremap j gj
     noremap k gk
+    noremap <down> gj
+    noremap <up> gk
 
   " Visual shifting (does not exit Visual mode)
     vnoremap < <gv
@@ -407,7 +409,9 @@
     nmap <leader>- :split<CR>
     nmap <leader>c <C-w>c
 
-  " Terminal mode
+
+    " Terminal mode
+    set shell=/bin/bash
     nmap <leader>t :e term://bash<cr>
 
     tmap <esc><esc> <c-\><c-n>
@@ -483,6 +487,7 @@
   Plug 'https://github.com/datMaffin/vim-colors-bionik.git'
   Plug 'https://github.com/yasukotelin/shirotelin.git'
 "  Plug 'https://github.com/sonph/onehalf.git'
+"
 "  Plug 'https://github.com/dracula/dracula-theme.git'
   Plug 'sonph/onehalf', {'rtp': 'vim/'}
   Plug 'dracula/vim', { 'as': 'dracula' }
@@ -840,6 +845,9 @@ function! Mde_spanish()
   setl sw=4
   setl ts=4
   call SpanishMap()
+  colorscheme browny
+  lcd %:p:h
+  setl autochdir
 endfunc
 
 function! SpanishMap()
