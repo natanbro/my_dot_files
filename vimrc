@@ -412,7 +412,7 @@
 
     " Terminal mode
     set shell=/bin/bash
-    nmap <leader>t :e term://bash<cr>
+    nmap <leader>te :e term://bash<cr>
 
     tmap <esc><esc> <c-\><c-n>
 
@@ -663,6 +663,7 @@ if IsPluginInstalled("nerdtree")
     "map <leader>e  :NERDTree<CR>
     "map <leader>ef :NERDTreeFind<CR>
     nnoremap <silent> <leader>e :NERDTreeToggle<CR>
+    nnoremap <silent> <leader>tt :NERDTreeToggle<CR>
     "
     " Exit Vim if NERDTree is the only window remaining in the only tab.
     "
