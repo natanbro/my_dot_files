@@ -385,8 +385,8 @@
   "
   "
   " Easy changing between buffers
-    map <c-j> :bnext<cr>
-    map <c-k> :bprevious<cr>
+    map <c-k> :bnext<cr>
+    map <c-j> :bprevious<cr>
 
   " Easy change between Windows
     noremap <c-l> <c-w>l
@@ -660,7 +660,9 @@ if IsPluginInstalled("nerdtree")
     endfunction
     " nnoremap <silent> <leader>e :call NERDTreeFindToggle()<CR>
 
-    "map <leader>e  :NERDTree<CR>
+    map <leader>e  :NERDTree<CR>
+    map <leader>tt  :NERDTree<CR>
+
     "map <leader>ef :NERDTreeFind<CR>
     nnoremap <silent> <leader>e :NERDTreeToggle<CR>
     nnoremap <silent> <leader>tt :NERDTreeToggle<CR>
@@ -928,4 +930,86 @@ colorscheme vim-monokai-tasty
 set bg=dark
 
  " }
+" https://vim.fandom.com/wiki/Folding_with_Regular_Expression
+" command to fold everything except what you searched for
+command! -nargs=* Foldsearch
+      \ if <q-args> != '' |
+      \   exe "normal /".<q-args>."\<CR>" |
+      \ endif |
+      \ if @/ != '' |
+      \   setlocal
+      \     foldexpr=FoldRegex(v:lnum,@/,2)
+      \     foldmethod=expr
+      \     foldlevel=0 |
+      \ endif
+
+
+function! FoldRegex(lnum,pat,context)
+  " get start/end positions for context lines
+  let startline=a:lnum-a:context
+  while startline < 1
+    let startline+=1
+  endwhile
+  let endline=a:lnum+a:context
+  while endline > line('$')
+    let endline-=1
+  endwhile
+
+  let returnval = 2
+
+  let pos=getpos('.')
+
+  " search from current line to get matches ON the line
+  call cursor(a:lnum, 1)
+  let matchline=search(a:pat,'cW',endline)
+  if matchline==a:lnum
+    let returnval = 0
+  elseif matchline > 0
+    " if current line didn't match, there could have been a match within
+    " trailing context lines
+    let returnval = 1
+  else
+    " if no match at current line, search leading context lines for a match
+    call cursor(startline, 1)
+    let matchline=search(a:pat,'cW',a:lnum)
+    if matchline > 0
+      let returnval = 1
+    endif
+  endif
+
+  call setpos('.',pos)
+
+  return returnval
+endfun
+
+ function! FindProjectRoot(lookFor)
+    let pathMaker='%:p'
+    while(len(expand(pathMaker))>1)
+        let pathMaker=pathMaker.':h'
+        let fileToCheck=expand(pathMaker).'/'.a:lookFor
+        if filereadable(fileToCheck)||isdirectory(fileToCheck)
+            return expand(pathMaker)
+        endif
+    endwhile
+    return 0
+  endfunction
+
+" let chtool_path=getcwd().'/tools'
+" let chtool_path='D:/nat/chromium/winchrome/src/tools'
+
+" Chromium development
+" filetype off
+" let &rtp.=','.chtool_path.'/vim/mojom'
+" exec 'source' chtool_path.'/vim/filetypes.vim'
+" " exec 'source' chtool_path.'/vim/ninja-build.vim'
+" filetype plugin indent on
+" set path=+D:/nat/chromium/winchrome/src/**
+
+
+
+"
+ " }
+ "
+ "
+ "
 " vim: set tabstop=2 shiftwidth=2 expandtab:
